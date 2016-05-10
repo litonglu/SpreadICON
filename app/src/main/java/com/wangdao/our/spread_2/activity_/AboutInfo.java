@@ -342,6 +342,7 @@ new Thread(new Runnable() {
     helpdialog_item_2 hi_2 = null;
     private void showPhotoDialog() {
         if(hi_2==null){
+
             hi_2= new helpdialog_item_2();
             view_2 = getLayoutInflater().inflate(R.layout.dialog_out_login, null);
             hi_2.tv_help1 = (TextView) view_2.findViewById(R.id.bt_help1);
