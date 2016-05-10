@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.wangdao.our.spread_2.slide_widget.PagerSlidingTabStrip
+        android:id="@+id/fragment_compile_slide"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_slide"
+        android:background="#FFFFFF"
+        app:pstsDividerColor="#00000000"
+        app:pstsIndicatorColor="@color/colorPrimary"
+        app:pstsTabPaddingLeftRight="20dp"
+        app:pstsUnderlineColor="@color/colorPrimary"
+        ></com.wangdao.our.spread_2.slide_widget.PagerSlidingTabStrip>
+
+    <View
+        android:id="@+id/fragment_compile_line_2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_x"
+        android:background="@color/line_s"
+        android:layout_below="@+id/fragment_compile_slide"
+        />
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/fragment_compile_vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/fragment_compile_line_2"
+        ></android.support.v4.view.ViewPager>
+</RelativeLayout>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/text_color_white"
+    >
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_actionbar"
+    android:background="@color/colorPrimary"
+    >
+    <ImageView
+        android:id="@+id/activity_change_nickname_iv_cancle"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/takeout_ic_back_pressed"
+        android:layout_centerVertical="true"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="修改昵称"
+        android:textColor="@color/text_color_white"
+        android:textSize="@dimen/textsize_actionbar"
+        android:layout_centerInParent="true"
+        />
+</RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_x"
+        android:background="@color/line_q"
+        />
+    <EditText
+        android:id="@+id/activity_change_nickname_et_newname"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/line_qq"
+        android:layout_margin="20dp"
+        android:hint="昵称"
+        android:textSize="@dimen/textsize_x"
+        android:paddingLeft="10dp"
+        />
+    <Button
+        android:id="@+id/activity_change_nickname_bt_okchange"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="修改"
+        android:textSize="@dimen/textsize_x"
+        android:textColor="@color/text_color_white"
+        android:background="@drawable/shape_sure_btn_blue"
+        android:layout_margin="20dp"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        >
+    <ProgressBar
+        android:id="@+id/activity_change_nickname_pb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone"
+        />
+
+    </LinearLayout>
+
+</LinearLayout>

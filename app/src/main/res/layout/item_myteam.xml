@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="78dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="6dp"
+        >
+        <ImageView
+            android:id="@+id/item_myteam_iv_icon"
+            android:layout_width="66dp"
+            android:layout_height="60dp"
+            android:src="@drawable/delete"
+            android:layout_centerVertical="true"
+            />
+
+        <TextView
+            android:id="@+id/item_myteam_tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:text="lixu"
+            android:layout_toRightOf="@+id/item_myteam_iv_icon"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:textSize="@dimen/textsize_x"
+            />
+        <TextView
+            android:id="@+id/item_myteam_tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:text="加入时间:\t2015-02-01\t12:30"
+            android:layout_toRightOf="@+id/item_myteam_iv_icon"
+            android:layout_below="@+id/item_myteam_tv_name"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:textSize="@dimen/textsize_x"
+            />
+        <TextView
+            android:id="@+id/item_myteam_tv_time_lately"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:text="最近登录:\t昨天13:00"
+            android:layout_toRightOf="@+id/item_myteam_iv_icon"
+            android:layout_below="@+id/item_myteam_tv_time"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:textSize="@dimen/textsize_x"
+            />
+        <ImageView
+            android:id="@+id/item_myteam_iv_right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/travel__ic_arrow_search_result"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            />
+        <TextView
+            android:id="@+id/item_myteam_member"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:text="普通会员"
+            android:layout_toLeftOf="@+id/item_myteam_iv_right"
+            android:gravity="center"
+            android:textColor="@color/textcolor_hui"
+            android:layout_marginRight="6dp"
+            />
+    </RelativeLayout>
+
+
+
+</LinearLayout>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/text_color_white"
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:weightSum="6"
+    >
+
+<!--<TextView-->
+    <!--android:id="@+id/compile_fragment_2_num1"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:text="一"-->
+    <!--android:background="@drawable/shap_x"-->
+    <!--android:padding="5dp"-->
+    <!--android:textColor="@color/text_color_white"-->
+    <!--android:layout_marginLeft="15dp"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:gravity="center_vertical"-->
+    <!--/>-->
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:weightSum="4"
+        >
+  <RelativeLayout
+      android:id="@+id/compile_fragment_num1"
+      android:layout_width="wrap_content"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:layout_marginTop="10dp"
+      >
+      <TextView
+          android:id="@+id/compile_fragment_tv_num1"
+          android:layout_width="18dp"
+          android:layout_height="18dp"
+          android:background="@drawable/shap_x"
+          android:text="1"
+          android:gravity="center"
+          android:textColor="@color/text_color_white"
+
+          android:layout_alignParentRight="true"
+          />
+
+      <View
+          android:layout_width="1dp"
+          android:layout_height="match_parent"
+          android:layout_below="@+id/compile_fragment_tv_num1"
+          android:background="@color/line_green"
+          android:layout_alignParentRight="true"
+          android:layout_marginRight="8dp"
+          />
+  </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/compile_fragment_num2"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+
+            >
+            <TextView
+                android:id="@+id/compile_fragment_tv_num2"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:background="@drawable/shap_x"
+                android:text="2"
+                android:gravity="center"
+                android:textColor="@color/text_color_white"
+                android:layout_alignParentRight="true"
+                />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/compile_fragment_tv_num2"
+                android:background="@color/line_green"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="8dp"
+                />
+        </RelativeLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="5"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:weightSum="4"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="复制文章链接"
+            android:textColor="@color/textcolor_black"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="在微信或微博头条内打开你喜欢的文章,点击右上角的点点,选择“复制链接”"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="粘贴文章"
+                android:textColor="@color/textcolor_black"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="把复制的文章黏贴到下方按钮”"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                />
+            <Button
+                android:id="@+id/compile_fragment_2_bt_clip"
+                android:layout_width="120dp"
+                android:layout_height="26dp"
+                android:text="黏贴文章链接"
+                android:background="@drawable/shape_sure_btn_blue"
+                android:textColor="@color/text_color_white"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
+</RelativeLayout>

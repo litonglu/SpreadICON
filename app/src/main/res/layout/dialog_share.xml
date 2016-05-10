@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="135dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:background="@color/text_color_white"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="34dp"
+            android:gravity="center"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="分享到:"
+                android:textSize="@dimen/textsize_actionbar"
+                />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_x"
+            android:background="@color/line_sq"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            >
+
+            <TextView
+                android:id="@+id/dialog_share_iv_wx"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="微信"
+                android:drawableTop="@drawable/share_wx"
+                android:gravity="center"
+                android:textColor="@color/textcolor_hui"
+                android:layout_gravity="center"
+                />
+            <View
+                android:layout_width="@dimen/line_x"
+                android:layout_height="match_parent"
+                android:background="@color/line_sq"
+                />
+            <TextView
+                android:id="@+id/dialog_share_iv_pyq"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="朋友圈"
+                android:drawableTop="@drawable/share_pyq"
+                android:gravity="center"
+                android:textColor="@color/textcolor_hui"
+                android:layout_gravity="center"
+                />
+        </LinearLayout>
+        </LinearLayout>
+
+</LinearLayout>

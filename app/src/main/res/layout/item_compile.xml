@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:orientation="horizontal"
+    android:weightSum="4"
+    >
+<ImageView
+    android:id="@+id/item_compile_iv_icon"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:src="@drawable/moren"
+    android:scaleType="fitXY"
+    android:layout_margin="6dp"
+    />
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        >
+        <TextView
+            android:id="@+id/item_compile_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="如果你讨厌电动车充电,那就等到2017年再买吧"
+            android:textColor="@color/textcolor_hui"
+            />
+        <TextView
+            android:id="@+id/item_compile_tv_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="使用次数:120054"
+            android:textSize="12sp"
+            android:layout_marginTop="5dp"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        >
+        <Button
+            android:id="@+id/item_compile_bt"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:text="编辑素材"
+            android:textColor="@color/colorPrimary"
+            android:background="@drawable/shape_sure_btn_blue_kong"
+           android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            />
+
+    </LinearLayout>
+</LinearLayout>
+</LinearLayout>

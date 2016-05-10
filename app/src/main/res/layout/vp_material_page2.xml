@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/vp_material_page2_tvnull"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="暂无数据"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        />
+<com.wangdao.our.spread_2.widget_pull.PullToRefreshScrollView
+    android:id="@+id/vp_material_page2_pull"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/vp_material_page2_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></ListView>
+    </LinearLayout>
+</com.wangdao.our.spread_2.widget_pull.PullToRefreshScrollView>
+</LinearLayout>

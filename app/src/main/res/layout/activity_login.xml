@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:zhy="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/text_color_white">
+
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/height_actionbar"-->
+        <!-->-->
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        >
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="会员登录"-->
+            <!--android:textSize="@dimen/textsize_actionbar"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:textColor="@color/colorPrimary"-->
+            <!--/>-->
+
+
+    </RelativeLayout>
+<View
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/line_x"
+    android:background="@color/line_q"
+    android:visibility="gone"
+    />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <com.wangdao.our.spread_2.slide_widget.shap_imageview.CustomImageView
+            android:id="@+id/activity_login_iv_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            zhy:src="@drawable/icon_2"
+            zhy:type="circle"
+            />
+
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/activity_et_tel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_mine_line"
+        android:hint="\t请输入手机号码"
+        android:layout_margin="15dp"
+        android:paddingLeft="10dp"
+        android:textColor="@color/textcolor_hui"
+        android:drawableLeft="@drawable/login_phone"
+        android:textSize="@dimen/textsize_x"
+        />
+    <EditText
+        android:id="@+id/activity_et_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_mine_line"
+        android:hint="\t请输入手机密码"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:paddingLeft="10dp"
+        android:textColor="@color/textcolor_hui"
+        android:drawableLeft="@drawable/login_pwd"
+        android:textSize="@dimen/textsize_x"
+        />
+    <!--android:background="@color/line_qq"-->
+    <Button
+        android:id="@+id/activity_login_bt_login"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:background="@drawable/shape_sure_btn_blue"
+        android:text="登录"
+        android:textColor="@color/text_color_white"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/textsize_actionbar"
+        />
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:orientation="horizontal"
+    android:layout_marginTop="16dp"
+    >
+    <!--<TextView-->
+        <!--android:id="@+id/activity_login_tv_forgetpwd"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="忘记密码"-->
+        <!--android:textColor="@color/colorPrimary"-->
+        <!--android:textSize="@dimen/textsize_x"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--/>-->
+
+    <TextView
+        android:id="@+id/activity_login_tv_register"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="手机注册"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/textsize_actionbar"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentRight="true"
+        />
+</RelativeLayout>
+
+</LinearLayout>

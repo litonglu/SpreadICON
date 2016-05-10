@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    >
+
+    <LinearLayout
+        android:layout_width="320dp"
+        android:layout_height="160dp"
+        android:orientation="vertical"
+        android:background="@drawable/shape_sure_btn_dialog_kong"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="您要进行的操作?"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/textsize_actionbar"
+                />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:background="@color/line_sq"
+            />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="39dp"
+    android:orientation="horizontal"
+    android:weightSum="3"
+    android:gravity="center"
+    >
+    <TextView
+        android:id="@+id/dialog_delete_my_tv_delete"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="删除"
+        android:gravity="center"
+        />
+<View
+    android:layout_width="@dimen/line_x"
+    android:layout_height="match_parent"
+    android:background="@color/line_sq"
+    />
+
+    <TextView
+        android:id="@+id/dialog_delete_my_tv_look"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="查看"
+        android:gravity="center"
+        />
+    <View
+        android:layout_width="@dimen/line_x"
+        android:layout_height="match_parent"
+        android:background="@color/line_sq"
+        />
+    <TextView
+        android:id="@+id/dialog_delete_my_tv_cancle"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="取消"
+        android:gravity="center"
+        />
+</LinearLayout>
+    </LinearLayout>
+</LinearLayout>

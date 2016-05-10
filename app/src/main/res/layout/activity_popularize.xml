@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/activity_popularize_rl_actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_actionbar"
+        android:background="@color/colorPrimary"
+        >
+        <ImageView
+            android:id="@+id/activity_popularize_iv_cancle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/takeout_ic_back_pressed"
+            android:layout_centerVertical="true"
+            />
+<ImageView
+    android:id="@+id/popularize_iv_temp"
+    android:layout_width="0dp"
+    android:layout_height="0dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="推广"
+            android:textColor="@color/text_color_white"
+            android:textSize="@dimen/textsize_actionbar"
+            android:layout_centerInParent="true"
+            />
+        <TextView
+            android:id="@+id/activity_popularize_tv_share"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="分享"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsize_x"
+            android:layout_marginRight="14dp"
+            />
+    </RelativeLayout>
+
+
+<LinearLayout
+    android:id="@+id/activity_popularize_ll_1"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:orientation="horizontal"
+    android:layout_below="@+id/activity_popularize_rl_actionbar"
+    android:layout_marginTop="10dp"
+    >
+<ImageView
+    android:id="@+id/activity_popularize_iv_icon"
+    android:layout_width="70dp"
+    android:layout_height="70dp"
+    />
+<LinearLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginLeft="15dp"
+    android:weightSum="2"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="lixu"
+        android:textSize="20sp"
+        android:textColor="@color/colorPrimary"
+        android:gravity="center_vertical"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="快来加入我们的***吧"
+        android:textSize="20sp"
+        android:textColor="@color/colorPrimary"
+        android:gravity="center_vertical"
+        />
+</LinearLayout>
+
+</LinearLayout>
+
+    <ImageView
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:src="@drawable/erweima_2"
+        android:layout_below="@+id/activity_popularize_ll_1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        />
+
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:src="@drawable/mine_share"
+    android:scaleType="fitXY"
+    android:layout_below="@+id/activity_popularize_rl_actionbar"
+    />
+
+</RelativeLayout>

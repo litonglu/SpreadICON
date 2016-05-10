@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<ImageView
+    android:id="@+id/activity_article_iv_temp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    />
+<RelativeLayout
+    android:id="@+id/action_article_actionbar"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_actionbar"
+    android:background="@color/colorPrimary"
+    >
+
+    <ImageView
+        android:id="@+id/action_article_iv_cancle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/takeout_ic_back_pressed"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        />
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="文章详情"
+        android:textColor="@color/text_color_white"
+        android:textSize="@dimen/textsize_actionbar"
+        android:layout_centerInParent="true"
+        />
+    <TextView
+        android:id="@+id/action_article_tv_share"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="分享"
+        android:layout_centerInParent="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:textColor="@color/text_color_white"
+        android:textSize="@dimen/textsize_x"
+        android:gravity="center"
+
+        />
+</RelativeLayout>
+
+    <View
+        android:id="@+id/activity_article_line_1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_x"
+        android:background="@color/line_s"
+        android:layout_below="@+id/action_article_actionbar"
+        />
+
+<WebView
+    android:id="@+id/activity_article_wb"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@+id/activity_article_line_1"
+    ></WebView>
+
+
+
+<ImageView
+    android:id="@+id/activity_article_iv_bottom"
+    android:layout_width="match_parent"
+    android:layout_height="52dp"
+    android:layout_alignParentBottom="true"
+    android:src="@drawable/nopic"
+    android:scaleType="centerCrop"
+    android:visibility="gone"
+    />
+
+    <TextView
+        android:id="@+id/activity_article_tv_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="编辑广告"
+        android:background="@drawable/shape_sure_btn_blue_kong"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:textColor="@color/colorPrimary"
+        android:layout_above="@+id/activity_article_iv_bottom"
+        android:layout_alignParentRight="true"
+        android:visibility="gone"
+        />
+
+</RelativeLayout>

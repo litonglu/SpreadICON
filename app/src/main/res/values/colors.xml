@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#00c0ff</color>
+    <color name="colorPrimaryDark">#00c0ff</color>
+    <color name="colorAccent">#00c0ff</color>
+
+    <color name="action_color">#00c0ff</color>
+
+    <color name="line_s">#C6C6C6</color>
+    <color name="line_q">#EBE9EB</color>
+    <color name="line_qq">#F5F7F5</color>
+
+    <color name="line_sq">#DCD8D8</color>
+    <color name="text_color_white">#FFFFFF</color>
+
+    <color name="background_tab_pressed">#6633B5E5</color>
+    <color name="textcolor_red">#00c0ff</color>
+    <color name="editText">#AAAAAA</color>
+    <color name="gray">#bbbbbb</color>
+    <color name="textcolor_black">#000000</color>
+
+    <color name="line_green">#00c0ff</color>
+
+    <color name="textcolor_hui">#666666</color>
+
+    <color name="tag_backround_s">#00c0ff</color>
+    <color name="textcolor_q">#ADB2B2</color>
+    <color name="transparent">#00000000</color>
+
+
+    <color name="blue">#ffccddff</color>
+    <color name="grey">#58616d</color>
+    <color name="darkgrey">#ff404040</color>
+    <color name="toasterro">#9fd524</color>
+    <color name="lightgrey">#ff888888</color>
+    <color name="semitransparent">#80000000</color>
+    <color name="lightransparent">#a0000000</color>
+    <color name="navpage">#FFE1E8EB</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+
+    <color name="crop__button_bar">#f3f3f3</color>
+    <color name="crop__button_text">#666666</color>
+    <color name="crop__selector_pressed">#1a000000</color>
+    <color name="crop__selector_focused">#77000000</color>
+    <color name="no_click">#CACACB</color>
+
+    <color name="color_houlai">#00c0ff</color>
+</resources>

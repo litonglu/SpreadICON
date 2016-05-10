@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:zhy="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/text_color_white"
+    >
+    <RelativeLayout
+        android:id="@+id/activity_tell_we_actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_actionbar"
+        android:background="@color/colorPrimary"
+        >
+        <ImageView
+            android:id="@+id/activity_tell_we_iv_cancle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/takeout_ic_back_pressed"
+            android:layout_centerVertical="true"
+            />
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="联系我们"
+    android:textColor="@color/text_color_white"
+    android:textSize="@dimen/textsize_actionbar"
+    android:layout_centerInParent="true"
+    />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/activity_tell_we_line_1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_x"
+        android:background="@color/line_sq"
+        android:layout_below="@+id/activity_tell_we_actionbar"
+        />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/activity_tell_we_line_1"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="【联系我们】"
+            android:textSize="@dimen/textsize_actionbar"
+            android:textColor="@color/colorPrimary"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:text="\t企业网址:http://www.wangdao.co"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:text="\t客服热线:0531-66663324"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:text="\t售前咨询:15069073600"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="15dp"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="无限制发广告!"
+            android:textColor="@color/black"
+            android:layout_marginLeft="10dp"
+            />
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="(热门文章每天同步更新ing~~还可以自己发掘好文章，直接粘贴文章+广告并发布)"
+    android:textColor="@color/black"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="10dp"
+    />
+    </LinearLayout>
+<!--<com.wangdao.our.spread.slide_widget.shap_imageview.CustomImageView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+
+    <!--android:layout_above="@+id/activity_tell_we_tv_appname"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:layout_marginBottom="10dp"-->
+    <!--zhy:src="@drawable/icon_2"-->
+    <!--zhy:type="circle"-->
+    <!--/>-->
+    <!--<TextView-->
+        <!--android:id="@+id/activity_tell_we_tv_appname"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="黑马营销"-->
+        <!--android:textColor="@color/textcolor_hui"-->
+        <!--android:textSize="@dimen/textsize_actionbar"-->
+        <!--android:layout_above="@+id/activity_tell_we_view"-->
+        <!--android:layout_centerHorizontal="true"-->
+
+        <!--/>-->
+    <View
+        android:id="@+id/activity_tell_we_view"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:layout_centerInParent="true"
+        />
+
+    <!--<Button-->
+        <!--android:id="@+id/activity_tell_we_bt_tellwe"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="30dp"-->
+        <!--android:text="联系我们:0531-66663324"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_marginBottom="20dp"-->
+        <!--android:textColor="@color/text_color_white"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:textSize="@dimen/textsize_x"-->
+        <!--android:background="@drawable/shape_sure_btn_blue"-->
+        <!--android:paddingLeft="10dp"-->
+        <!--android:paddingRight="10dp"-->
+
+        <!--/>-->
+
+</RelativeLayout>

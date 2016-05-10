@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/fragment_compile_ll_actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_actionbar"
+        android:orientation="horizontal"
+        android:weightSum="4"
+        android:gravity="center"
+        android:background="@color/colorPrimary"
+        >
+
+    <View
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/fragment_compile_tv_recommend"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="推荐文章"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp"
+            android:gravity="center"
+            android:background="@drawable/shap_left"
+            android:textColor="@color/text_color_white"
+            />
+        <TextView
+            android:id="@+id/fragment_compile_tv_copy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="粘贴文章"
+            android:gravity="center"
+            android:background="@drawable/shap_right_no"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp"
+            android:textColor="@color/colorPrimary"
+            />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/fragment_compile_line_1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_x"
+        android:background="@color/line_s"
+        android:layout_below="@+id/fragment_compile_ll_actionbar"
+        />
+    <FrameLayout
+        android:id="@+id/fragment_compile_fy"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/fragment_compile_line_1"
+        ></FrameLayout>
+
+
+</RelativeLayout>
