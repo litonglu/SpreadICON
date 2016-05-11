@@ -83,7 +83,6 @@ public class Compile_fg_1 extends Fragment{
         myInflater = inflater;
         myContext = this.getActivity();
 
-
         tabs = (PagerSlidingTabStrip) myView.findViewById(R.id.fragment_compile_slide);
         pager = (ViewPager) myView.findViewById(R.id.fragment_compile_vp);
 

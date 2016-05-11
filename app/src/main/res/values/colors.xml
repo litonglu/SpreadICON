@@ -46,4 +46,6 @@
     <color name="no_click">#CACACB</color>
 
     <color name="color_houlai">#00c0ff</color>
+    <color name="color_money">#FF8400</color>
+    <color name="color_green">#61BD50</color>
 </resources>

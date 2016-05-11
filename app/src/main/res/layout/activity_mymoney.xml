@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/line_qq"
+    >
     <RelativeLayout
         android:id="@+id/activity_tell_we_actionbar"
         android:layout_width="match_parent"
@@ -25,5 +27,93 @@
             />
     </RelativeLayout>
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:orientation="horizontal"
+    android:weightSum="3"
+    android:background="@color/white"
+    >
+    <TextView
+        android:id="@+id/activity_mymoney_tv_1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="全部"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/textsize_x"
+        android:gravity="center"
+        />
+    <TextView
+        android:id="@+id/activity_mymoney_tv_2"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="待领取"
+        android:textColor="@color/textcolor_hui"
+        android:textSize="@dimen/textsize_x"
+        android:gravity="center"
+        />
 
+    <TextView
+        android:id="@+id/activity_mymoney_tv_3"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="已领取"
+        android:textColor="@color/textcolor_hui"
+        android:textSize="@dimen/textsize_x"
+        android:gravity="center"
+        />
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:orientation="horizontal"
+        android:weightSum="3"
+
+        >
+        <View
+            android:id="@+id/activity_mymoney_line_1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            />
+
+        <View
+            android:id="@+id/activity_mymoney_line_2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:visibility="invisible"
+            />
+        <View
+            android:id="@+id/activity_mymoney_line_3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:visibility="invisible"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_x"
+        android:background="@color/line_sq"
+        android:layout_marginTop="10dp"
+        />
+<android.support.v4.view.ViewPager
+    android:id="@+id/activity_mymoney_vp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"></android.support.v4.view.ViewPager>
 </LinearLayout>

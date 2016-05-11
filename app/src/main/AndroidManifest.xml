@@ -79,6 +79,8 @@
         <activity android:name=".activity_.mine_activity.MyTeam"/>
         <activity android:name=".activity_.mine_activity.Popularize"/>
         <activity android:name=".activity_.mine_activity.BindingAccount"/>
+        <activity android:name=".activity_.TiXianToSomeHere"/>
+        <activity android:name=".activity_.TiXianHistory"/>
 
         <activity android:name=".wxapi.WXEntryActivity"
             android:exported="true"

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:orientation="horizontal"
+        android:weightSum="8"
+        android:gravity="center"
+        >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:layout_gravity="center"
+            >
+        <ImageView
+            android:id="@+id/item_fragment_mymoney_iv_icon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/delete"
+            android:layout_gravity="center"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:orientation="vertical"
+            android:weightSum="3"
+            android:layout_marginLeft="10dp"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp"
+                >
+<TextView
+    android:id="@+id/item_fragment_mymoney_tv_time"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="04月6日\t14:20"
+    android:textSize="@dimen/textsize_x"
+    android:textColor="@color/textcolor_hui"
+    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    />
+                <TextView
+                    android:id="@+id/item_fragment_mymoney_tv_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3.00"
+                    android:textColor="@color/ebpay_red"
+                    android:textSize="@dimen/textsize_x"
+                    />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/item_fragment_mymoney_tv_info"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
+                android:text="您新的团队成员“橙子丶”现已成为我们的VIP会员，您获得了3.00元的推荐佣金，请再接再厉！"
+                android:textSize="@dimen/textsize_xx"
+
+                />
+
+        </LinearLayout>
+       <LinearLayout
+           android:layout_width="0dp"
+           android:layout_height="match_parent"
+           android:layout_weight="1"
+           android:gravity="center"
+           >
+           <ImageView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:src="@drawable/travel__ic_arrow_search_result"
+               android:layout_gravity="center"
+               />
+       </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

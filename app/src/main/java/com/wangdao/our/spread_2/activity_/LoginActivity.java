@@ -56,9 +56,12 @@ import cn.jpush.android.api.JPushInterface;
  * Created by Administrator on 2016/4/25 0025.
  */
 public class LoginActivity extends Activity implements View.OnClickListener {
+
     private HttpPost httpPost;
     private HttpResponse httpResponse = null;
     private List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+
     private Button bt_login;
     private TextView tv_register;
     private EditText et_tel, et_pwd;
@@ -67,8 +70,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private String str_result;
     private LoginHandler loginHandler = new LoginHandler();
     private String rMobile, rUid, rNickname, rAvatar64, rAvatar128, rAvatar256, rUser_token;
-  //  private ProgressBar login_pb;
-  //  private TextView tv_forgetPwd;
+  //private ProgressBar login_pb;
+  //private TextView tv_forgetPwd;
     public static final String MESSAGE_RECEIVED_ACTION = "com.example.jpushdemo.MESSAGE_RECEIVED_ACTION";
     private MessageA.MessageReceiver mMessageReceiver;
     public static boolean isForeground = false;

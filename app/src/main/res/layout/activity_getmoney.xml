@@ -26,12 +26,14 @@
             android:layout_centerInParent="true"
             />
         <ImageView
+            android:id="@+id/activity_getmoney_iv_history"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/order"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
+
             />
     </RelativeLayout>
 
@@ -69,6 +71,7 @@
             android:layout_marginRight="10dp"
             />
         <TextView
+            android:id="@+id/activity_getmoney_tv_mymoney"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0.00"
@@ -87,6 +90,7 @@
         android:background="@color/white"
         >
         <Button
+            android:id="@+id/activity_getmoney_bt_get"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:text="提现"

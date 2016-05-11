@@ -60,6 +60,17 @@ public class AllUrl {
     private final String share_Url = "http://wz.ijiaque.com/app/share/share_form.html";
 
     private final String userAllInfo = "http://wz.ijiaque.com/app/user/user_info.html";
+    //提现描述
+    private final String tixianIfo = "http://wz.ijiaque.com/app/toup/cashdes.html";
+
+    //提现
+    private final String tixian = "http://wz.ijiaque.com/app/toup/cash.html";
+
+    //提现记录
+    private final String tixianHistory = "http://wz.ijiaque.com/app/toup/cashlog.html";
+
+    //佣金
+    private final String commission = "http://wz.ijiaque.com/app/toup/brokerage.html";
 
     public String getRegister_url() {
         return register_url;
@@ -150,5 +161,21 @@ public class AllUrl {
 
     public String getUserAllInfo() {
         return userAllInfo;
+    }
+
+    public String getTixianIfo() {
+        return tixianIfo;
+    }
+
+    public String getTixian() {
+        return tixian;
+    }
+
+    public String getTixianHistory() {
+        return tixianHistory;
+    }
+
+    public String getCommission() {
+        return commission;
     }
 }
