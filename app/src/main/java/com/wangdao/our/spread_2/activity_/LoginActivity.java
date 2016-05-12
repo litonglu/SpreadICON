@@ -28,7 +28,6 @@ import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.wangdao.our.spread_2.MainActivity;
 import com.wangdao.our.spread_2.R;
 import com.wangdao.our.spread_2.activity_.MessageA;
@@ -71,7 +70,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private LoginHandler loginHandler = new LoginHandler();
     private String rMobile, rUid, rNickname, rAvatar64, rAvatar128, rAvatar256, rUser_token;
   //private ProgressBar login_pb;
-  //private TextView tv_forgetPwd;
+    private TextView tv_forgetPwd;
     public static final String MESSAGE_RECEIVED_ACTION = "com.example.jpushdemo.MESSAGE_RECEIVED_ACTION";
     private MessageA.MessageReceiver mMessageReceiver;
     public static boolean isForeground = false;
@@ -79,7 +78,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-    private GoogleApiClient client;
     private ImageView iv_icon;
 
     @Override
@@ -88,19 +86,18 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_login);
         bt_login = (Button) findViewById(R.id.activity_login_bt_login);
         tv_register = (TextView) findViewById(R.id.activity_login_tv_register);
-    //    login_pb = (ProgressBar) findViewById(R.id.activity_login_pb);
+      //  login_pb = (ProgressBar) findViewById(R.id.activity_login_pb);
         et_tel = (EditText) findViewById(R.id.activity_et_tel);
         et_pwd = (EditText) findViewById(R.id.activity_et_pwd);
         iv_icon = (ImageView) findViewById(R.id.activity_login_iv_icon);
-      //  tv_forgetPwd = (TextView) findViewById(R.id.activity_login_tv_forgetpwd);
+        tv_forgetPwd = (TextView) findViewById(R.id.activity_login_tv_forgetpwd);
+
         httpPost = new HttpPost(allurl.getLogin_url());
+
         bt_login.setOnClickListener(this);
         tv_register.setOnClickListener(this);
-        //tv_forgetPwd.setOnClickListener(this);
+        tv_forgetPwd.setOnClickListener(this);
         autoLogin();
-
-
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -120,10 +117,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 startActivityForResult(rIntent, 1);
                 break;
 
-//            case R.id.activity_login_tv_forgetpwd:
-//                Intent fIntent = new Intent(this, ForgetPwd.class);
-//                startActivity(fIntent);
-//                break;
+            case R.id.activity_login_tv_forgetpwd:
+                Intent fIntent = new Intent(this, ForgetPwd.class);
+                startActivity(fIntent);
+                break;
 
         }
     }

@@ -48,11 +48,13 @@
     android:orientation="horizontal"
     android:layout_below="@+id/activity_popularize_rl_actionbar"
     android:layout_marginTop="10dp"
+
     >
 <ImageView
     android:id="@+id/activity_popularize_iv_icon"
     android:layout_width="70dp"
     android:layout_height="70dp"
+    android:layout_marginLeft="15dp"
     />
 <LinearLayout
 
@@ -63,10 +65,11 @@
     android:weightSum="2"
     >
     <TextView
+        android:id="@+id/activity_popularize_tv_name"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="lixu"
+        android:text=""
         android:textSize="20sp"
         android:textColor="@color/colorPrimary"
         android:gravity="center_vertical"
@@ -75,7 +78,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="快来加入我们的***吧"
+        android:text="快来加入我们吧"
         android:textSize="20sp"
         android:textColor="@color/colorPrimary"
         android:gravity="center_vertical"
@@ -85,9 +88,10 @@
 </LinearLayout>
 
     <ImageView
+        android:id="@+id/activity_popularize_iv_erweima"
         android:layout_width="140dp"
         android:layout_height="140dp"
-        android:src="@drawable/erweima_2"
+
         android:layout_below="@+id/activity_popularize_ll_1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"

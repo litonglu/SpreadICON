@@ -17,6 +17,7 @@ public class AllUrl {
     private final String icon_update = "http://wz.ijiaque.com/app/user/upload_avatar.html";
     //退出登录
     private final String login_out = "http://wz.ijiaque.com/app/user/logout.html";
+    private final String userAllInfo_all = "http://wz.ijiaque.com/app/user/user_info.html";
 
     //修改用户信息
     private final String change_user_info = "http://wz.ijiaque.com/app/user/user_edit_info.html";
@@ -71,6 +72,14 @@ public class AllUrl {
 
     //佣金
     private final String commission = "http://wz.ijiaque.com/app/toup/brokerage.html";
+    //图形验证码
+    private final String vf_url = "http://wz.ijiaque.com/app/app/imgverify.html";
+
+    //佣金领取
+    private final String geCommission = "http://wz.ijiaque.com/app/toup/usebrokerage.html";
+
+    //重置密码
+    private final String rePwd = "http://wz.ijiaque.com/app/user/reset_pwd.html";
 
     public String getRegister_url() {
         return register_url;
@@ -177,5 +186,21 @@ public class AllUrl {
 
     public String getCommission() {
         return commission;
+    }
+
+    public String getVf_url() {
+        return vf_url;
+    }
+
+    public String getGeCommission() {
+        return geCommission;
+    }
+
+    public String getUserAllInfo_all() {
+        return userAllInfo_all;
+    }
+
+    public String getRePwd() {
+        return rePwd;
     }
 }

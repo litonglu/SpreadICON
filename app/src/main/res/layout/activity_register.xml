@@ -12,6 +12,7 @@
         android:background="@color/colorPrimary"
         >
     <ImageView
+        android:id="@+id/activity_register_iv_cancle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/takeout_ic_back_pressed"
@@ -20,7 +21,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="会员登录"
+            android:text="会员注册"
             android:textSize="@dimen/textsize_actionbar"
             android:textColor="@color/text_color_white"
             android:layout_centerInParent="true"
@@ -77,6 +78,42 @@
         android:layout_marginRight="10dp"
         android:textColor="@color/text_color_white"
         />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:text="未验证"
+            android:gravity="center"
+            android:textSize="@dimen/textsize_x"
+            android:visibility="gone"
+            />
+
+        <Button
+            android:id="@+id/activity_register_bt_sendvf"
+            android:layout_width="0dp"
+            android:layout_height="26dp"
+            android:layout_weight="1"
+            android:text="获取图形验证码"
+            android:background="@drawable/shape_sure_btn"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/text_color_white"
+            android:visibility="gone"
+            />
     </LinearLayout>
     <EditText
         android:id="@+id/activity_register_et_it"

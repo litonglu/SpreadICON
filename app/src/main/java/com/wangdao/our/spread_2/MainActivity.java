@@ -1,5 +1,9 @@
 package com.wangdao.our.spread_2;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,6 +18,9 @@ import com.wangdao.our.spread_2.fragment.FragmentCompile;
 import com.wangdao.our.spread_2.fragment.FragmentMaterial;
 import com.wangdao.our.spread_2.fragment.FragmentStatistics;
 import com.wangdao.our.spread_2.fragment.Fragment_Mine;
+import com.wangdao.our.spread_2.slide_widget.widget_push.ExampleUtil;
+
+import cn.jpush.android.api.JPushInterface;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener{
     private LinearLayout ll_statistics,ll_compile,ll_material,ll_mine;
@@ -24,6 +31,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private Fragment_Mine f_mine;
     private TextView tv_1,tv_2,tv_3,tv_4;
     private ImageView iv_1,iv_2,iv_3,iv_4;
+
+    public static boolean isForeground = false;
+
+    public static final String MESSAGE_RECEIVED_ACTION = "com.example.jpushdemo.MESSAGE_RECEIVED_ACTION";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_MESSAGE = "message";
+    public static final String KEY_EXTRAS = "extras";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if(savedInstanceState!=null){
@@ -46,6 +61,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             transaction.show(f_statistics);
         }
         transaction.commit();
+        registerMessageReceiver();  // used for receive msg
     }
             private void initView(){
                 ll_statistics = (LinearLayout) findViewById(R.id.activity_main_ll_statistics);
@@ -186,9 +202,71 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
 
 
+
+
+
+    // 初始化 JPush。如果已经初始化，但没有登录成功，则执行重新登录。
+    private void init(){
+        JPushInterface.init(getApplicationContext());
+    }
+
+
+    @Override
+    protected void onResume() {
+        isForeground = true;
+        super.onResume();
+        JPushInterface.onResume(this);
+    }
+
+
+    @Override
+    protected void onPause() {
+        isForeground = false;
+        super.onPause();
+        JPushInterface.onPause(this);
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(mMessageReceiver);
+        super.onDestroy();
+    }
+
+    private MessageReceiver mMessageReceiver;
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 //        super.onSaveInstanceState(outState);
     }
 
+    public void registerMessageReceiver() {
+        mMessageReceiver = new MessageReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction(MESSAGE_RECEIVED_ACTION);
+        registerReceiver(mMessageReceiver, filter);
+    }
+
+    public class MessageReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
+                String messge = intent.getStringExtra(KEY_MESSAGE);
+                String extras = intent.getStringExtra(KEY_EXTRAS);
+                StringBuilder showMsg = new StringBuilder();
+                showMsg.append(KEY_MESSAGE + " : " + messge + "\n");
+                if (!ExampleUtil.isEmpty(extras)) {
+                    showMsg.append(KEY_EXTRAS + " : " + extras + "\n");
+                }
+                setCostomMsg(showMsg.toString());
+            }
+        }
+    }
+
+    private void setCostomMsg(String msg){
+        if (null != msg) {
+            Log.i("qqqqq",msg);
+        }
+    }
 }

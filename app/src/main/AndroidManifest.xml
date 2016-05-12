@@ -5,7 +5,7 @@
     <permission
         android:name="com.wangdao.our.spread_2.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
-    <uses-permission android:name="com.wangdao.our.spread.permission.JPUSH_MESSAGE" />
+    <!--<uses-permission android:name="com.wangdao.our.spread_2.permission.JPUSH_MESSAGE" />-->
     <uses-permission android:name="${applicationId}.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -20,8 +20,6 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
-
-
 
     <uses-permission android:name="android.permission.GET_TASKS"/>
     <uses-permission android:name="android.permission.REORDER_TASKS"/>
@@ -81,6 +79,10 @@
         <activity android:name=".activity_.mine_activity.BindingAccount"/>
         <activity android:name=".activity_.TiXianToSomeHere"/>
         <activity android:name=".activity_.TiXianHistory"/>
+        <activity android:name=".activity_.mine_activity.CommissionInfo"/>
+        <activity android:name=".slide_widget.widget_push.TestActivity"/>
+
+
 
         <activity android:name=".wxapi.WXEntryActivity"
             android:exported="true"
@@ -120,7 +122,7 @@
             android:exported="true">
             <intent-filter >
                 <action android:name="cn.jpush.android.intent.DaemonService" />
-                <category android:name="com.wangdao.our.spread"/>
+                <category android:name="com.wangdao.our.spread_2"/>
             </intent-filter>
         </service>
 
@@ -129,7 +131,7 @@
             android:enabled="true" >
             <intent-filter android:priority="1000">
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
-                <category android:name="com.wangdao.our.spread"/>
+                <category android:name="com.wangdao.our.spread_2"/>
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
@@ -152,7 +154,7 @@
             <intent-filter>
                 <action android:name="cn.jpush.android.ui.PushActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="com.wangdao.our.spread" />
+                <category android:name="com.wangdao.our.spread_2" />
             </intent-filter>
         </activity>
 
@@ -179,7 +181,7 @@
         </receiver>
 
         <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
-        <meta-data android:name="JPUSH_APPKEY" android:value="6ed9b41a0cb86aa3a9fe8345"/>
+        <meta-data android:name="JPUSH_APPKEY" android:value="4a73bee1daacb2639051277d"/>
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <meta-data

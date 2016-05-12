@@ -1,6 +1,7 @@
 package com.wangdao.our.spread_2.fragment_mymoney;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wangdao.our.spread_2.R;
+import com.wangdao.our.spread_2.activity_.mine_activity.CommissionInfo;
 import com.wangdao.our.spread_2.bean.Commission;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
 
@@ -49,6 +52,7 @@ public class Fragment_MyMoney_1 extends Fragment{
     private Context myContext;
 
     private HttpPost httpPost;
+    private HttpPost httpPost_2;
     private HttpResponse httpResponse = null;
     private List<NameValuePair> params = new ArrayList<NameValuePair>();
     private AllUrl allurl = new AllUrl();
@@ -69,9 +73,9 @@ public class Fragment_MyMoney_1 extends Fragment{
         initView();
         initMoney();
 
-
         fm1_adapter = new Fm1_Adapter(list_commission);
         lv_fm1.setAdapter(fm1_adapter);
+
         initData();
         return myView;
     }
@@ -86,7 +90,7 @@ private void initView(){
      */
     private String getResult = "0.00";
     private void initMoney(){
-        httpPost = new HttpPost(allurl.getTixianIfo());
+        httpPost_2 = new HttpPost(allurl.getTixianIfo());
         SharedPreferences sharedPreferences = myContext.getSharedPreferences("user", myContext.MODE_PRIVATE);
         String mToken = sharedPreferences.getString("user_token", "");
         params.add(new BasicNameValuePair("user_token", mToken));
@@ -94,8 +98,8 @@ private void initView(){
             @Override
             public void run() {
                 try {
-                    httpPost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
-                    httpResponse = new DefaultHttpClient().execute(httpPost);
+                    httpPost_2.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+                    httpResponse = new DefaultHttpClient().execute(httpPost_2);
                     if (httpResponse.getStatusLine().getStatusCode() == 200) {
                         String result = EntityUtils.toString(httpResponse.getEntity());
                         JSONObject jo = new JSONObject(result);
@@ -147,6 +151,9 @@ private void initView(){
                                 commission.setcTime(jo_2.getString("create_time"));
                                 commission.setcPrice(jo_2.getString("price"));
                                 commission.setcRemark(jo_2.getString("remark"));
+//                                commission.setcNum(jo_2.getString("order_no"));
+//                                commission.setPayWay(jo_2.getString("pay_way"));
+//                                commission.setcId(jo_2.getString("id"));
                                 list_commission.add(commission);
                             }
                             fm1_handler.sendEmptyMessage(11);

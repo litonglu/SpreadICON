@@ -10,6 +10,9 @@ public class Commission {
     private String cTime;   //创建时间
     private String cRemark; //信息
     private String cPrice;  //钱
+    private String cNum;
+    private String payWay;
+    private String cId;
 
     public Commission() {
     }
@@ -44,5 +47,29 @@ public class Commission {
 
     public void setcPrice(String cPrice) {
         this.cPrice = cPrice;
+    }
+
+    public String getcNum() {
+        return cNum;
+    }
+
+    public void setcNum(String cNum) {
+        this.cNum = cNum;
+    }
+
+    public String getPayWay() {
+        return payWay;
+    }
+
+    public void setPayWay(String payWay) {
+        this.payWay = payWay;
+    }
+
+    public String getcId() {
+        return cId;
+    }
+
+    public void setcId(String cId) {
+        this.cId = cId;
     }
 }

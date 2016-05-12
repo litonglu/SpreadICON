@@ -1,6 +1,7 @@
 package com.wangdao.our.spread_2.fragment_mymoney;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,12 +11,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.wangdao.our.spread_2.R;
+import com.wangdao.our.spread_2.activity_.mine_activity.CommissionInfo;
 import com.wangdao.our.spread_2.bean.Commission;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
 
@@ -68,7 +71,23 @@ public class Fragment_MyMoney_2 extends Fragment{
 
         fm2_adapter = new Fm2_Adapter(list_c);
         lv_fm2.setAdapter(fm2_adapter);
+
+
         initData();
+
+        lv_fm2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(myContext, CommissionInfo.class);
+                intent.putExtra("jiao",list_c.get(position).getcNum());
+                intent.putExtra("price",list_c.get(position).getcPrice());
+                intent.putExtra("payway",list_c.get(position).getPayWay());
+                intent.putExtra("info",list_c.get(position).getcRemark());
+                intent.putExtra("time",list_c.get(position).getcTime());
+                intent.putExtra("id",list_c.get(position).getcId());
+                startActivityForResult(intent,1);
+            }
+        });
         return myView;
     }
 
@@ -106,6 +125,10 @@ public class Fragment_MyMoney_2 extends Fragment{
                                 commission.setcTime(jo_2.getString("create_time"));
                                 commission.setcPrice(jo_2.getString("price"));
                                 commission.setcRemark(jo_2.getString("remark"));
+                                commission.setcNum(jo_2.getString("order_no"));
+                                commission.setPayWay(jo_2.getString("pay_way"));
+                                commission.setcId(jo_2.getString("id"));
+
                                 list_c.add(commission);
                             }
                             fm2_handler.sendEmptyMessage(11);
@@ -195,5 +218,11 @@ public class Fragment_MyMoney_2 extends Fragment{
         TextView tv_time;
         TextView tv_info;
         TextView tv_price;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        initData();
     }
 }

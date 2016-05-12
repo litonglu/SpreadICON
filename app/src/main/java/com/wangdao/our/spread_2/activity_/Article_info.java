@@ -173,7 +173,6 @@ public class Article_info extends FragmentActivity implements View.OnClickListen
             dialog_wait.show();
             load();
         }
-
         init(myUrl);
         webView.setWebChromeClient(new WebChromeClient() {
             /**

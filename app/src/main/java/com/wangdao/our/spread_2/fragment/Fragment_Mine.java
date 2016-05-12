@@ -201,12 +201,10 @@ switch (v.getId()){
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what){
-
                 case 1:
                     if(myIcon != null){
                         iv_icon.setImageBitmap(toRoundBitmap(myIcon));
                     }
-
                     break;
             }
         }

@@ -11,6 +11,8 @@ import android.graphics.Matrix;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -48,6 +50,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,11 +69,17 @@ public class Popularize extends Activity implements View.OnClickListener{
     private ImageView iv_temp;
     private PopularizeHandler popHandler = new PopularizeHandler();
     private HttpPost httpPost;
+    private HttpPost httpPost_2;
+    private HttpPost httpPost_3;
     private HttpResponse httpResponse = null;
     private List<NameValuePair> params = new ArrayList<NameValuePair>();
     private AllUrl allurl = new AllUrl();
     private ImageView pIv_icon;
     private Bitmap myIcon;
+    private ImageView iv_erweima;
+    private String userIconUrl;
+    private TextView tv_shareName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,12 +89,16 @@ public class Popularize extends Activity implements View.OnClickListener{
         initView();
         initClick();
         initData();
+        initErWeiMa();
+        initName();
     }
     private void initView(){
         iv_cancle = (ImageView) findViewById(R.id.activity_popularize_iv_cancle);
         tv_share = (TextView) findViewById(R.id.activity_popularize_tv_share);
         iv_temp = (ImageView) findViewById(R.id.popularize_iv_temp);
         pIv_icon = (ImageView) findViewById(R.id.activity_popularize_iv_icon);
+        iv_erweima = (ImageView) findViewById(R.id.activity_popularize_iv_erweima);
+        tv_shareName = (TextView) findViewById(R.id.activity_popularize_tv_name);
     }
 
     private void initClick(){
@@ -95,15 +109,14 @@ public class Popularize extends Activity implements View.OnClickListener{
     /**
      * 初始化头像
      */
-
     private void initData(){
         SharedPreferences sharedPreferences = Popularize.this.getSharedPreferences("user", MODE_PRIVATE);
-        final String url = sharedPreferences.getString("avatar256", "");
+        userIconUrl = sharedPreferences.getString("avatar256", "");
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    myIcon = getImage(url);
+                    myIcon = getImage(userIconUrl);
                     popHandler.sendEmptyMessage(21);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -171,6 +184,14 @@ public class Popularize extends Activity implements View.OnClickListener{
                 //初始化头像
                 case 21:
                     pIv_icon.setImageBitmap(myIcon);
+                    break;
+                //初始化二维码
+                case 31:
+                    iv_erweima.setImageBitmap(bmp_icon);
+                    break;
+                //初始化姓名
+                case 41:
+                    tv_shareName.setText(mNickName);
                     break;
             }
         }
@@ -255,11 +276,12 @@ new Thread(new Runnable() {
     /**
      * 分享到微信好友
      */
-    Bitmap thumb_1;
-    WXMediaMessage msg_1;
+    private Bitmap thumb_1;
+    private WXMediaMessage msg_1;
+    private String mUid;
     private void TuiJianToFriend(){
         SharedPreferences sharedPreferences = Popularize.this.getSharedPreferences("user", MODE_PRIVATE);
-        String mUid = sharedPreferences.getString("uid", "");
+         mUid = sharedPreferences.getString("uid", "");
 
         WXWebpageObject webpage_2 = new WXWebpageObject();
         webpage_2.webpageUrl = allurl.getShare_Url()+"?link="+mUid;
@@ -349,5 +371,138 @@ new Thread(new Runnable() {
         return result;
     }
 
+    /**
+     * 初始化用户名
+     */
+    private String mNickName = "";
+    private void initName(){
+        httpPost_3 = new HttpPost(allurl.getUserAllInfo_all());
+        SharedPreferences sharedPreferences = Popularize.this.getSharedPreferences("user", MODE_PRIVATE);
+        String mToken = sharedPreferences.getString("user_token", "");
+        params.add(new BasicNameValuePair("user_token", mToken));
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    httpPost_3.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+                    httpResponse = new DefaultHttpClient().execute(httpPost_3);
+                    if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                        String result = EntityUtils.toString(httpResponse.getEntity());
+                        JSONObject jo = new JSONObject(result);
+                        if(jo.getString("status").equals("1")){
+                            JSONObject jo_2 = jo.getJSONObject("data");
+                            mNickName = jo_2.getString("nickname");
+                            popHandler.sendEmptyMessage(41);
+                        }else{
+
+                        }
+
+                    }
+
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
+
+    }
+
+    /**
+     * 初始化二维码
+     */
+    private String urlcontext;
+    private Bitmap bmp_icon;
+    private void initErWeiMa(){
+        SharedPreferences sharedPreferences = Popularize.this.getSharedPreferences("user", MODE_PRIVATE);
+        mUid = sharedPreferences.getString("uid", "");
+        urlcontext = "http://qr.liantu.com/api.php?text="+allurl.getShare_Url()+"?link="+mUid+
+                "&w=140&bg=FFFFFF&fg=000000&logo="+userIconUrl;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    bmp_icon = getHttpBitmap(urlcontext);
+                    URL url = new URL(urlcontext);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setConnectTimeout(5*1000);
+                    connection.setDoInput(true);
+                    connection.connect();
+                    //得到输入流
+                    InputStream is = connection.getInputStream();
+                    bmp_icon = BitmapFactory.decodeStream(is);
+                    //关闭输入流
+                    popHandler.sendEmptyMessage(31);
+                    is.close();
+                    //关闭连接
+                    connection.disconnect();
+                } catch (MalformedURLException e) {
+                    Log.i("qqqqq","异常"+e);
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    Log.i("qqqqq","异常"+e);
+                    e.printStackTrace();
+                }
+
+
+            }
+        }).start();
+
+
+
+        //网络访问兼容
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .detectDiskReads()
+                .detectDiskWrites()
+                .detectNetwork()
+                .penaltyLog()
+                .build());
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                .detectLeakedSqlLiteObjects()
+                .detectLeakedClosableObjects()
+                .penaltyLog()
+                .penaltyDeath()
+                .build());
+    }
+
+    /**
+     *
+     * @param data
+     * @return
+     * 解析图片的代码
+     */
+    public Bitmap getHttpBitmap(String data)
+    {
+        Bitmap bitmap = null;
+        try
+        {
+            //初始化一个URL对象
+            URL url = new URL(data);
+            //获得HTTPConnection网络连接对象
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setConnectTimeout(5*1000);
+            connection.setDoInput(true);
+            connection.connect();
+            //得到输入流
+            InputStream is = connection.getInputStream();
+            Log.i("TAG", "*********inputstream**"+is);
+            bitmap = BitmapFactory.decodeStream(is);
+            Log.i("TAG", "*********bitmap****"+bitmap);
+            //关闭输入流
+            is.close();
+            //关闭连接
+            connection.disconnect();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
 
 }
