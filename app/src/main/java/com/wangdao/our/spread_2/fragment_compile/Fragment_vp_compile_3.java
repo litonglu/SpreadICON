@@ -70,7 +70,7 @@ public class Fragment_vp_compile_3 extends Fragment{
     private FVC_Adapter fAdapter;
     private fcHandler_3 fhandler_3 = new fcHandler_3();
     private TextView tvnull;
-    private final String myUrl = "http://hmyx.ijiaque.com/app/article/articledetail.html";
+    private final String myUrl = "http://wz.ijiaque.com/app/article/articledetail.html";
 
     private NetBroadcast netBroadcast;
     private IntentFilter intentFilter;
@@ -232,6 +232,7 @@ public class Fragment_vp_compile_3 extends Fragment{
                 fvc_viewHolder.tv_num = (TextView) convertView.findViewById(R.id.item_compile_tv_num);
                 fvc_viewHolder.bt_compile = (Button) convertView.findViewById(R.id.item_compile_bt);
                 convertView.setTag(fvc_viewHolder);
+
             }else{
                 fvc_viewHolder = (FVC_ViewHolder) convertView.getTag();
             }

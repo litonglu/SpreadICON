@@ -71,7 +71,7 @@ public class Fragment_vp_compile_8 extends Fragment{
     private FVC_Adapter fAdapter;
     private fcHandler_8 fhandler_8 = new fcHandler_8();
     private TextView tvnull;
-    private final String myUrl = "http://hmyx.ijiaque.com/app/article/articledetail.html";
+    private final String myUrl = "http://wz.ijiaque.com/app/article/articledetail.html";
     private NetBroadcast netBroadcast;
     private IntentFilter intentFilter;
     private LinearLayout ll_nowifi;

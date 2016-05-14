@@ -74,17 +74,25 @@ public class FragmentCompile extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.fragment_compile_tv_recommend:
-                tv_recommend.setTextColor(getResources().getColor(R.color.text_color_white));
-                tv_recommend.setBackground(getResources().getDrawable(R.drawable.shap_left));
-                tv_copy.setTextColor(getResources().getColor(R.color.colorPrimary));
-                tv_copy.setBackground(getResources().getDrawable(R.drawable.shap_right_no));
+                tv_recommend.setTextColor(getResources().getColor(R.color.colorPrimary));
+
+                tv_recommend.setBackground(getResources().getDrawable(R.drawable.shap_left_no));
+                tv_copy.setTextColor(getResources().getColor(R.color.white));
+
+                tv_copy.setBackground(getResources().getDrawable(R.drawable.shap_right));
+
                 OnTabSelected(0);
                 break;
             case R.id.fragment_compile_tv_copy:
-                tv_recommend.setTextColor(getResources().getColor(R.color.colorPrimary));
-                tv_recommend.setBackground(getResources().getDrawable(R.drawable.shap_left_no));
-                tv_copy.setTextColor(getResources().getColor(R.color.text_color_white));
-                tv_copy.setBackground(getResources().getDrawable(R.drawable.shap_right));
+                tv_recommend.setTextColor(getResources().getColor(R.color.white));
+
+
+                tv_recommend.setBackground(getResources().getDrawable(R.drawable.shap_left));
+                tv_copy.setTextColor(getResources().getColor(R.color.colorPrimary));
+
+                tv_copy.setBackground(getResources().getDrawable(R.drawable.shap_right_no));
+
+
                 OnTabSelected(1);
                 break;
 

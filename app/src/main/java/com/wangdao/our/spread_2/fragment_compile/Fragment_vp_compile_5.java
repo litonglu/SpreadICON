@@ -70,7 +70,7 @@ public class Fragment_vp_compile_5 extends Fragment{
     private FVC_Adapter fAdapter;
     private fcHandler_5 fhandler_5 = new fcHandler_5();
     private TextView tvnull;
-    private final String myUrl = "http://hmyx.ijiaque.com/app/article/articledetail.html";
+    private final String myUrl = "http://wz.ijiaque.com/app/article/articledetail.html";
 
     private NetBroadcast netBroadcast;
     private IntentFilter intentFilter;

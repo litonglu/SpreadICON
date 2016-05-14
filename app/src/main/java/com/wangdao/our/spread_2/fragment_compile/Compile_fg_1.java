@@ -94,6 +94,7 @@ public class Compile_fg_1 extends Fragment{
         list_fragment.add(new Fragment_vp_compile_6());
         list_fragment.add(new Fragment_vp_compile_7());
         list_fragment.add(new Fragment_vp_compile_8());
+        list_fragment.add(new Fragment_vp_compile_9());
         intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         netBroadcast = new NetBroadcast();
@@ -136,10 +137,11 @@ public class Compile_fg_1 extends Fragment{
                                 n = i;
                             }
 
-                            allTitle[ja.length()-1] = ja.getJSONObject(n-1).getString("tags");
+                            allTitle[ja.length()-1] = ja.getJSONObject(n-2).getString("tags");
                             allTitle[ja.length()] = ja.getJSONObject(n-1).getString("tags");
                             allTitle[ja.length()+1] = ja.getJSONObject(n).getString("tags");
 
+                            Log.i("qqqqq","length == "+ allTitle.length+"---"+allTitle.toString());
                             c1Handler.sendEmptyMessage(1);
                         }else{
                             c1Handler.sendEmptyMessage(2);

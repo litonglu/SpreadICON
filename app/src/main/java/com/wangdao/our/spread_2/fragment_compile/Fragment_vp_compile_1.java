@@ -28,6 +28,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.drawee.generic.RoundingParams;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.wangdao.our.spread_2.ExampleApplication;
@@ -80,7 +82,7 @@ public class Fragment_vp_compile_1 extends Fragment{
     private FVC_Adapter fAdapter;
     private fcHandler_1 fhandler_1 = new fcHandler_1();
     private TextView tvnull;
-    private final String myUrl = "http://hmyx.ijiaque.com/app/article/articledetail.html";
+    private final String myUrl = "http://wz.ijiaque.com/app/article/articledetail.html";
     private LinearLayout ll_nowifi;
 
     private NetBroadcast netBroadcast;
@@ -237,11 +239,14 @@ class fcHandler_1 extends Handler{
                 convertView = myInflater.inflate(R.layout.item_compile,null);
                 fvc_viewHolder = new FVC_ViewHolder();
                 fvc_viewHolder.iv_icon = (ImageView) convertView.findViewById(R.id.item_compile_iv_icon);
+//                RoundingParams roundingParams = RoundingParams.fromCornersRadius(7f);
+//                roundingParams.setOverlayColor(R.color.colorPrimary);
+
+
                 fvc_viewHolder.tv_title = (TextView) convertView.findViewById(R.id.item_compile_tv_title);
                 fvc_viewHolder.tv_num = (TextView) convertView.findViewById(R.id.item_compile_tv_num);
                 fvc_viewHolder.bt_compile = (Button) convertView.findViewById(R.id.item_compile_bt);
                 convertView.setTag(fvc_viewHolder);
-
             }else{
                 fvc_viewHolder = (FVC_ViewHolder) convertView.getTag();
             }

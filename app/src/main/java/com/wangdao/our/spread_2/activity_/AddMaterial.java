@@ -1108,7 +1108,7 @@ public class AddMaterial extends Activity implements View.OnClickListener {
             view_2 = getLayoutInflater().inflate(R.layout.dialog_out_login, null);
             hi_2.tv_help1 = (TextView) view_2.findViewById(R.id.bt_help1);
             hi_2.tv_help2 = (TextView) view_2.findViewById(R.id.bt_help2);
-            hi_2.tv_helpcancle = (Button) view_2.findViewById(R.id.bt_helpcancle);
+            hi_2.tv_helpcancle = (TextView) view_2.findViewById(R.id.bt_helpcancle);
             dialog_help_2 = new Dialog(this, R.style.transparentFrameWindowStyle);
             dialog_help_2.setContentView(view_2, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));

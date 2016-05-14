@@ -116,12 +116,12 @@
         "source": "D:\\mystudio\\myfile\\Spread\\lib\\bdwallet_pay_sdk\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\wallet_base_pwdpay_title_bg.9.png"
     },
     {
-        "merged": "D:\\mystudio\\myfile\\Spread\\lib\\bdwallet_pay_sdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\wallet_base_refresh_loading_img.png",
-        "source": "D:\\mystudio\\myfile\\Spread\\lib\\bdwallet_pay_sdk\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\wallet_base_refresh_loading_img.png"
-    },
-    {
         "merged": "D:\\mystudio\\myfile\\Spread\\lib\\bdwallet_pay_sdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\wallet_base_dialog_singlebtn_press.9.png",
         "source": "D:\\mystudio\\myfile\\Spread\\lib\\bdwallet_pay_sdk\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\wallet_base_dialog_singlebtn_press.9.png"
+    },
+    {
+        "merged": "D:\\mystudio\\myfile\\Spread\\lib\\bdwallet_pay_sdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\wallet_base_refresh_loading_img.png",
+        "source": "D:\\mystudio\\myfile\\Spread\\lib\\bdwallet_pay_sdk\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\wallet_base_refresh_loading_img.png"
     },
     {
         "merged": "D:\\mystudio\\myfile\\Spread\\lib\\bdwallet_pay_sdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\wallet_base_loading_img.png",

@@ -3,12 +3,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/fragment_statistics_actionbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_actionbar"
         android:orientation="horizontal"
-        android:gravity="center"
+
         android:background="@color/colorPrimary"
         >
         <TextView
@@ -17,8 +17,19 @@
             android:text="统计"
             android:textSize="@dimen/textsize_actionbar"
             android:textColor="@color/text_color_white"
+            android:layout_centerInParent="true"
             />
-    </LinearLayout>
+
+        <ImageView
+            android:id="@+id/fragment_statistics_iv_erweima"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/saoyisao"
+            />
+    </RelativeLayout>
     <View
         android:id="@+id/fragment_statistics_line_1"
         android:layout_width="match_parent"

@@ -28,8 +28,8 @@
             android:paddingBottom="6dp"
             android:paddingTop="6dp"
             android:gravity="center"
-            android:background="@drawable/shap_left"
-            android:textColor="@color/text_color_white"
+            android:background="@drawable/shap_left_no"
+            android:textColor="@color/colorPrimary"
             />
         <TextView
             android:id="@+id/fragment_compile_tv_copy"
@@ -38,10 +38,10 @@
             android:layout_weight="1"
             android:text="粘贴文章"
             android:gravity="center"
-            android:background="@drawable/shap_right_no"
+            android:background="@drawable/shap_right"
             android:paddingBottom="6dp"
             android:paddingTop="6dp"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/white"
             />
 
         <View

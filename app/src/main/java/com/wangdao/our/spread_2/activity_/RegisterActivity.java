@@ -87,8 +87,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
                 break;
             //发送验证码
             case R.id.activity_register_et_send:
-                showVfDialog();
-           //     sendNote();
+             //   showVfDialog();
+                sendNote();
                 break;
             case R.id.activity_register_bt_okr:
                 register();
@@ -148,8 +148,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
     private void sendNote(){
         httpPost = new HttpPost(allurl.getRegister_note());
         params.add(new BasicNameValuePair("mobile", et_tel.getText().toString()));
-        params.add(new BasicNameValuePair("img_verify",dialog_vf));
-        Log.i("qqqqq","输入的验证码是："+dialog_vf+"手机是"+et_tel.getText().toString());
+    //    params.add(new BasicNameValuePair("img_verify",dialog_vf));
+   //     Log.i("qqqqq","输入的验证码是："+dialog_vf+"手机是"+et_tel.getText().toString());
         new Thread(new Runnable() {
             @Override
             public void run() {

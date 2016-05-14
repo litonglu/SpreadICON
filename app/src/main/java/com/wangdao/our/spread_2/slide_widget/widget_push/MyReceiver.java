@@ -3,6 +3,7 @@ package com.wangdao.our.spread_2.slide_widget.widget_push;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -31,7 +32,7 @@ public class MyReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
 		Log.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
-		
+		changetTag(context);
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
             String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
             Log.d(TAG, "[MyReceiver] 接收Registration Id : " + regId);
@@ -50,7 +51,7 @@ public class MyReceiver extends BroadcastReceiver {
             Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
             
         	//打开自定义的Activity
-        	Intent i = new Intent(context, TestActivity.class);
+        	Intent i = new Intent(context, MessageA.class);
         	i.putExtras(bundle);
         	//i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
@@ -62,12 +63,23 @@ public class MyReceiver extends BroadcastReceiver {
         	
         } else if(JPushInterface.ACTION_CONNECTION_CHANGE.equals(intent.getAction())) {
         	boolean connected = intent.getBooleanExtra(JPushInterface.EXTRA_CONNECTION_CHANGE, false);
-        	Log.w(TAG, "[MyReceiver]" + intent.getAction() +" connected state change to "+connected);
+        	Log.w(TAG, "[MyReceiver]" + intent.getAction() +"connected state change to "+connected);
         } else {
         	Log.d(TAG, "[MyReceiver] Unhandled intent - " + intent.getAction());
         }
 	}
 
+	/**
+	 * 改变标签
+	 */
+	private void changetTag(Context myContext){
+		Log.i(TAG,"开始");
+		SharedPreferences sharedPreferences = myContext.getSharedPreferences("tag", myContext.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putString("tg", "2");
+		editor.commit();
+		Log.i(TAG,"结束");
+	}
 	// 打印所有的 intent extra 数据
 	private static String printBundle(Bundle bundle) {
 		StringBuilder sb = new StringBuilder();
@@ -101,7 +113,8 @@ public class MyReceiver extends BroadcastReceiver {
 		}
 		return sb.toString();
 	}
-	
+
+
 	//send msg to MainActivity
 	private void processCustomMessage(Context context, Bundle bundle) {
 		if (MessageA.isForeground) {

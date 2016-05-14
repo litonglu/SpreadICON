@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        >
+        <View
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            />
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="我的一级成员"
+            android:textColor="@color/textcolor_hui"
+            android:gravity="center"
+            android:layout_marginLeft="6dp"
+            />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/line_qq"
+        />
+    <TextView
+        android:id="@+id/fragment_myteam_1_tv_erro"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="网络异常"
+        android:textSize="@dimen/textsize_x"
+        android:textColor="@color/textcolor_hui"
+        android:gravity="center"
+        android:visibility="gone"
+        android:background="@color/white"
+        />
+    <ListView
+        android:id="@+id/fragment_myteam_1_lv"
+        android:background="@color/white"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ListView>
+
+</LinearLayout>

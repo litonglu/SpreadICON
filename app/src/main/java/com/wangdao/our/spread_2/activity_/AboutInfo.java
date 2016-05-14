@@ -70,12 +70,13 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2016/4/22 0022.
+ *
  */
 public class AboutInfo extends Activity implements View.OnClickListener{
+
     private String dateTime;
     private ImageView iv_cancle;
     private Button bt_out_login;
-
 
     private HttpPost httpPost;
     private HttpResponse httpResponse = null;

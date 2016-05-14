@@ -121,7 +121,7 @@ import java.util.Map;
  */
 public class Article_info extends FragmentActivity implements View.OnClickListener{
 
-    private final String default_url = "http://hmyx.ijiaque.com/app/article/articledetail.html";
+    private final String default_url = "http://wz.ijiaque.com/app/article/articledetail.html";
     private ImageView iv_bottom;
     private TextView tv_bottom;
     private ImageView iv_cancle;
@@ -279,7 +279,6 @@ private void sendDataToH(){
     httpPost = new HttpPost(allurl.getCopyUrl());
     SharedPreferences sharedPreferences = Article_info.this.getSharedPreferences("user", MODE_PRIVATE);
     String mToken = sharedPreferences.getString("user_token", "");
-
     params.add(new BasicNameValuePair("user_token", mToken));
     params.add(new BasicNameValuePair("writing_title", mt_title));
     params.add(new BasicNameValuePair("writing_content", myContent));
@@ -401,7 +400,6 @@ switch (v.getId()) {
         String userToken = sharedPreferences.getString("user_token", "");
         String name_str = "";
 
-
         //使用逗号将id隔开
         for (int i = 0; i < list_myChoose.size(); i++) {
             if (i != 0) {
@@ -420,6 +418,8 @@ switch (v.getId()) {
             params.add(new BasicNameValuePair("writing_ads_top",name_str));
         }
 
+        Log.i("qqqqq","casnhu:===="+myUid+"======="+userToken+"========="+name_str);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -437,12 +437,16 @@ switch (v.getId()) {
                         }
                     }
                 } catch (UnsupportedEncodingException e) {
+                    ahandler.sendEmptyMessage(12);
                     e.printStackTrace();
                 } catch (ClientProtocolException e) {
+                    ahandler.sendEmptyMessage(12);
                     e.printStackTrace();
                 } catch (IOException e) {
+                    ahandler.sendEmptyMessage(12);
                     e.printStackTrace();
                 } catch (JSONException e) {
+                    ahandler.sendEmptyMessage(12);
                     e.printStackTrace();
                 }
 
@@ -706,10 +710,11 @@ switch (v.getId()) {
                 case 11:
                     fristOpen = true;
                     init(myUrl);
-
+                    Log.i("qqqqq","编辑成功"+myUrl);
                     break;
                 //编辑失败
                 case 12:
+                    Log.i("qqqqq","编辑失败");
                     Toast.makeText(Article_info.this,compielResult,Toast.LENGTH_SHORT).show();
                     break;
             }

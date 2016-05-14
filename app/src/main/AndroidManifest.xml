@@ -31,6 +31,9 @@
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <!-- 银联需要的权限 -->
     <uses-permission android:name="android.permission.NFC" />
@@ -81,8 +84,15 @@
         <activity android:name=".activity_.TiXianHistory"/>
         <activity android:name=".activity_.mine_activity.CommissionInfo"/>
         <activity android:name=".slide_widget.widget_push.TestActivity"/>
+        <activity android:name=".activity_.myZidingyi"/>
 
-
+        <activity
+            android:configChanges="orientation|keyboardHidden"
+            android:name=".activity_.CaptureActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
 
         <activity android:name=".wxapi.WXEntryActivity"
             android:exported="true"

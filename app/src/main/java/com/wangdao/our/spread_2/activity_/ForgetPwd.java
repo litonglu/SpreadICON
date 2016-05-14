@@ -14,6 +14,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +52,7 @@ public class ForgetPwd extends Activity implements View.OnClickListener{
     private AllUrl allurl = new AllUrl();
     private String dialog_vf;
     private Forget_Handler forget_handler = new Forget_Handler();
+    private ImageView iv_cancle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,19 +68,22 @@ public class ForgetPwd extends Activity implements View.OnClickListener{
 
         bt_getCode = (Button) findViewById(R.id.activity_forget_pwd_bt_getcode);
         bt_rePwd = (Button) findViewById(R.id.activity_forget_pwd_bt_repwd);
+        iv_cancle= (ImageView) findViewById(R.id.activity_forget_pwd_iv_cancle);
     }
 
 
     private void initClick(){
         bt_getCode.setOnClickListener(this);
         bt_rePwd.setOnClickListener(this);
+        iv_cancle.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.activity_forget_pwd_bt_getcode :
-                showVfDialog();
+                sendNote();
+               // showVfDialog();
                 break;
             case R.id.activity_forget_pwd_bt_repwd :
                 StartRePwd();
@@ -90,6 +95,9 @@ public class ForgetPwd extends Activity implements View.OnClickListener{
                 dialog_vf = et_vf_dialog.getText().toString();
                 sendNote();
                 materialDialog.dismiss();
+                break;
+            case R.id.activity_forget_pwd_iv_cancle:
+                finish();
                 break;
         }
     }
@@ -133,8 +141,9 @@ public class ForgetPwd extends Activity implements View.OnClickListener{
     private void sendNote(){
         httpPost = new HttpPost(allurl.getRegister_note());
         params.add(new BasicNameValuePair("mobile", et_mobile.getText().toString()));
-        params.add(new BasicNameValuePair("img_verify",dialog_vf));
-        params.add(new BasicNameValuePair("is_mi","true"));
+        params.add(new BasicNameValuePair("is_mi", "true"));
+    //    params.add(new BasicNameValuePair("img_verify",dialog_vf));
+   //     params.add(new BasicNameValuePair("is_mi","true"));
         new Thread(new Runnable() {
             @Override
             public void run() {

@@ -40,6 +40,7 @@ import com.wangdao.our.spread_2.activity_.mine_activity.GetMoney;
 import com.wangdao.our.spread_2.activity_.mine_activity.MyCommission;
 import com.wangdao.our.spread_2.activity_.mine_activity.MyTeam;
 import com.wangdao.our.spread_2.activity_.mine_activity.Popularize;
+import com.wangdao.our.spread_2.widget_pull.BadgeView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,6 +65,8 @@ public class Fragment_Mine extends Fragment implements View.OnClickListener{
     private NetBroadcast netBroadcast;
     private IntentFilter intentFilter;
     private LinearLayout ll_beAgency,ll_popularize,ll_myCommission,ll_myTeam,ll_getMoney;
+    private ImageView iv_order;
+    private BadgeView bv;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,6 +81,14 @@ public class Fragment_Mine extends Fragment implements View.OnClickListener{
         netBroadcast = new NetBroadcast();
         myContext.registerReceiver(netBroadcast, intentFilter);
 
+         bv = new BadgeView(myContext,iv_order);
+        bv.setText("");
+        bv.setTextColor(getResources().getColor(R.color.colorPrimary));
+        bv.setTextSize(10);
+        bv.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
+
+        bv.show();
+        initTag();
         return myView;
     }
 
@@ -87,15 +98,13 @@ public class Fragment_Mine extends Fragment implements View.OnClickListener{
         ll_myCommission = (LinearLayout) myView.findViewById(R.id.fragment_mine_ll_mycommission);
         ll_myTeam = (LinearLayout) myView.findViewById(R.id.fragment_mine_ll_myteam);
         ll_getMoney = (LinearLayout) myView.findViewById(R.id.fragment_mine_ll_getmoney);
-
+        iv_order = (ImageView) myView.findViewById(R.id.fragment_mine_iv_order);
 
         iv_icon = (ImageView) myView.findViewById(R.id.fragment_mine_iv_icon);
         ll_aboutinfo= (LinearLayout) myView.findViewById(R.id.fragment_mine_ll_aboutinfo);
         tv_nickName = (TextView) myView.findViewById(R.id.fragment_mine_tv_nickname);
-  //      ll_message = (LinearLayout) myView.findViewById(R.id.fragment_mine_ll_message);
         rl_tellme = (LinearLayout) myView.findViewById(R.id.fragment_mint_rl_tellme);
-//        rl_tellme = (LinearLayout) myView.findViewById(R.id.fragment_mint_rl_tellme);
-//        rl_tellme = (LinearLayout) myView.findViewById(R.id.fragment_mint_rl_tellme);
+
     }
     private class NetBroadcast extends BroadcastReceiver {
         @Override
@@ -110,6 +119,7 @@ public class Fragment_Mine extends Fragment implements View.OnClickListener{
             }
         }
     }
+
 private void initOnClick(){
     iv_icon.setOnClickListener(this);
     ll_aboutinfo.setOnClickListener(this);
@@ -120,6 +130,7 @@ private void initOnClick(){
     ll_myCommission.setOnClickListener(this);
     ll_myTeam.setOnClickListener(this);
     ll_getMoney.setOnClickListener(this);
+    iv_order.setOnClickListener(this);
     //ll_message.setOnClickListener(this);
 }
 
@@ -161,16 +172,36 @@ switch (v.getId()){
         Intent getMoneyIntent = new Intent(myContext, GetMoney.class);
         startActivity(getMoneyIntent);
         break;
+    //消息
+    case R.id.fragment_mine_iv_order:
+        Intent mgIntent = new Intent(myContext,MessageA.class);
+        startActivityForResult(mgIntent,1);
+        break;
 
 }
     }
 
+    /**
+     * 初始化标签
+     */
+    private void initTag(){
 
+
+        SharedPreferences sharedPreferences_tag = this.getActivity().getSharedPreferences("tag", myContext.MODE_PRIVATE);
+        final String Tag = sharedPreferences_tag.getString("tg", "");
+        if(Tag.equals("1")){
+            bv.hide();
+        }else{
+            bv.show();
+        }
+
+    }
     /**
      * 初始化头像
      */
     private Bitmap myIcon;
     private void initIcon(){
+
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("user", myContext.MODE_PRIVATE);
         final String url = sharedPreferences.getString("avatar256", "");
         myNickName =  sharedPreferences.getString("nickname","");
@@ -214,9 +245,13 @@ switch (v.getId()){
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         initIcon();
+
         switch (resultCode){
             case 66:
                 this.getActivity().finish();
+                break;
+            case 1:
+                bv.hide();
                 break;
         }
     }

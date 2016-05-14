@@ -1,8 +1,10 @@
 package com.wangdao.our.spread_2.fragment;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -16,6 +18,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -35,11 +38,18 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.generic.RoundingParams;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.wangdao.our.spread_2.ExampleApplication;
 import com.wangdao.our.spread_2.R;
 import com.wangdao.our.spread_2.activity_.Article_info;
+import com.wangdao.our.spread_2.activity_.CaptureActivity;
 import com.wangdao.our.spread_2.activity_.LoginActivity;
 import com.wangdao.our.spread_2.bean.MyArticle;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
@@ -98,10 +108,11 @@ public class FragmentStatistics extends Fragment implements View.OnClickListener
         REFRESH,LOAD_MORE
     }
 
+    private ImageView iv_erweima;
     private String title_cu;
    // private String myIdd;
 
-    private final String myUrl = "http://hmyx.ijiaque.com/app/article/articledetail.html";
+    private final String myUrl = "http://wz.ijiaque.com/app/article/articledetail.html";
     private String myCurrentId;
     private String myIdd;
     private TextView tvnull;
@@ -112,6 +123,11 @@ public class FragmentStatistics extends Fragment implements View.OnClickListener
     private NetBroadcast netBroadcast;
     private IntentFilter intentFilter;
     private LinearLayout ll_nowifi;
+
+
+
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -187,6 +203,8 @@ public class FragmentStatistics extends Fragment implements View.OnClickListener
         fs_pull = (PullToRefreshScrollView) myView.findViewById(R.id.fragment_statistics_pull);
         tvnull = (TextView) myView.findViewById(R.id.fragment_statistics_tvnull);
 
+        iv_erweima = (ImageView) myView.findViewById(R.id.fragment_statistics_iv_erweima);
+
         tvQ_1 = (TextView) myView.findViewById(R.id.fragment_statistics_tv_1);
         tvQ_2 = (TextView) myView.findViewById(R.id.fragment_statistics_tv_2);
         tvQ_3 = (TextView) myView.findViewById(R.id.fragment_statistics_tv_3);
@@ -196,6 +214,7 @@ public class FragmentStatistics extends Fragment implements View.OnClickListener
         tvQ_2.setOnClickListener(this);
         tvQ_3.setOnClickListener(this);
         tvQ_4.setOnClickListener(this);
+        iv_erweima.setOnClickListener(this);
     }
 
     @Override
@@ -257,7 +276,19 @@ public class FragmentStatistics extends Fragment implements View.OnClickListener
             case R.id.dialog_delete_my_tv_cancle:
                 deleteDialog.dismiss();
                 break;
+            //扫描二维码
+            case R.id.fragment_statistics_iv_erweima:
+                SaoErWeiMa();
+                break;
         }
+    }
+
+    /**
+     * 扫描二维码
+     */
+    private void SaoErWeiMa(){
+        Intent openCameraIntent = new Intent(myContext,CaptureActivity.class);
+        startActivityForResult(openCameraIntent, 0);
     }
 
     /**
@@ -422,6 +453,35 @@ new Thread(new Runnable() {
                 case 12:
                     Toast.makeText(myContext,delete_result,Toast.LENGTH_SHORT).show();
                     break;
+                //提交成功
+                case 31:
+                    new AlertDialog.Builder(myContext)
+                            .setTitle("RESULT:")
+                            .setMessage(saoResut)
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                    dia_wait.dismiss();
+                    break;
+                //提交失败
+                case 32:
+                    new AlertDialog.Builder(myContext)
+                            .setTitle("RESULT:")
+                            .setMessage(saoResut)
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                    dia_wait.dismiss();
+                    break;
+
             }
         }
     }
@@ -432,6 +492,7 @@ new Thread(new Runnable() {
         List<MyArticle> list_myArticles;
         public fs_Adapter(List<MyArticle> list_myArticles){
             this.list_myArticles = list_myArticles;
+            Fresco.initialize(myContext);
         }
         @Override
         public int getCount() {
@@ -452,7 +513,8 @@ new Thread(new Runnable() {
             if(convertView==null){
                 fs_viewHolder = new fs_ViewHolder();
                 convertView = myInflater.inflate(R.layout.item_statistics,null);
-                fs_viewHolder.iv_icon = (ImageView) convertView.findViewById(R.id.item_statistics_icon);
+                fs_viewHolder.iv_icon = (SimpleDraweeView) convertView.findViewById(R.id.item_statistics_icon);
+
                 fs_viewHolder.tv_exposureNum = (TextView) convertView.findViewById(R.id.item_statistics_num);
                 fs_viewHolder.tv_clickNum = (TextView) convertView.findViewById(R.id.item_statistics_dianji);
                 fs_viewHolder.tv_time = (TextView) convertView.findViewById(R.id.item_statistics_time);
@@ -465,28 +527,32 @@ new Thread(new Runnable() {
             fs_viewHolder.tv_clickNum.setText(list_myArticles.get(position).getClickNum());
             fs_viewHolder.tv_time.setText(list_myArticles.get(position).getTime());
 
-        //    ImageLoader.getInstance().displayImage(list_myArticles.get(position).getIconUrl(), fs_viewHolder.iv_icon, ExampleApplication.getInstance().options2());
+            Uri aniImageUri = Uri.parse(list_myArticles.get(position).getIconUrl());
+            ImageRequest request = ImageRequestBuilder.newBuilderWithSource(aniImageUri)
+                    .build();
+
+//            DraweeController controller = Fresco.newDraweeControllerBuilder()
+//                    .setImageRequest(request)
+//                    .setAutoPlayAnimations(true)
+//                    .build();
+//            fs_viewHolder.iv_icon.setController(controller);
+
+            RoundingParams roundingParams = RoundingParams.fromCornersRadius(20f);
+            fs_viewHolder.iv_icon.getHierarchy().setRoundingParams(roundingParams);
+
 
             ImageLoader.getInstance().displayImage(list_myArticles.get(position).getIconUrl() == null ? "" : list_myArticles.get(position).getIconUrl(), fs_viewHolder.iv_icon,
                     ExampleApplication.getInstance().getOptions(R.drawable.moren)
-                    //,
-//                    new SimpleImageLoadingListener() {
-//                        @Override
-//                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-//                            super.onLoadingComplete(imageUri, view, loadedImage);
-//                            fs_viewHolder.iv_icon.setImageBitmap(loadedImage);
-//                        }
-//                    }
             );
 
-        //    asynImageLoader.showImageAsyn(fs_viewHolder.iv_icon, list_myArticles.get(position).getIconUrl(), R.drawable.nopic);
+
             return convertView;
         }
     }
 
 
     public class fs_ViewHolder{
-        ImageView iv_icon;
+        SimpleDraweeView iv_icon;
         TextView tv_exposureNum;
         TextView tv_clickNum;
         TextView tv_time;
@@ -552,5 +618,72 @@ new Thread(new Runnable() {
         }
     }
 
+    /**
+     * 将扫码后的数据返回到后台 建立等级关系
+     */
+    private String saoResut = "网络异常";
+    private void JianLi(){
 
+        httpPost = new HttpPost(allurl.getSaoMaTuiGuang());
+        SharedPreferences sharedPreferences = myContext.getSharedPreferences("user", myContext.MODE_PRIVATE);
+        String mToken = sharedPreferences.getString("user_token", "");
+        params.add(new BasicNameValuePair("user_token", mToken));
+        params.add(new BasicNameValuePair("link", scanResult));
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    httpPost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+                    httpResponse = new DefaultHttpClient().execute(httpPost);
+                    if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                        String result = EntityUtils.toString(httpResponse.getEntity());
+                        JSONObject jo = new JSONObject(result);
+                        saoResut = jo.getString("info");
+                        if(jo.getString("status").equals("1")){
+                            fhandler.sendEmptyMessage(31);
+                        }else{
+                            fhandler.sendEmptyMessage(32);
+                        }
+
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
+
+    }
+
+
+    private Dialog dia_wait;
+    private void startDialog(){
+        dia_wait = new Dialog(myContext,R.style.dialog);
+        dia_wait.setContentView(R.layout.dialog_wait);
+        dia_wait.show();
+    }
+
+
+    private String scanResult;
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == -1) {
+            Bundle bundle = data.getExtras();
+             scanResult = bundle.getString("result");
+            if(scanResult.length()!=0){
+                Log.i("qqqqq","返回的数据为:"+scanResult);
+                startDialog();
+                JianLi();
+            }else{
+            }
+        }
+    }
 }

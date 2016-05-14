@@ -185,7 +185,7 @@ public class PushSetActivity extends InstrumentedActivity implements OnClickList
                 Log.e(TAG, logs);
             }
             
-            com.wangdao.our.spread_2.slide_widget.widget_push.ExampleUtil.showToast(logs, getApplicationContext());
+          //  com.wangdao.our.spread_2.slide_widget.widget_push.ExampleUtil.showToast(logs, getApplicationContext());
         }
 	    
 	};
@@ -216,7 +216,7 @@ public class PushSetActivity extends InstrumentedActivity implements OnClickList
                 Log.e(TAG, logs);
             }
             
-            com.wangdao.our.spread_2.slide_widget.widget_push.ExampleUtil.showToast(logs, getApplicationContext());
+       //     com.wangdao.our.spread_2.slide_widget.widget_push.ExampleUtil.showToast(logs, getApplicationContext());
         }
         
     };

@@ -394,11 +394,8 @@ new Thread(new Runnable() {
                             mNickName = jo_2.getString("nickname");
                             popHandler.sendEmptyMessage(41);
                         }else{
-
                         }
-
                     }
-
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 } catch (ClientProtocolException e) {
@@ -408,10 +405,8 @@ new Thread(new Runnable() {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         }).start();
-
     }
 
     /**
@@ -422,8 +417,12 @@ new Thread(new Runnable() {
     private void initErWeiMa(){
         SharedPreferences sharedPreferences = Popularize.this.getSharedPreferences("user", MODE_PRIVATE);
         mUid = sharedPreferences.getString("uid", "");
-        urlcontext = "http://qr.liantu.com/api.php?text="+allurl.getShare_Url()+"?link="+mUid+
+//        urlcontext = "http://qr.liantu.com/api.php?text="+allurl.getShare_Url()+"?link="+mUid+
+//                "&w=140&bg=FFFFFF&fg=000000&logo="+userIconUrl;
+
+        urlcontext = "http://qr.liantu.com/api.php?text="+mUid+
                 "&w=140&bg=FFFFFF&fg=000000&logo="+userIconUrl;
+
         new Thread(new Runnable() {
             @Override
             public void run() {

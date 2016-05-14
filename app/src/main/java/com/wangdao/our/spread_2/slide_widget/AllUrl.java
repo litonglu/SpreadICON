@@ -8,7 +8,7 @@ public class AllUrl {
     //注册
     private final String register_url = "http://wz.ijiaque.com/app/user/register.html";
     //短信验证码
-    private final String register_note = "http://wz.ijiaque.com/app/user/postsms.html";
+    private final String register_note = "http://wz.ijiaque.com/ucenter/verify/sendverifydo.html";
     //登录
     private final String login_url = "http://wz.ijiaque.com/app/user/login.html";
     //上传图片
@@ -48,7 +48,8 @@ public class AllUrl {
 
 
     //编辑文章
-    private final String wzCompile = "http://wz.ijiaque.com/app/article/editarticlenext.html";
+   // private final String wzCompile = "http://wz.ijiaque.com/app/article/editarticlenext.html";
+    private final String wzCompile = "http://wz.ijiaque.com/app/article/editarticle.html";
     //分享成功
     private final String shareOk = "http://wz.ijiaque.com/app/article/sharesuccess.html";
     //推广删除
@@ -80,6 +81,17 @@ public class AllUrl {
 
     //重置密码
     private final String rePwd = "http://wz.ijiaque.com/app/user/reset_pwd.html";
+
+    //扫码推广
+    private final String SaoMaTuiGuang = "http://wz.ijiaque.com/app/share/share_scan.html";
+
+    //分享团队
+    private final String UserTeam = "http://wz.ijiaque.com/app/share/employee.html";
+
+    //我的消息
+    private final String userMessage = "http://wz.ijiaque.com/app/public/message.html";
+    //消息删除
+    private final String userMessage_delete = "http://wz.ijiaque.com/app/public/msg_del.html";
 
     public String getRegister_url() {
         return register_url;
@@ -202,5 +214,21 @@ public class AllUrl {
 
     public String getRePwd() {
         return rePwd;
+    }
+
+    public String getSaoMaTuiGuang() {
+        return SaoMaTuiGuang;
+    }
+
+    public String getUserTeam() {
+        return UserTeam;
+    }
+
+    public String getUserMessage() {
+        return userMessage;
+    }
+
+    public String getUserMessage_delete() {
+        return userMessage_delete;
     }
 }

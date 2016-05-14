@@ -71,7 +71,7 @@ public class Fragment_vp_compile_6 extends Fragment{
     private fcHandler_6 fhandler_6 = new fcHandler_6();
     private TextView tvnull;
 
-    private final String myUrl = "http://hmyx.ijiaque.com/app/article/articledetail.html";
+    private final String myUrl = "http://wz.ijiaque.com/app/article/articledetail.html";
 
 
     private NetBroadcast netBroadcast;

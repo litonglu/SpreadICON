@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,8 +29,23 @@ import com.squareup.okhttp.Response;
 import com.wangdao.our.spread_2.R;
 import com.wangdao.our.spread_2.demo;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/5/9 0009.
@@ -38,7 +54,8 @@ import java.util.Date;
 public class BecomeAgency extends Activity implements View.OnClickListener{
     private ImageView iv_cancle;
     private TextView tv_buy;
-    private static String YOUR_URL ="http://218.244.151.190/demo/charge";
+   // private static String YOUR_URL ="http://218.244.151.190/demo/charge";
+    private static String YOUR_URL ="http://wz.ijiaque.com/app/toup/vip_toup.html";
     public static final String URL = YOUR_URL;
     /**
      * 银联支付渠道
@@ -67,6 +84,12 @@ public class BecomeAgency extends Activity implements View.OnClickListener{
 //    private Button bfbButton;
 //    private Button jdpayButton;
     private String currentAmount = "";
+
+
+private String Str_type ;
+    private HttpPost httpPost;
+    private HttpResponse httpResponse = null;
+    private List<NameValuePair> params = new ArrayList<NameValuePair>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +154,7 @@ public class BecomeAgency extends Activity implements View.OnClickListener{
             @Override
             public void onClick(View v) {
                 startBuy("wx");
+                Str_type = "wx";
                 dialog_help_2.dismiss();
             }
         });
@@ -138,6 +162,7 @@ public class BecomeAgency extends Activity implements View.OnClickListener{
             @Override
             public void onClick(View v) {
                 startBuy("alipay");
+                Str_type = "alipay";
                 dialog_help_2.dismiss();
             }
         });
@@ -163,7 +188,7 @@ public class BecomeAgency extends Activity implements View.OnClickListener{
     private void startBuy(String buyType){
         new PaymentTask().execute(new PaymentRequest(buyType, 298));
     }
-
+    JSONObject jo_2;
 
     class PaymentTask extends AsyncTask<PaymentRequest, Void, String> {
 
@@ -180,17 +205,38 @@ public class BecomeAgency extends Activity implements View.OnClickListener{
         protected String doInBackground(PaymentRequest... pr) {
 
             PaymentRequest paymentRequest = pr[0];
-            String data = null;
-            String json = new Gson().toJson(paymentRequest);
+//            String data = null;
+//            String json = new Gson().toJson(paymentRequest);
+//            try {
+//                //向Your Ping++ Server SDK请求数据
+//                data = postJson(URL, json);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+
+            httpPost = new HttpPost(URL);
+            SharedPreferences sharedPreferences = BecomeAgency.this.getSharedPreferences("user", MODE_PRIVATE);
+            String mToken = sharedPreferences.getString("user_token", "");
+            params.add(new BasicNameValuePair("user_token", mToken));
+            params.add(new BasicNameValuePair("channel", Str_type));
+            params.add(new BasicNameValuePair("rank_id", "10"));
+
             try {
-                //向Your Ping++ Server SDK请求数据
-                data = postJson(URL, json);
+                httpPost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+                httpResponse = new DefaultHttpClient().execute(httpPost);
+                if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                    String result = EntityUtils.toString(httpResponse.getEntity());
+                    JSONObject jo = new JSONObject(result);
+                     jo_2 = jo.getJSONObject("data");
+
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return data;
-        }
 
+            Log.i("qqqqq","data==="+jo_2.toString());
+            return jo_2.toString();
+        }
 
         /**
          * 获得服务端的charge，调用ping++ sdk。
@@ -218,6 +264,7 @@ public class BecomeAgency extends Activity implements View.OnClickListener{
         builder.setTitle("提示");
         builder.setPositiveButton("OK", null);
         builder.create().show();
+
     }
 
     private static String postJson(String url, String json) throws IOException {

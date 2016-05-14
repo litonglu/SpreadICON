@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.wangdao.our.spread_2.activity_.myZidingyi;
 import com.wangdao.our.spread_2.fragment.FragmentCompile;
 import com.wangdao.our.spread_2.fragment.FragmentMaterial;
 import com.wangdao.our.spread_2.fragment.FragmentStatistics;
@@ -41,12 +42,16 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if(savedInstanceState!=null){
-            Log.i("qqqqq","fragment被回收");
-        }else {
+//        if(savedInstanceState!=null){
+//
+//            Log.i("qqqqq","fragment被回收");
+//            Intent intent_erro = new Intent(this,myZidingyi.class);
+//            startActivity(intent_erro);
+//
+//        }else {
             Log.i("qqqqq","null");
             super.onCreate(savedInstanceState);
-        }
+//        }
         setContentView(R.layout.activity_main);
         initView();
 
@@ -237,6 +242,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 //        super.onSaveInstanceState(outState);
+
     }
 
     public void registerMessageReceiver() {
@@ -248,7 +254,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
 
     public class MessageReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             if (MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {

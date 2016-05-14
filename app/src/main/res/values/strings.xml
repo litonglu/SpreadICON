@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">黑马营销</string>
+    <string name="app_name">拇指营销</string>
 <string name="tag_tong">通栏</string>
 <string name="tag_tuwen">图文</string>
 <string name="tag_mingpian">名片</string>

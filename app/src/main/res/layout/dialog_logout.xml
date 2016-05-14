@@ -18,6 +18,7 @@
 
     >
 <TextView
+    android:id="@+id/dialog_logout_tv_info"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="注销登录？"
