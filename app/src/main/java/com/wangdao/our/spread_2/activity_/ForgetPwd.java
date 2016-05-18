@@ -53,6 +53,7 @@ public class ForgetPwd extends Activity implements View.OnClickListener{
     private String dialog_vf;
     private Forget_Handler forget_handler = new Forget_Handler();
     private ImageView iv_cancle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -181,7 +182,7 @@ class Forget_Handler extends Handler{
 
                 new AlertDialog.Builder(ForgetPwd.this)
                         .setTitle("RESULT:")
-                        .setMessage(sendResult)
+                        .setMessage(RePwdResult)
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -196,7 +197,7 @@ class Forget_Handler extends Handler{
             case 2:
                 new AlertDialog.Builder(ForgetPwd.this)
                         .setTitle("RESULT:")
-                        .setMessage(sendResult)
+                        .setMessage(RePwdResult)
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -234,7 +235,6 @@ class Forget_Handler extends Handler{
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 try {
                     httpPost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
                     httpResponse = new DefaultHttpClient().execute(httpPost);
@@ -247,7 +247,6 @@ class Forget_Handler extends Handler{
                         }else{
                             forget_handler.sendEmptyMessage(2);
                         }
-
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

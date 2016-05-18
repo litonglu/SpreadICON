@@ -83,7 +83,6 @@ public class AboutInfo extends Activity implements View.OnClickListener{
     private List<NameValuePair> params = new ArrayList<NameValuePair>();
     private AllUrl allUrl = new AllUrl();
 
-
     private ImageView iv_icon;
     private AboutInfoHandler aihandler = new AboutInfoHandler();
     private TextView tv_mobile,tv_nickname;

@@ -15,8 +15,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -54,7 +56,6 @@ import java.util.List;
 public class BecomeAgency extends Activity implements View.OnClickListener{
     private ImageView iv_cancle;
     private TextView tv_buy;
-   // private static String YOUR_URL ="http://218.244.151.190/demo/charge";
     private static String YOUR_URL ="http://wz.ijiaque.com/app/toup/vip_toup.html";
     public static final String URL = YOUR_URL;
     /**
@@ -85,12 +86,14 @@ public class BecomeAgency extends Activity implements View.OnClickListener{
 //    private Button jdpayButton;
     private String currentAmount = "";
 
-
-private String Str_type ;
+    private boolean bRb_1 = true;
+    private boolean bRb_2 = false;
+    private String Str_type ;
     private HttpPost httpPost;
     private HttpResponse httpResponse = null;
     private List<NameValuePair> params = new ArrayList<NameValuePair>();
-
+    private Button bt_buy;
+    private RadioButton rb_wx,rb_zfb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,20 +104,67 @@ private String Str_type ;
     private void initView(){
         iv_cancle = (ImageView) findViewById(R.id.activity_mine_agency_iv__cancle);
         tv_buy = (TextView) findViewById(R.id.activity_mine_agency_tv_buy);
+        rb_wx = (RadioButton) findViewById(R.id.activity_mine_agency_rb_wx);
+        rb_zfb = (RadioButton) findViewById(R.id.activity_mine_agency_rb_zfb);
+        bt_buy = (Button) findViewById(R.id.activity_mine_agency_bt);
     }
     private void initClick(){
         iv_cancle.setOnClickListener(this);
         tv_buy.setOnClickListener(this);
+        bt_buy.setOnClickListener(this);
+        rb_wx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(bRb_1){
+                    rb_wx.setChecked(false);
+                    rb_zfb.setChecked(true);
+                    bRb_1 = false;
+                    bRb_2 = true;
+                }else{
+                    rb_wx.setChecked(true);
+                    rb_zfb.setChecked(false);
+                    bRb_1 = true;
+                    bRb_2 = false;
+                }
+            }
+        });
+        rb_zfb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(bRb_2){
+                    rb_zfb.setChecked(false);
+                    rb_wx.setChecked(true);
+                    bRb_2 = false;
+                    bRb_1 = true;
+                }else{
+                    rb_zfb.setChecked(true);
+                    rb_wx.setChecked(false);
+                    bRb_2 = true;
+                    bRb_1 = false;
+                }
+            }
+        });
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.activity_mine_agency_iv__cancle:
+                setResult(2);
                 finish();
                 break;
             case R.id.activity_mine_agency_tv_buy:
                 showBuyTypeDialog();
+                break;
+            case R.id.activity_mine_agency_bt:
+
+                if(bRb_1){
+                    startBuy("wx");
+                    Str_type = "wx";
+                }else{
+                    startBuy("alipay");
+                    Str_type = "alipay";
+                }
                 break;
         }
     }
@@ -187,11 +237,12 @@ private String Str_type ;
      */
     private void startBuy(String buyType){
         new PaymentTask().execute(new PaymentRequest(buyType, 298));
+        Log.i("qqqqq","type=="+ buyType );
     }
-    JSONObject jo_2;
 
+    private String payResult = "网络异常";
     class PaymentTask extends AsyncTask<PaymentRequest, Void, String> {
-
+        private JSONObject jo_2;
         @Override
         protected void onPreExecute() {
             //按键点击之后的禁用，防止重复点击
@@ -221,20 +272,23 @@ private String Str_type ;
             params.add(new BasicNameValuePair("channel", Str_type));
             params.add(new BasicNameValuePair("rank_id", "10"));
 
+            Log.i("qqqqqq","channel=="+Str_type);
             try {
                 httpPost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
                 httpResponse = new DefaultHttpClient().execute(httpPost);
                 if (httpResponse.getStatusLine().getStatusCode() == 200) {
                     String result = EntityUtils.toString(httpResponse.getEntity());
                     JSONObject jo = new JSONObject(result);
-                     jo_2 = jo.getJSONObject("data");
-
+                    payResult = jo.getString("info");
+                    if(jo.getString("status").equals("1")) {
+                        jo_2 = jo.getJSONObject("data");
+                    }else{
+                        return null;
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            Log.i("qqqqq","data==="+jo_2.toString());
             return jo_2.toString();
         }
 
@@ -244,10 +298,9 @@ private String Str_type ;
         @Override
         protected void onPostExecute(String data) {
             if(null == data){
-                showMsg("请求出错", "请检查URL", "URL无法获取charge");
+                showMsg("", payResult, "");
                 return;
             }
-            Log.d("charge", data);
             Pingpp.createPayment(BecomeAgency.this, data);
         }
     }
@@ -261,8 +314,8 @@ private String Str_type ;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(BecomeAgency.this);
         builder.setMessage(str);
-        builder.setTitle("提示");
-        builder.setPositiveButton("OK", null);
+        builder.setTitle("RESULT:");
+        builder.setPositiveButton("取消", null);
         builder.create().show();
 
     }
@@ -306,10 +359,23 @@ private String Str_type ;
                  * "cancel"  - user canceld
                  * "invalid" - payment plugin not installed
                  */
+
                 String errorMsg = data.getExtras().getString("error_msg"); // 错误信息
                 String extraMsg = data.getExtras().getString("extra_msg"); // 错误信息
                 showMsg(result, errorMsg, extraMsg);
+                if(result.equals("success")){
+                    SharedPreferences sharedPreferences = BecomeAgency.this.getSharedPreferences("user", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("isvip", "1");
+                    editor.commit();
+                }
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(2);
+        finish();
     }
 }

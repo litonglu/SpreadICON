@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -34,6 +35,7 @@ import com.wangdao.our.spread_2.MainActivity;
 import com.wangdao.our.spread_2.R;
 import com.wangdao.our.spread_2.activity_.MessageA;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
+import com.wangdao.our.spread_2.slide_widget.XEditText;
 import com.wangdao.our.spread_2.slide_widget.widget_push.ExampleUtil;
 
 import org.apache.http.HttpResponse;
@@ -68,14 +70,14 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     private Button bt_login;
     private TextView tv_register;
-    private EditText et_tel, et_pwd;
+    private EditText et_tel;
+    private XEditText et_pwd;
     private AllUrl allurl = new AllUrl();
     private String myTel, myPwd;
     private String str_result;
     private LoginHandler loginHandler = new LoginHandler();
-    private String rMobile, rUid, rNickname, rAvatar64, rAvatar128, rAvatar256, rUser_token;
+    private String rMobile, rUid, rNickname, rAvatar64, rAvatar128, rAvatar256, rUser_token, rIsVip,rShareCount;
     private TextView tv_forgetPwd;
-
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -91,7 +93,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         tv_register = (TextView) findViewById(R.id.activity_login_tv_register);
       //  login_pb = (ProgressBar) findViewById(R.id.activity_login_pb);
         et_tel = (EditText) findViewById(R.id.activity_et_tel);
-        et_pwd = (EditText) findViewById(R.id.activity_et_pwd);
+        et_pwd = (XEditText) findViewById(R.id.activity_et_pwd);
         iv_icon = (ImageView) findViewById(R.id.activity_login_iv_icon);
         tv_forgetPwd = (TextView) findViewById(R.id.activity_login_tv_forgetpwd);
 
@@ -100,6 +102,23 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         bt_login.setOnClickListener(this);
         tv_register.setOnClickListener(this);
         tv_forgetPwd.setOnClickListener(this);
+
+
+        et_pwd.setDrawableRightListener(new XEditText.DrawableRightListener() {
+            @Override
+            public void onDrawableRightClick(View view) {
+
+                if (!mIsShow) {
+                    et_pwd.setCompoundDrawablesWithIntrinsicBounds(R.drawable.login_pwd, 0, R.drawable.zhengyan, 0) ;
+                    et_pwd.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) ;
+                } else {
+                    et_pwd.setCompoundDrawablesWithIntrinsicBounds(R.drawable.login_pwd, 0, R.drawable.biyan, 0) ;
+                    et_pwd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD) ;
+                }
+                mIsShow = !mIsShow ;
+            }
+        });
+
         autoLogin();
     }
 
@@ -191,7 +210,22 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         return output ;
     }
 
+    boolean mIsShow = false;
+    private class DrawableRightClickListener implements XEditText.DrawableRightListener {
 
+        @Override
+        public void onDrawableRightClick(View view) {
+            if (!mIsShow) {
+                et_pwd.setCompoundDrawablesWithIntrinsicBounds(R.drawable.login_pwd, 0, R.drawable.zhengyan, 0) ;
+                et_pwd.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) ;
+            } else {
+                et_pwd.setCompoundDrawablesWithIntrinsicBounds(R.drawable.login_pwd, 0, R.drawable.biyan, 0) ;
+                et_pwd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD) ;
+            }
+            mIsShow = !mIsShow ;
+        }
+
+    }
 
     private Dialog dia_wait;
     private void startDialog(){
@@ -231,6 +265,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                             rAvatar128 = jo_data.getString("avatar128");
                             rAvatar256 = jo_data.getString("avatar256");
                             rUser_token = jo_data.getString("user_token");
+                            rIsVip = jo_data.getString("agents_level");
+                            rShareCount = jo_data.getString("share_count");
                             loginHandler.sendEmptyMessage(1);
                         } else {
                             str_result = jo.getString("info");
@@ -272,7 +308,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     editor.putString("avatar128", rAvatar128);
                     editor.putString("avatar256", rAvatar256);
                     editor.putString("user_token", rUser_token);
+                    editor.putString("isvip", rIsVip);
+                    editor.putString("shaecount", rShareCount);
                     editor.commit();
+
                     stopdialog_wait();
                     break;
                 case 2:

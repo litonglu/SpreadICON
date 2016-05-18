@@ -96,6 +96,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler
 
     }
 private String shareResult;
+    private String shareCount;
     private void shareOk(){
         httpPost = new HttpPost(allurl.getShareOk());
         SharedPreferences sharedPreferences = WXEntryActivity.this.getSharedPreferences("user", MODE_PRIVATE);
@@ -115,6 +116,10 @@ private String shareResult;
                         JSONObject jo = new JSONObject(result);
                         shareResult = jo.getString("info");
                         if(jo.getString("status").equals("1")){
+                            JSONObject jo_2 = jo.getJSONObject("data");
+
+                            shareCount = jo_2.getString("share_count");
+
                             whandler.sendEmptyMessage(1);
                         }else{
                             whandler.sendEmptyMessage(2);
@@ -142,6 +147,10 @@ private String shareResult;
                 //分享成功
                 case 1:
                     Log.i("qqqqqq",shareResult);
+                    SharedPreferences sharedPreferences = WXEntryActivity.this.getSharedPreferences("user", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("shaecount", "1");
+                    editor.commit();
                     Toast.makeText(WXEntryActivity.this, shareResult, Toast.LENGTH_LONG).show();
                     break;
                 //分享失败

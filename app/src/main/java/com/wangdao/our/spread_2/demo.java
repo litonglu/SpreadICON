@@ -35,12 +35,15 @@ public class demo extends Activity implements View.OnClickListener {
      *【 http://218.244.151.190/demo/charge 】是 ping++ 为了方便开发者体验 sdk 而提供的一个临时 url 。
      * 该 url 仅能调用【模拟支付控件】，开发者需要改为自己服务端的 url 。
      */
+
+
     private static String YOUR_URL ="http://218.244.151.190/demo/charge";
     public static final String URL = YOUR_URL;
     /**
      * 银联支付渠道
      */
     private static final String CHANNEL_UPACP = "upacp";
+
     /**
      * 微信支付渠道
      */

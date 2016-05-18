@@ -75,10 +75,11 @@ public class FragmentMaterial extends Fragment implements ViewPager.OnPageChange
         initView();
         initGetType();
      //   list_fragment.add(new Fragment_vp_material_1());
-        list_fragment.add(fvm_2);
+          list_fragment.add(fvm_2);
      //   list_fragment.add(new Fragment_vp_material_3());
        // list_fragment.add(new Fragment_vp_material_4());
       //  list_fragment.add(new Fragment_vp_material_5());
+
         MaterialPagerAdapter mpa = new MaterialPagerAdapter(myFM);
         material_vp.setAdapter(mpa);
         material_vp.setOnPageChangeListener(this);

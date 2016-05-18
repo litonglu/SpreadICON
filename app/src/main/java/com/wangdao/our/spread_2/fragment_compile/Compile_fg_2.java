@@ -113,7 +113,23 @@ public class Compile_fg_2 extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
 switch (v.getId()){
     case R.id.compile_fragment_2_bt_clip:
-        getC();
+        SharedPreferences sharedPreferences = myContext.getSharedPreferences("user", myContext.MODE_PRIVATE);
+        String isVip = sharedPreferences.getString("isvip", "");
+        if(isVip.equals("0")){
+            new AlertDialog.Builder(myContext)
+                    .setTitle("提醒：")
+                    .setMessage("非代理无权限使用此功能")
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+
+        }else {
+            getC();
+        }
         break;
 }
     }

@@ -42,16 +42,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        if(savedInstanceState!=null){
-//
-//            Log.i("qqqqq","fragment被回收");
-//            Intent intent_erro = new Intent(this,myZidingyi.class);
-//            startActivity(intent_erro);
-//
-//        }else {
-            Log.i("qqqqq","null");
-            super.onCreate(savedInstanceState);
-//        }
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
 
@@ -110,7 +101,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 }
                 break;
             case 2:
-
                 hideFragments(transaction);
                 if (f_material == null) {
                     f_material = new FragmentMaterial();
@@ -206,15 +196,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         }
     }
 
-
-
-
-
     // 初始化 JPush。如果已经初始化，但没有登录成功，则执行重新登录。
     private void init(){
         JPushInterface.init(getApplicationContext());
     }
-
 
     @Override
     protected void onResume() {

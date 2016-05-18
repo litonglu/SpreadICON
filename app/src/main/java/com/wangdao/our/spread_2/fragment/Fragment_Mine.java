@@ -67,6 +67,11 @@ public class Fragment_Mine extends Fragment implements View.OnClickListener{
     private LinearLayout ll_beAgency,ll_popularize,ll_myCommission,ll_myTeam,ll_getMoney;
     private ImageView iv_order;
     private BadgeView bv;
+    private ImageView iv_vip;
+
+
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,7 +80,7 @@ public class Fragment_Mine extends Fragment implements View.OnClickListener{
         myContext = this.getActivity();
         initView();
         initOnClick();
-
+        getIsVip();
         intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         netBroadcast = new NetBroadcast();
@@ -104,7 +109,7 @@ public class Fragment_Mine extends Fragment implements View.OnClickListener{
         ll_aboutinfo= (LinearLayout) myView.findViewById(R.id.fragment_mine_ll_aboutinfo);
         tv_nickName = (TextView) myView.findViewById(R.id.fragment_mine_tv_nickname);
         rl_tellme = (LinearLayout) myView.findViewById(R.id.fragment_mint_rl_tellme);
-
+        iv_vip = (ImageView) myView.findViewById(R.id.fragment_mine_iv_vip);
     }
     private class NetBroadcast extends BroadcastReceiver {
         @Override
@@ -120,6 +125,7 @@ public class Fragment_Mine extends Fragment implements View.OnClickListener{
         }
     }
 
+
 private void initOnClick(){
     iv_icon.setOnClickListener(this);
     ll_aboutinfo.setOnClickListener(this);
@@ -131,7 +137,6 @@ private void initOnClick(){
     ll_myTeam.setOnClickListener(this);
     ll_getMoney.setOnClickListener(this);
     iv_order.setOnClickListener(this);
-    //ll_message.setOnClickListener(this);
 }
 
     @Override
@@ -150,7 +155,7 @@ switch (v.getId()){
     //成为代理
     case R.id.fragment_mine_ll_agency:
         Intent agencyIntent = new Intent(myContext, BecomeAgency.class);
-        startActivity(agencyIntent);
+        startActivityForResult(agencyIntent,1);
         break;
     //推广
     case R.id.fragment_mine_ll_tuiguang:
@@ -185,8 +190,6 @@ switch (v.getId()){
      * 初始化标签
      */
     private void initTag(){
-
-
         SharedPreferences sharedPreferences_tag = this.getActivity().getSharedPreferences("tag", myContext.MODE_PRIVATE);
         final String Tag = sharedPreferences_tag.getString("tg", "");
         if(Tag.equals("1")){
@@ -194,7 +197,6 @@ switch (v.getId()){
         }else{
             bv.show();
         }
-
     }
     /**
      * 初始化头像
@@ -244,7 +246,9 @@ switch (v.getId()){
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         initIcon();
+        getIsVip();
 
         switch (resultCode){
             case 66:
@@ -314,5 +318,19 @@ switch (v.getId()){
         paint.setAntiAlias(true);
         canvas.drawCircle(width / 2, width / 2, width / 2 - 4 / 2, paint);
         return output ;
+    }
+
+    /**
+     * 是否是会员
+     */
+    private void getIsVip(){
+        SharedPreferences sharedPreferences = myContext.getSharedPreferences("user", myContext.MODE_PRIVATE);
+        String isVip = sharedPreferences.getString("isvip", "");
+        Log.i("qqqqq","是否是会员："+isVip);
+        if(isVip.equals("0")){
+            iv_vip.setVisibility(View.GONE);
+        }else{
+            iv_vip.setVisibility(View.VISIBLE);
+        }
     }
 }

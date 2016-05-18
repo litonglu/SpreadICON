@@ -208,14 +208,10 @@ public class Article_info extends FragmentActivity implements View.OnClickListen
                 Elements cTitle = title_.get(0).getElementsByTag("title");
                 mt_title = cTitle.text().toString();
                 myContent = content_.toString();
-                Log.i("xxxxx","title ="+mt_title);
-                Log.i("xxxxx","myContent ="+myContent);
         } catch (MalformedURLException e1) {
             ah.sendEmptyMessage(3);
-            Log.i("xxxxx",e1.toString());
             e1.printStackTrace();
         } catch (IOException e1) {
-            Log.i("xxxxx",e1.toString());
             ah.sendEmptyMessage(3);
             e1.printStackTrace();
         }
@@ -237,7 +233,6 @@ class handler extends Handler{
                 String mUid = sharedPreferences.getString("uid", "");
                 myUrl = default_url+"?writing_id="+myUid+"&uid="+mUid;
                 init(myUrl);
-                Log.i("xxxxx", "url==" + myUrl);
                 dialog_wait.dismiss();
                 break;
 
@@ -311,8 +306,6 @@ new Thread(new Runnable() {
         }
     }
 }).start();
-
-
 }
 
     private void initView(){
@@ -333,8 +326,8 @@ new Thread(new Runnable() {
     private String addType = "top";
 
     private void init(String url){
-        webView.getSettings().setJavaScriptEnabled(true);
 
+        webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(url);
 
         //覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
@@ -455,11 +448,59 @@ switch (v.getId()) {
 
         materialDialog.dismiss();
         break;
+    //分享到微信
     case R.id.dialog_share_iv_wx:
-        TuiJianToFriend(mt_title);
+
+        SharedPreferences sharedPreferences_2 = Article_info.this.getSharedPreferences("user", MODE_PRIVATE);
+        String aisVip = sharedPreferences_2.getString("isvip", "");
+        String shaecount = sharedPreferences_2.getString("shaecount", "");
+        Log.i("qqqqq","========"+shaecount);
+        if(aisVip.equals("0")){
+            if(!shaecount.equals("0")){
+                new AlertDialog.Builder(Article_info.this)
+                        .setTitle("提醒：")
+                        .setMessage("非代理只能分享一次哦")
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+            }else{
+                TuiJianToFriend(mt_title);
+            }
+
+        }else {
+            TuiJianToFriend(mt_title);
+        }
+
         break;
+    //分享到朋友圈
     case R.id.dialog_share_iv_pyq:
+        SharedPreferences sharedPreferences_3 = Article_info.this.getSharedPreferences("user", MODE_PRIVATE);
+        String aisVip1 = sharedPreferences_3.getString("isvip", "");
+        String shaecount1 = sharedPreferences_3.getString("shaecount", "");
+        Log.i("qqqqq","========"+shaecount1);
+        if(aisVip1.equals("0")){
+            if(!shaecount1.equals("0")){
+                new AlertDialog.Builder(Article_info.this)
+                        .setTitle("提醒：")
+                        .setMessage("非代理只能分享一次哦")
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+            }else{
+                TuiJianToWX(mt_title);
+            }
+
+        }else {
             TuiJianToWX(mt_title);
+        }
         break;
     case R.id.dialog_select_tv_1:
         current_int = 0;

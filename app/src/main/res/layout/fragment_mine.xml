@@ -37,6 +37,11 @@
     android:src="@drawable/shap_x"
     />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            >
         <TextView
             android:id="@+id/fragment_mine_tv_nickname"
             android:layout_width="wrap_content"
@@ -44,8 +49,19 @@
             android:text="15662770998"
             android:textColor="@color/text_color_white"
             android:textSize="@dimen/textsize_actionbar"
-            android:layout_margin="6dp"
+            android:gravity="center"
+            android:layout_gravity="center"
             />
+           <ImageView
+               android:id="@+id/fragment_mine_iv_vip"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:src="@drawable/vip"
+               android:layout_gravity="center"
+               android:visibility="gone"
+               />
+
+        </LinearLayout>
     </LinearLayout>
 
 

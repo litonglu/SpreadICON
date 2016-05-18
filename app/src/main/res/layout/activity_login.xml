@@ -50,18 +50,22 @@
 
     </RelativeLayout>
 
+
     <EditText
         android:id="@+id/activity_et_tel"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_mine_line"
         android:hint="\t请输入手机号码"
-        android:layout_margin="15dp"
-        android:paddingLeft="10dp"
         android:textColor="@color/textcolor_hui"
         android:drawableLeft="@drawable/login_phone"
         android:textSize="@dimen/textsize_x"
+        android:paddingLeft="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         />
-    <EditText
+
+
+    <com.wangdao.our.spread_2.slide_widget.XEditText
         android:id="@+id/activity_et_pwd"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_mine_line"
@@ -72,6 +76,9 @@
         android:textColor="@color/textcolor_hui"
         android:drawableLeft="@drawable/login_pwd"
         android:textSize="@dimen/textsize_x"
+        android:drawableRight="@drawable/biyan"
+        android:inputType="numberPassword"
+
         />
     <!--android:background="@color/line_qq"-->
     <Button

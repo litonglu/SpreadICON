@@ -152,7 +152,6 @@ public class MessageA extends Activity implements View.OnClickListener{
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 try {
                     httpPost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
                     httpResponse = new DefaultHttpClient().execute(httpPost);
@@ -165,7 +164,6 @@ public class MessageA extends Activity implements View.OnClickListener{
                         }else{
                             messageHandler.sendEmptyMessage(12);
                         }
-
                     }
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
@@ -176,17 +174,16 @@ public class MessageA extends Activity implements View.OnClickListener{
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         }).start();
-
-
     }
+
     /**
      * 初始化数据
      */
     private String getMessageResult = "网络异常";
     private void initData(){
+        list_m.clear();
         httpPost = new HttpPost(allurl.getUserMessage());
         SharedPreferences sharedPreferences = MessageA.this.getSharedPreferences("user", MODE_PRIVATE);
         String mToken = sharedPreferences.getString("user_token", "");
@@ -210,7 +207,7 @@ public class MessageA extends Activity implements View.OnClickListener{
                                 message_.setmTitle(jo_2.getString("title"));
                                 message_.setmInfo(jo_2.getString("content"));
                                 message_.setmTime(jo_2.getString("create_time"));
-                                message_.setmId(jo_2.getString("msg_id"));
+                                message_.setmId(jo_2.getString("id"));
                                 list_m.add(message_);
                             }
                             messageHandler.sendEmptyMessage(1);
@@ -232,7 +229,6 @@ public class MessageA extends Activity implements View.OnClickListener{
         }).start();
     }
 
-
     class MessageHandler extends Handler{
         @Override
         public void handleMessage(Message msg) {
@@ -240,6 +236,7 @@ public class MessageA extends Activity implements View.OnClickListener{
                 //更新消息数据成功
                 case 1:
                     tv_erro.setVisibility(View.GONE);
+                    lv_mg.setVisibility(View.VISIBLE);
                     mAdapter.notifyDataSetChanged();
                     break;
                 //更新消息失败

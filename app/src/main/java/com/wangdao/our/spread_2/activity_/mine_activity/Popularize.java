@@ -9,16 +9,20 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
@@ -47,8 +51,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -79,11 +87,13 @@ public class Popularize extends Activity implements View.OnClickListener{
     private ImageView iv_erweima;
     private String userIconUrl;
     private TextView tv_shareName;
+    private ProgressBar popularize_pb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popularize);
+
         api = WXAPIFactory.createWXAPI(Popularize.this, APP_ID);
 
         initView();
@@ -99,11 +109,13 @@ public class Popularize extends Activity implements View.OnClickListener{
         pIv_icon = (ImageView) findViewById(R.id.activity_popularize_iv_icon);
         iv_erweima = (ImageView) findViewById(R.id.activity_popularize_iv_erweima);
         tv_shareName = (TextView) findViewById(R.id.activity_popularize_tv_name);
+        popularize_pb = (ProgressBar) findViewById(R.id.activity_popularize_pb);
     }
 
     private void initClick(){
         iv_cancle.setOnClickListener(this);
         tv_share.setOnClickListener(this);
+        iv_erweima.setOnClickListener(this);
     }
 
     /**
@@ -152,7 +164,67 @@ public class Popularize extends Activity implements View.OnClickListener{
             case R.id.dialog_share_iv_pyq:
                 getShareInfo(2);
                 break;
+            //点击二维码
+            case R.id.activity_popularize_iv_erweima:
+                showIsSaveDialog();
+                break;
+            //确定保存二维码到本地
+            case R.id.dialog_logout_cancle:
+
+            //        saveBitmap(bmp_icon);
+
+                try {
+                    startSave(bmp_icon);
+                } catch (IOException e) {
+                    Log.i("qqqqqq","保存错误"+e);
+                    e.printStackTrace();
+                }
+
+                materialDialog.dismiss();
+                break;
+            //取消保存二维码
+            case R.id.dialog_logout_yes:
+                materialDialog.dismiss();
+                break;
         }
+    }
+
+
+    /**
+     * 是否保存dialog
+     */
+    private Dialog materialDialog;
+    private void showIsSaveDialog(){
+        View material_view;
+        TextView tv_cancle,tv_ok,tv_dialog_info;
+
+            material_view = getLayoutInflater().inflate(R.layout.dialog_logout,null);
+            tv_cancle = (TextView) material_view.findViewById(R.id.dialog_logout_cancle);
+        tv_dialog_info = (TextView) material_view.findViewById(R.id.dialog_logout_tv_info);
+            tv_ok = (TextView) material_view.findViewById(R.id.dialog_logout_yes);
+            materialDialog = new Dialog(this,R.style.dialog);
+            materialDialog.setContentView(material_view);
+        tv_dialog_info.setText("保存到本地?");
+        tv_cancle.setText("是");
+        tv_ok.setText("否");
+
+            materialDialog.show();
+
+            tv_cancle.setOnClickListener(this);
+            tv_ok.setOnClickListener(this);
+
+    }
+
+    private void startSave(Bitmap bmp) throws IOException {
+        String path = Environment.getExternalStorageDirectory().toString();
+        OutputStream fOut = null;
+        File file = new File(path, "FitnessGirl" + "myShare" + ".jpg");
+        fOut = new FileOutputStream(file);
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+        fOut.flush();
+        fOut.close();
+        MediaStore.Images.Media.insertImage(getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
+        Toast.makeText(Popularize.this,"成功保存到根目录",Toast.LENGTH_SHORT).show();
     }
 
     class PopularizeHandler extends Handler{
@@ -165,6 +237,7 @@ public class Popularize extends Activity implements View.OnClickListener{
                     break;
                 //获取分享信息失败
                 case 2:
+
                     new AlertDialog.Builder(Popularize.this)
                             .setTitle("自动登录失败")
                             .setMessage(shareInfoResult)
@@ -187,7 +260,13 @@ public class Popularize extends Activity implements View.OnClickListener{
                     break;
                 //初始化二维码
                 case 31:
+                    popularize_pb.setVisibility(View.GONE);
                     iv_erweima.setImageBitmap(bmp_icon);
+                    break;
+                //初始化二维码失败
+                case 32:
+                    popularize_pb.setVisibility(View.GONE);
+                    Toast.makeText(Popularize.this,"二维码生成失败，请重试",Toast.LENGTH_SHORT).show();
                     break;
                 //初始化姓名
                 case 41:
@@ -415,13 +494,14 @@ new Thread(new Runnable() {
     private String urlcontext;
     private Bitmap bmp_icon;
     private void initErWeiMa(){
+        popularize_pb.setVisibility(View.VISIBLE);
         SharedPreferences sharedPreferences = Popularize.this.getSharedPreferences("user", MODE_PRIVATE);
         mUid = sharedPreferences.getString("uid", "");
 //        urlcontext = "http://qr.liantu.com/api.php?text="+allurl.getShare_Url()+"?link="+mUid+
 //                "&w=140&bg=FFFFFF&fg=000000&logo="+userIconUrl;
 
         urlcontext = "http://qr.liantu.com/api.php?text="+mUid+
-                "&w=140&bg=FFFFFF&fg=000000&logo="+userIconUrl;
+                "&w=240&bg=FFFFFF&fg=000000&logo="+userIconUrl;
 
         new Thread(new Runnable() {
             @Override
@@ -441,10 +521,8 @@ new Thread(new Runnable() {
                     is.close();
                     //关闭连接
                     connection.disconnect();
-                } catch (MalformedURLException e) {
-                    Log.i("qqqqq","异常"+e);
-                    e.printStackTrace();
-                } catch (IOException e) {
+                } catch (Exception e) {
+                    popHandler.sendEmptyMessage(32);
                     Log.i("qqqqq","异常"+e);
                     e.printStackTrace();
                 }
@@ -503,5 +581,28 @@ new Thread(new Runnable() {
         }
         return bitmap;
     }
+
+    /** 保存方法 */
+    public void saveBitmap(Bitmap bmp) {
+
+        File f = new File("/sdcard/namecard/", "wzyx");
+        if (f.exists()) {
+            f.delete();
+        }
+        try {
+            FileOutputStream out = new FileOutputStream(f);
+            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+            out.flush();
+            out.close();
+
+            Toast.makeText(Popularize.this,"保存成功",Toast.LENGTH_SHORT).show();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
