@@ -13,6 +13,7 @@ public class Commission {
     private String cNum;
     private String payWay;
     private String cId;
+    private String cStatus;
 
     public Commission() {
     }
@@ -71,5 +72,13 @@ public class Commission {
 
     public void setcId(String cId) {
         this.cId = cId;
+    }
+
+    public String getcStatus() {
+        return cStatus;
+    }
+
+    public void setcStatus(String cStatus) {
+        this.cStatus = cStatus;
     }
 }

@@ -84,7 +84,6 @@ public abstract class LoadingLayout extends FrameLayout implements com.wangdao.o
 		mHeaderProgress = (ProgressBar) mInnerLayout.findViewById(R.id.pull_to_refresh_progress);
 		mSubHeaderText = (TextView) mInnerLayout.findViewById(R.id.pull_to_refresh_sub_text);
 		mHeaderImage = (ImageView) mInnerLayout.findViewById(R.id.pull_to_refresh_image);
-
 		LayoutParams lp = (LayoutParams) mInnerLayout.getLayoutParams();
 
 		switch (mode) {

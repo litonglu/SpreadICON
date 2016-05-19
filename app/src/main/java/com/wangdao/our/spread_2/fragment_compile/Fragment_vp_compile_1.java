@@ -28,10 +28,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.drawee.generic.RoundingParams;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.wangdao.our.spread_2.ExampleApplication;
 import com.wangdao.our.spread_2.R;
 import com.wangdao.our.spread_2.activity_.Article_info;
@@ -41,6 +38,7 @@ import com.wangdao.our.spread_2.bean.MyArticle;
 import com.wangdao.our.spread_2.bean.RecommendArticle;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
 import com.wangdao.our.spread_2.slide_widget.widget_image.AsynImageLoader;
+import com.wangdao.our.spread_2.slide_widget.widget_image.RoundedImageView;
 import com.wangdao.our.spread_2.widget_pull.PullToRefreshBase;
 import com.wangdao.our.spread_2.widget_pull.PullToRefreshListView;
 import com.wangdao.our.spread_2.widget_pull.PullToRefreshScrollView;
@@ -238,7 +236,7 @@ class fcHandler_1 extends Handler{
             if(convertView == null){
                 convertView = myInflater.inflate(R.layout.item_compile,null);
                 fvc_viewHolder = new FVC_ViewHolder();
-                fvc_viewHolder.iv_icon = (ImageView) convertView.findViewById(R.id.item_compile_iv_icon);
+                fvc_viewHolder.iv_icon = (RoundedImageView) convertView.findViewById(R.id.item_compile_iv_icon);
 //                RoundingParams roundingParams = RoundingParams.fromCornersRadius(7f);
 //                roundingParams.setOverlayColor(R.color.colorPrimary);
 
@@ -291,7 +289,7 @@ class fcHandler_1 extends Handler{
         }
     }
     class FVC_ViewHolder{
-        ImageView iv_icon;
+        RoundedImageView iv_icon;
         TextView tv_title;
         TextView tv_num;
         Button bt_compile;

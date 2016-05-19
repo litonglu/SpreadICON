@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/text_color_white"
     >
-    <ImageView
+
+    <com.wangdao.our.spread_2.slide_widget.widget_image.RoundedImageView
         android:id="@+id/item_material_daicon"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:src="@drawable/moren"
-        android:scaleType="centerCrop"
-        android:visibility="invisible"
+        android:scaleType="fitXY"
+
         android:layout_margin="6dp"
+        app:corner_radius="10dp"
+        app:border_width="0.5dp"
+        app:oval="false"
+        app:border_color="@color/line_s"
         />
 
     <LinearLayout
@@ -21,6 +28,7 @@
         android:orientation="horizontal"
         android:weightSum="3.5"
         android:layout_margin="6dp"
+        android:visibility="invisible"
         >
         <LinearLayout
             android:id="@+id/item_material_ll_icon"
@@ -124,5 +132,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_margin="4dp"
-        android:text="" />
+        android:text=""
+
+        />
 </RelativeLayout>

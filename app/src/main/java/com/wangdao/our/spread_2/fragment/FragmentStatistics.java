@@ -18,7 +18,6 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -38,25 +37,15 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.generic.RoundingParams;
-import com.facebook.drawee.interfaces.DraweeController;
-import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.imagepipeline.request.ImageRequest;
-import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.wangdao.our.spread_2.ExampleApplication;
 import com.wangdao.our.spread_2.R;
 import com.wangdao.our.spread_2.activity_.Article_info;
 import com.wangdao.our.spread_2.activity_.CaptureActivity;
-import com.wangdao.our.spread_2.activity_.LoginActivity;
 import com.wangdao.our.spread_2.bean.MyArticle;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
-import com.wangdao.our.spread_2.slide_widget.shap_imageview.CustomImageView;
-import com.wangdao.our.spread_2.slide_widget.shap_imageview.XCRoundRectImageView;
 import com.wangdao.our.spread_2.slide_widget.widget_image.AsynImageLoader;
-import com.wangdao.our.spread_2.slide_widget.widget_m.SwipeMenuListView;
+import com.wangdao.our.spread_2.slide_widget.widget_image.RoundedImageView;
 import com.wangdao.our.spread_2.widget_pull.PullToRefreshBase;
 import com.wangdao.our.spread_2.widget_pull.PullToRefreshScrollView;
 
@@ -492,7 +481,6 @@ new Thread(new Runnable() {
         List<MyArticle> list_myArticles;
         public fs_Adapter(List<MyArticle> list_myArticles){
             this.list_myArticles = list_myArticles;
-            Fresco.initialize(myContext);
         }
         @Override
         public int getCount() {
@@ -513,8 +501,7 @@ new Thread(new Runnable() {
             if(convertView==null){
                 fs_viewHolder = new fs_ViewHolder();
                 convertView = myInflater.inflate(R.layout.item_statistics,null);
-                fs_viewHolder.iv_icon = (SimpleDraweeView) convertView.findViewById(R.id.item_statistics_icon);
-
+                fs_viewHolder.iv_icon = (RoundedImageView) convertView.findViewById(R.id.item_statistics_icon);
                 fs_viewHolder.tv_exposureNum = (TextView) convertView.findViewById(R.id.item_statistics_num);
                 fs_viewHolder.tv_clickNum = (TextView) convertView.findViewById(R.id.item_statistics_dianji);
                 fs_viewHolder.tv_time = (TextView) convertView.findViewById(R.id.item_statistics_time);
@@ -527,9 +514,9 @@ new Thread(new Runnable() {
             fs_viewHolder.tv_clickNum.setText(list_myArticles.get(position).getClickNum());
             fs_viewHolder.tv_time.setText(list_myArticles.get(position).getTime());
 
-            Uri aniImageUri = Uri.parse(list_myArticles.get(position).getIconUrl());
-            ImageRequest request = ImageRequestBuilder.newBuilderWithSource(aniImageUri)
-                    .build();
+//            Uri aniImageUri = Uri.parse(list_myArticles.get(position).getIconUrl());
+//            ImageRequest request = ImageRequestBuilder.newBuilderWithSource(aniImageUri)
+//                    .build();
 
 //            DraweeController controller = Fresco.newDraweeControllerBuilder()
 //                    .setImageRequest(request)
@@ -537,8 +524,8 @@ new Thread(new Runnable() {
 //                    .build();
 //            fs_viewHolder.iv_icon.setController(controller);
 
-            RoundingParams roundingParams = RoundingParams.fromCornersRadius(20f);
-            fs_viewHolder.iv_icon.getHierarchy().setRoundingParams(roundingParams);
+//            RoundingParams roundingParams = RoundingParams.fromCornersRadius(20f);
+//            fs_viewHolder.iv_icon.getHierarchy().setRoundingParams(roundingParams);
 
 
             ImageLoader.getInstance().displayImage(list_myArticles.get(position).getIconUrl() == null ? "" : list_myArticles.get(position).getIconUrl(), fs_viewHolder.iv_icon,
@@ -550,9 +537,8 @@ new Thread(new Runnable() {
         }
     }
 
-
     public class fs_ViewHolder{
-        SimpleDraweeView iv_icon;
+        RoundedImageView iv_icon;
         TextView tv_exposureNum;
         TextView tv_clickNum;
         TextView tv_time;
@@ -563,6 +549,7 @@ new Thread(new Runnable() {
         String times = formatter.format(new Date(System.currentTimeMillis()));
         return times;
     }
+
     /***
      * 动态设置listview的高度 item 总布局必须是linearLayout
      *

@@ -35,6 +35,7 @@ import com.wangdao.our.spread_2.activity_.Article_info;
 import com.wangdao.our.spread_2.bean.RecommendArticle;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
 import com.wangdao.our.spread_2.slide_widget.widget_image.AsynImageLoader;
+import com.wangdao.our.spread_2.slide_widget.widget_image.RoundedImageView;
 import com.wangdao.our.spread_2.widget_pull.PullToRefreshBase;
 import com.wangdao.our.spread_2.widget_pull.PullToRefreshScrollView;
 
@@ -227,7 +228,7 @@ public class Fragment_vp_compile_8 extends Fragment{
             if(convertView == null){
                 convertView = myInflater.inflate(R.layout.item_compile,null);
                 fvc_viewHolder = new FVC_ViewHolder();
-                fvc_viewHolder.iv_icon = (ImageView) convertView.findViewById(R.id.item_compile_iv_icon);
+                fvc_viewHolder.iv_icon = (RoundedImageView) convertView.findViewById(R.id.item_compile_iv_icon);
                 fvc_viewHolder.tv_title = (TextView) convertView.findViewById(R.id.item_compile_tv_title);
                 fvc_viewHolder.tv_num = (TextView) convertView.findViewById(R.id.item_compile_tv_num);
                 fvc_viewHolder.bt_compile = (Button) convertView.findViewById(R.id.item_compile_bt);
@@ -285,7 +286,7 @@ public class Fragment_vp_compile_8 extends Fragment{
         }
     }
     class FVC_ViewHolder{
-        ImageView iv_icon;
+        RoundedImageView iv_icon;
         TextView tv_title;
         TextView tv_num;
         Button bt_compile;

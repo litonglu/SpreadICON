@@ -206,12 +206,17 @@ public class Article_info extends FragmentActivity implements View.OnClickListen
                 Elements title_ = doc.getElementsByTag("title");
 
                 Elements cTitle = title_.get(0).getElementsByTag("title");
+
+
+
+
                 mt_title = cTitle.text().toString();
                 myContent = content_.toString();
         } catch (MalformedURLException e1) {
             ah.sendEmptyMessage(3);
             e1.printStackTrace();
         } catch (IOException e1) {
+
             ah.sendEmptyMessage(3);
             e1.printStackTrace();
         }
@@ -269,7 +274,7 @@ class handler extends Handler{
 }
 
 
-    private String sendResult = "网络超时";
+    private String sendResult = "网络异常";
 private void sendDataToH(){
     httpPost = new HttpPost(allurl.getCopyUrl());
     SharedPreferences sharedPreferences = Article_info.this.getSharedPreferences("user", MODE_PRIVATE);
@@ -277,6 +282,7 @@ private void sendDataToH(){
     params.add(new BasicNameValuePair("user_token", mToken));
     params.add(new BasicNameValuePair("writing_title", mt_title));
     params.add(new BasicNameValuePair("writing_content", myContent));
+
 new Thread(new Runnable() {
     @Override
     public void run() {
@@ -286,22 +292,19 @@ new Thread(new Runnable() {
             if (httpResponse.getStatusLine().getStatusCode() == 200) {
                 String result = EntityUtils.toString(httpResponse.getEntity());
                 JSONObject jo = new JSONObject(result);
+                 Log.i("qqqqqq",jo.toString());
+
                 sendResult = jo.getString("info");
+
                 if(jo.getString("status").equals("1")){
                     myUid = jo.getString("writing_id");
                     ah.sendEmptyMessage(1);
                 }else{
                     ah.sendEmptyMessage(2);
                 }
-
             }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (Exception e) {
+            ah.sendEmptyMessage(2);
             e.printStackTrace();
         }
     }
@@ -1152,6 +1155,7 @@ switch (v.getId()) {
                         }
                     }
                 });
+
             }else if(current_int ==3){
                 convertView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -1308,7 +1312,12 @@ switch (v.getId()) {
     private Bitmap yaSuoImage(Bitmap image){
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
+        if(image == null){
+            Bitmap bmm = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon);
+            return bmm;
+        }
         image.compress(Bitmap.CompressFormat.JPEG, 85, out);
+
         float zoom = (float)Math.sqrt(10 * 1024 / (float)out.toByteArray().length);
 
         Matrix matrix = new Matrix();

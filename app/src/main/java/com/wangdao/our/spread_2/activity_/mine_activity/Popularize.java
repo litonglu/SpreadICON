@@ -37,6 +37,7 @@ import com.wangdao.our.spread_2.R;
 import com.wangdao.our.spread_2.activity_.AboutInfo;
 import com.wangdao.our.spread_2.activity_.Article_info;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
+import com.wangdao.our.spread_2.slide_widget.CircleImageView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -82,7 +83,7 @@ public class Popularize extends Activity implements View.OnClickListener{
     private HttpResponse httpResponse = null;
     private List<NameValuePair> params = new ArrayList<NameValuePair>();
     private AllUrl allurl = new AllUrl();
-    private ImageView pIv_icon;
+    private CircleImageView pIv_icon;
     private Bitmap myIcon;
     private ImageView iv_erweima;
     private String userIconUrl;
@@ -106,7 +107,7 @@ public class Popularize extends Activity implements View.OnClickListener{
         iv_cancle = (ImageView) findViewById(R.id.activity_popularize_iv_cancle);
         tv_share = (TextView) findViewById(R.id.activity_popularize_tv_share);
         iv_temp = (ImageView) findViewById(R.id.popularize_iv_temp);
-        pIv_icon = (ImageView) findViewById(R.id.activity_popularize_iv_icon);
+        pIv_icon = (CircleImageView) findViewById(R.id.activity_popularize_iv_icon);
         iv_erweima = (ImageView) findViewById(R.id.activity_popularize_iv_erweima);
         tv_shareName = (TextView) findViewById(R.id.activity_popularize_tv_name);
         popularize_pb = (ProgressBar) findViewById(R.id.activity_popularize_pb);

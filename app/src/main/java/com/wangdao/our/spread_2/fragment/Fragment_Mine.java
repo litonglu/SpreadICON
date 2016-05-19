@@ -40,6 +40,7 @@ import com.wangdao.our.spread_2.activity_.mine_activity.GetMoney;
 import com.wangdao.our.spread_2.activity_.mine_activity.MyCommission;
 import com.wangdao.our.spread_2.activity_.mine_activity.MyTeam;
 import com.wangdao.our.spread_2.activity_.mine_activity.Popularize;
+import com.wangdao.our.spread_2.slide_widget.CircleImageView;
 import com.wangdao.our.spread_2.widget_pull.BadgeView;
 
 import java.io.IOException;
@@ -49,14 +50,12 @@ import java.net.URL;
 /**
  * Created by Administrator on 2016/4/21 0021.
  */
-
-
 public class Fragment_Mine extends Fragment implements View.OnClickListener{
 
     private View myView;
     private LayoutInflater myInflater;
     private Context myContext;
-    private ImageView iv_icon;
+    private CircleImageView iv_icon;
     private LinearLayout ll_aboutinfo;
     private String myNickName;
     private FmHandler fh_handler = new FmHandler();
@@ -69,14 +68,11 @@ public class Fragment_Mine extends Fragment implements View.OnClickListener{
     private BadgeView bv;
     private ImageView iv_vip;
 
-
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.fragment_mine,null);
-        myInflater = inflater;
+        myInflater = inflater;              //保守己心
         myContext = this.getActivity();
         initView();
         initOnClick();
@@ -86,7 +82,7 @@ public class Fragment_Mine extends Fragment implements View.OnClickListener{
         netBroadcast = new NetBroadcast();
         myContext.registerReceiver(netBroadcast, intentFilter);
 
-         bv = new BadgeView(myContext,iv_order);
+        bv = new BadgeView(myContext,iv_order);
         bv.setText("");
         bv.setTextColor(getResources().getColor(R.color.colorPrimary));
         bv.setTextSize(10);
@@ -97,7 +93,9 @@ public class Fragment_Mine extends Fragment implements View.OnClickListener{
         return myView;
     }
 
+
     private void initView(){
+
         ll_beAgency = (LinearLayout) myView.findViewById(R.id.fragment_mine_ll_agency);
         ll_popularize = (LinearLayout) myView.findViewById(R.id.fragment_mine_ll_tuiguang);
         ll_myCommission = (LinearLayout) myView.findViewById(R.id.fragment_mine_ll_mycommission);
@@ -105,12 +103,14 @@ public class Fragment_Mine extends Fragment implements View.OnClickListener{
         ll_getMoney = (LinearLayout) myView.findViewById(R.id.fragment_mine_ll_getmoney);
         iv_order = (ImageView) myView.findViewById(R.id.fragment_mine_iv_order);
 
-        iv_icon = (ImageView) myView.findViewById(R.id.fragment_mine_iv_icon);
+        iv_icon = (CircleImageView) myView.findViewById(R.id.fragment_mine_iv_icon);
         ll_aboutinfo= (LinearLayout) myView.findViewById(R.id.fragment_mine_ll_aboutinfo);
         tv_nickName = (TextView) myView.findViewById(R.id.fragment_mine_tv_nickname);
         rl_tellme = (LinearLayout) myView.findViewById(R.id.fragment_mint_rl_tellme);
         iv_vip = (ImageView) myView.findViewById(R.id.fragment_mine_iv_vip);
+
     }
+
     private class NetBroadcast extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -127,6 +127,7 @@ public class Fragment_Mine extends Fragment implements View.OnClickListener{
 
 
 private void initOnClick(){
+
     iv_icon.setOnClickListener(this);
     ll_aboutinfo.setOnClickListener(this);
     rl_tellme.setOnClickListener(this);
@@ -236,7 +237,7 @@ switch (v.getId()){
             switch (msg.what){
                 case 1:
                     if(myIcon != null){
-                        iv_icon.setImageBitmap(toRoundBitmap(myIcon));
+                        iv_icon.setImageBitmap(myIcon);
                     }
                     break;
             }
@@ -260,65 +261,65 @@ switch (v.getId()){
         }
     }
 
-    public static  Bitmap toRoundBitmap(Bitmap bitmap) {
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        float roundPx;
-        float left,top,right,bottom,dst_left,dst_top,dst_right,dst_bottom;
-        if (width <= height) {
-            roundPx = width / 2;
-            top = 0;
-            left = 0;
-            bottom = width;
-            right = width;
-            height = width;
-            dst_left = 0;
-            dst_top = 0;
-            dst_right = width;
-            dst_bottom = width;
-        } else {
-            roundPx = height / 2;
-            float clip = (width - height) / 2;
-            left = clip;
-            right = width - clip;
-            top = 0;
-            bottom = height;
-            width = height;
-            dst_left = 0;
-            dst_top = 0;
-            dst_right = height;
-            dst_bottom = height;
-        }
-
-        Bitmap output = Bitmap.createBitmap(width,
-                height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(output);
-
-        final int color = 0xff424242;
-        final Paint paint = new Paint();
-        final Rect src = new Rect((int)left, (int)top, (int)right, (int)bottom);
-        final Rect dst = new Rect((int)dst_left, (int)dst_top, (int)dst_right, (int)dst_bottom);
-        final RectF rectF = new RectF(dst);
-
-        paint.setAntiAlias(true);
-
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(Color.WHITE);
-        paint.setStrokeWidth(0);
-        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, src, dst, paint);
-
-
-        //鐢荤櫧鑹插渾鍦�
-        paint.reset();
-        paint.setColor(Color.WHITE);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(0);
-        paint.setAntiAlias(true);
-        canvas.drawCircle(width / 2, width / 2, width / 2 - 4 / 2, paint);
-        return output ;
-    }
+//    public static  Bitmap toRoundBitmap(Bitmap bitmap) {
+//        int width = bitmap.getWidth();
+//        int height = bitmap.getHeight();
+//        float roundPx;
+//        float left,top,right,bottom,dst_left,dst_top,dst_right,dst_bottom;
+//        if (width <= height) {
+//            roundPx = width / 2;
+//            top = 0;
+//            left = 0;
+//            bottom = width;
+//            right = width;
+//            height = width;
+//            dst_left = 0;
+//            dst_top = 0;
+//            dst_right = width;
+//            dst_bottom = width;
+//        } else {
+//            roundPx = height / 2;
+//            float clip = (width - height) / 2;
+//            left = clip;
+//            right = width - clip;
+//            top = 0;
+//            bottom = height;
+//            width = height;
+//            dst_left = 0;
+//            dst_top = 0;
+//            dst_right = height;
+//            dst_bottom = height;
+//        }
+//
+//        Bitmap output = Bitmap.createBitmap(width,
+//                height, Bitmap.Config.ARGB_8888);
+//        Canvas canvas = new Canvas(output);
+//
+//        final int color = 0xff424242;
+//        final Paint paint = new Paint();
+//        final Rect src = new Rect((int)left, (int)top, (int)right, (int)bottom);
+//        final Rect dst = new Rect((int)dst_left, (int)dst_top, (int)dst_right, (int)dst_bottom);
+//        final RectF rectF = new RectF(dst);
+//
+//        paint.setAntiAlias(true);
+//
+//        canvas.drawARGB(0, 0, 0, 0);
+//        paint.setColor(Color.WHITE);
+//        paint.setStrokeWidth(0);
+//        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+//        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+//        canvas.drawBitmap(bitmap, src, dst, paint);
+//
+//
+//        //鐢荤櫧鑹插渾鍦�
+//        paint.reset();
+//        paint.setColor(Color.WHITE);
+//        paint.setStyle(Paint.Style.STROKE);
+//        paint.setStrokeWidth(0);
+//        paint.setAntiAlias(true);
+//        canvas.drawCircle(width / 2, width / 2, width / 2 - 4 / 2, paint);
+//        return output ;
+//    }
 
     /**
      * 是否是会员

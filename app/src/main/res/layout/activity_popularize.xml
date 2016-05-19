@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    >
+    android:background="@color/white">
     <RelativeLayout
         android:id="@+id/activity_popularize_rl_actionbar"
         android:layout_width="match_parent"
@@ -52,12 +53,15 @@
     android:layout_marginTop="10dp"
 
     >
-<ImageView
+<com.wangdao.our.spread_2.slide_widget.CircleImageView
     android:id="@+id/activity_popularize_iv_icon"
     android:layout_width="70dp"
     android:layout_height="70dp"
     android:layout_marginLeft="15dp"
+    app:border_color="@color/transparent"
+    app:border_width="0dp"
     />
+
 <LinearLayout
 
     android:layout_width="match_parent"
@@ -90,8 +94,8 @@
 </LinearLayout>
 
 <RelativeLayout
-    android:layout_width="140dp"
-    android:layout_height="140dp"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
     android:layout_centerHorizontal="true"
     android:layout_below="@+id/activity_popularize_ll_1"
     android:layout_marginTop="10dp"
@@ -104,11 +108,21 @@
         android:layout_centerHorizontal="true"
         />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="点击二维码保存到本地"
+        android:layout_below="@+id/activity_popularize_iv_erweima"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        />
+
     <ProgressBar
         android:id="@+id/activity_popularize_pb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+
         />
 
 </RelativeLayout>
@@ -140,10 +154,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="第一行"
+                android:text="快来分享'拇指营销'寻找你的成员吧"
                 android:textColor="@color/white"
                 android:layout_gravity="bottom"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="60dp"
+                android:textSize="@dimen/textsize_x"
                 />
         </LinearLayout>
         <View
@@ -169,8 +184,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="第二行"
+                android:text="立即成为我的成员"
                 android:textColor="@color/white"
+                android:textSize="@dimen/textsize_x"
                 />
 
         </LinearLayout>

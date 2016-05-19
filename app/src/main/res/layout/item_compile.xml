@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,7 +10,7 @@
     android:orientation="horizontal"
     android:weightSum="4"
     >
-<ImageView
+<com.wangdao.our.spread_2.slide_widget.widget_image.RoundedImageView
     android:id="@+id/item_compile_iv_icon"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
@@ -17,7 +18,10 @@
     android:src="@drawable/moren"
     android:scaleType="fitXY"
     android:layout_margin="6dp"
-
+    app:corner_radius="8dp"
+    app:border_width="0.5dp"
+    app:oval="false"
+    app:border_color="@color/line_s"
     />
     <LinearLayout
         android:layout_width="0dp"

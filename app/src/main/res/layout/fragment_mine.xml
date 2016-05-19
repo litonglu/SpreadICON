@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/line_qq"
-    >
+    android:background="@color/line_qq">
 
   <RelativeLayout
       android:layout_width="match_parent"
@@ -13,12 +13,14 @@
       >
       <ImageView
           android:id="@+id/fragment_mine_iv_order"
-          android:layout_width="36dp"
-          android:layout_height="36dp"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
           android:src="@drawable/chat"
           android:layout_alignParentRight="true"
           android:layout_centerVertical="true"
          android:layout_marginRight="10dp"
+        android:paddingRight="10dp"
+
           />
   </RelativeLayout>
 
@@ -30,11 +32,13 @@
         android:background="@color/colorPrimary"
         >
 
-<ImageView
+<com.wangdao.our.spread_2.slide_widget.CircleImageView
     android:id="@+id/fragment_mine_iv_icon"
     android:layout_width="70dp"
     android:layout_height="70dp"
-    android:src="@drawable/shap_x"
+    android:src="@drawable/default_photo"
+    app:border_color="@color/transparent"
+    app:border_width="0dp"
     />
 
         <LinearLayout

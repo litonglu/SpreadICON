@@ -109,11 +109,13 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_x"
-        android:background="@color/line_sq"
-        android:layout_marginTop="10dp"
+        android:background="@color/line_q"
         />
 <android.support.v4.view.ViewPager
     android:id="@+id/activity_mymoney_vp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    >
+</android.support.v4.view.ViewPager>
 </LinearLayout>

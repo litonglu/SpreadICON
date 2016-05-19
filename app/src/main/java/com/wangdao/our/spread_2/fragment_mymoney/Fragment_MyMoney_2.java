@@ -60,6 +60,7 @@ public class Fragment_MyMoney_2 extends Fragment{
     private List<Commission> list_c = new ArrayList<>();
     private Fm2_Handler fm2_handler = new Fm2_Handler();
     private TextView tv_erro;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -85,6 +86,7 @@ public class Fragment_MyMoney_2 extends Fragment{
                 intent.putExtra("info",list_c.get(position).getcRemark());
                 intent.putExtra("time",list_c.get(position).getcTime());
                 intent.putExtra("id",list_c.get(position).getcId());
+                intent.putExtra("status",list_c.get(position).getcStatus());
                 startActivityForResult(intent,1);
             }
         });
@@ -99,7 +101,8 @@ public class Fragment_MyMoney_2 extends Fragment{
      * 初始化数据
      */
     private String myMoneyResulr = "网络异常";
-    private void initData(){
+    public void initData(){
+        list_c.clear();
         httpPost = new HttpPost(allurl.getCommission());
         SharedPreferences sharedPreferences = myContext.getSharedPreferences("user", myContext.MODE_PRIVATE);
         String mToken = sharedPreferences.getString("user_token", "");
@@ -125,10 +128,11 @@ public class Fragment_MyMoney_2 extends Fragment{
                                 commission.setcTime(jo_2.getString("create_time"));
                                 commission.setcPrice(jo_2.getString("price"));
                                 commission.setcRemark(jo_2.getString("remark"));
+
                                 commission.setcNum(jo_2.getString("order_no"));
                                 commission.setPayWay(jo_2.getString("pay_way"));
                                 commission.setcId(jo_2.getString("id"));
-
+                                commission.setcStatus(jo_2.getString("status"));
                                 list_c.add(commission);
                             }
                             fm2_handler.sendEmptyMessage(11);

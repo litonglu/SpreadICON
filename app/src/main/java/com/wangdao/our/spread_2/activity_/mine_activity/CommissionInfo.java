@@ -40,7 +40,7 @@ public class CommissionInfo extends Activity implements View.OnClickListener{
     private ImageView iv_cancle;
     private TextView tv_jiaoyi,tv_money,tv_time,tv_info,tv_payway;
     private Button bt_get;
-    private String uNum,uPrice,uPayWay,uInfo,uTime,uId;
+    private String uNum,uPrice,uPayWay,uInfo,uTime,uId,uStatus;
 
     private HttpPost httpPost;
     private HttpResponse httpResponse = null;
@@ -60,12 +60,16 @@ public class CommissionInfo extends Activity implements View.OnClickListener{
         uInfo = userData.getExtras().getString("info");
         uTime = userData.getExtras().getString("time");
         uId = userData.getExtras().getString("id");
+        uStatus = userData.getExtras().getString("status");
 
 
         initView();
         initClick();
         initData();
-
+        if(uStatus.equals("used")){
+            bt_get.setText("该佣金已领取过");
+            bt_get.setClickable(false);
+        }
     }
 
     private void initView(){
@@ -80,6 +84,7 @@ public class CommissionInfo extends Activity implements View.OnClickListener{
     private void initClick(){
         iv_cancle.setOnClickListener(this);
         bt_get.setOnClickListener(this);
+        bt_get.setBackgroundColor(getResources().getColor(R.color.textcolor_hui));
     }
 
     @Override

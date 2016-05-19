@@ -37,6 +37,7 @@
         android:background="@color/line_q"
         android:paddingLeft="10dp"
         android:textColor="#C6C6C6"
+        android:inputType="number"
         />
     <EditText
         android:id="@+id/activity_register_et_pwd"

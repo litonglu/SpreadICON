@@ -20,6 +20,7 @@ import com.wangdao.our.spread_2.ExampleApplication;
 import com.wangdao.our.spread_2.R;
 import com.wangdao.our.spread_2.bean.Team;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
+import com.wangdao.our.spread_2.slide_widget.CircleImageView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -188,7 +189,7 @@ public class MyTeam_All extends Fragment{
             if(convertView ==null){
                 convertView = myInflater.inflate(R.layout.item_myteam,null);
                 mtHoledr = new MyTeamHolder();
-                mtHoledr.tIv_icon = (ImageView) convertView.findViewById(R.id.item_myteam_iv_icon);
+                mtHoledr.tIv_icon = (CircleImageView) convertView.findViewById(R.id.item_myteam_iv_icon);
                 mtHoledr.tTv_name = (TextView) convertView.findViewById(R.id.item_myteam_tv_name);
                 mtHoledr.tTv_time = (TextView) convertView.findViewById(R.id.item_myteam_tv_time);
                 mtHoledr.tTv_time_lately = (TextView) convertView.findViewById(R.id.item_myteam_tv_time_lately);
@@ -209,7 +210,7 @@ public class MyTeam_All extends Fragment{
     }
 
     class MyTeamHolder{
-        ImageView tIv_icon;
+        CircleImageView tIv_icon;
         TextView tTv_name;
         TextView tTv_time;
         TextView tTv_time_lately;

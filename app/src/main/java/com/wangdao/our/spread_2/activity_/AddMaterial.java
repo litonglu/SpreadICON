@@ -48,6 +48,7 @@ import com.wangdao.our.spread_2.slide_widget.CacheUtils;
 import com.wangdao.our.spread_2.slide_widget.widget_image.AsynImageLoader;
 import com.wangdao.our.spread_2.slide_widget.widget_image.Crop;
 import com.wangdao.our.spread_2.slide_widget.widget_image.FileUtils;
+import com.wangdao.our.spread_2.slide_widget.widget_image.RoundedImageView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -82,7 +83,7 @@ public class AddMaterial extends Activity implements View.OnClickListener {
     private boolean b_rb3 = false;
     private boolean b_rb4 = false;
     private LinearLayout ll_icon, ll_er, ll_yi, ll_erx, ll_tel;
-    private ImageView iv_tong_icon;
+    private RoundedImageView iv_tong_icon;
     private TextView tv_1, tv_2, tv_3, tv_4;
     private TextView tv_explain;
     private EditText et_er1, et_er2, et_url;
@@ -241,7 +242,7 @@ public class AddMaterial extends Activity implements View.OnClickListener {
         et_san_3 = (EditText) findViewById(R.id.activity_add_m_et_san3);
         iv_xIcon = (ImageView) findViewById(R.id.activity_add_m_iv_xicon);
         //通栏
-        iv_tong_icon = (ImageView) findViewById(R.id.activity_add_m_tongiv);
+        iv_tong_icon = (RoundedImageView) findViewById(R.id.activity_add_m_tongiv);
         tv_explain = (TextView) findViewById(R.id.activity_add_m_tv_explain);
 
         tv_actionbar = (TextView) findViewById(R.id.activity_add_m_tv_actionbar);

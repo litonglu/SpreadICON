@@ -1,33 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:zhy="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/text_color_white">
 
 
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="@dimen/height_actionbar"-->
-        <!-->-->
-
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         >
-
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="会员登录"-->
-            <!--android:textSize="@dimen/textsize_actionbar"-->
-            <!--android:layout_centerInParent="true"-->
-            <!--android:textColor="@color/colorPrimary"-->
-            <!--/>-->
-
-
     </RelativeLayout>
 <View
     android:layout_width="match_parent"
@@ -39,14 +22,16 @@
         android:layout_width="match_parent"
         android:layout_height="100dp">
 
-        <com.wangdao.our.spread_2.slide_widget.shap_imageview.CustomImageView
+        <com.wangdao.our.spread_2.slide_widget.CircleImageView
             android:id="@+id/activity_login_iv_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            zhy:src="@drawable/icon_2"
-            zhy:type="circle"
+            android:src="@drawable/icon_2"
+            app:border_color="@color/transparent"
+            app:border_width="0dp"
             />
+
 
     </RelativeLayout>
 
@@ -62,8 +47,8 @@
         android:paddingLeft="10dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
+        android:inputType="number"
         />
-
 
     <com.wangdao.our.spread_2.slide_widget.XEditText
         android:id="@+id/activity_et_pwd"
@@ -77,8 +62,8 @@
         android:drawableLeft="@drawable/login_pwd"
         android:textSize="@dimen/textsize_x"
         android:drawableRight="@drawable/biyan"
-        android:inputType="numberPassword"
-
+        android:inputType="textPassword"
+        android:singleLine="true"
         />
     <!--android:background="@color/line_qq"-->
     <Button

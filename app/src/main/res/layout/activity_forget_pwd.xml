@@ -33,6 +33,7 @@
         android:background="@color/line_qq"
         android:paddingLeft="10dp"
         android:textColor="#C6C6C6"
+        android:inputType="number"
         />
     <EditText
         android:id="@+id/activity_forget_pwd_et_pwd"

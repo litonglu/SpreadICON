@@ -38,7 +38,8 @@ public class AllUrl {
     private final String wenZhangAll = "http://wz.ijiaque.com/app/article/articlelist.html";
 
     //抓取文章 （复制粘贴）
-    private final String copyUrl = "http://wz.ijiaque.com/article/getarticleback.html";
+   // private final String copyUrl = "http://wz.ijiaque.com/article/getarticleback.html";
+    private final String copyUrl = "http://wz.ijiaque.com/app/article/getarticle.html";
 
     //统计
     private final String statistics = "http://wz.ijiaque.com/app/article/statistics.html";
@@ -92,6 +93,11 @@ public class AllUrl {
     private final String userMessage = "http://wz.ijiaque.com/app/public/message.html";
     //消息删除
     private final String userMessage_delete = "http://wz.ijiaque.com/app/public/msg_del.html";
+
+    /**
+     * 购买详情
+     */
+    private final String buyVipInfo = "http://wz.ijiaque.com/app/toup/vip_info.html";
 
     public String getRegister_url() {
         return register_url;
@@ -230,5 +236,9 @@ public class AllUrl {
 
     public String getUserMessage_delete() {
         return userMessage_delete;
+    }
+
+    public String getBuyVipInfo() {
+        return buyVipInfo;
     }
 }

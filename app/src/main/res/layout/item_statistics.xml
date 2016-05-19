@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:zhy="http://schemas.android.com/apk/res-auto"
-    xmlns:fresco="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/text_color_white">
+    android:background="@color/text_color_white"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,18 +15,26 @@
         android:background="@color/text_color_white"
         >
 
-        <com.facebook.drawee.view.SimpleDraweeView
-    android:id="@+id/item_statistics_icon"
+<RelativeLayout
     android:layout_width="0dp"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_weight="1"
-    android:src="@drawable/moren"
-    android:layout_margin="6dp"
-    android:scaleType="fitXY"
+    >
 
-            fresco:roundedCornerRadius="5dp"
-            fresco:roundingBorderWidth="0dp"
-    />
+    <com.wangdao.our.spread_2.slide_widget.widget_image.RoundedImageView
+        android:id="@+id/item_statistics_icon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/moren"
+        android:layout_margin="6dp"
+        android:scaleType="fitXY"
+        app:corner_radius="8dp"
+        app:border_width="0.5dp"
+        app:oval="false"
+        app:border_color="@color/line_s"
+        />
+
+</RelativeLayout>
 
         <TextView
             android:id="@+id/item_statistics_num"

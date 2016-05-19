@@ -35,6 +35,7 @@ import com.wangdao.our.spread_2.activity_.AddMaterial;
 import com.wangdao.our.spread_2.bean.Material;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
 import com.wangdao.our.spread_2.slide_widget.widget_image.AsynImageLoader;
+import com.wangdao.our.spread_2.slide_widget.widget_image.RoundedImageView;
 import com.wangdao.our.spread_2.widget_pull.PullToRefreshBase;
 import com.wangdao.our.spread_2.widget_pull.PullToRefreshScrollView;
 
@@ -167,7 +168,7 @@ public class Fragment_vp_material_5 extends Fragment{
                 FVH.mTitle = (TextView) convertView.findViewById(R.id.item_material_title);
                 FVH.mInfo = (TextView) convertView.findViewById(R.id.item_material_info);
 
-                FVH.mAll_icon = (ImageView) convertView.findViewById(R.id.item_material_daicon);
+                FVH.mAll_icon = (RoundedImageView) convertView.findViewById(R.id.item_material_daicon);
 
                 FVH.ll_icon = (LinearLayout) convertView.findViewById(R.id.item_material_ll_icon);
                 FVH.ll_info = (LinearLayout) convertView.findViewById(R.id.item_material_ll_info);
@@ -212,7 +213,7 @@ public class Fragment_vp_material_5 extends Fragment{
         TextView mTitle;
         TextView mInfo;
         TextView mAdress;
-        ImageView mAll_icon;
+        RoundedImageView mAll_icon;
         LinearLayout ll_icon;
         LinearLayout ll_info;
         TextView tv_tag_1;
@@ -220,7 +221,6 @@ public class Fragment_vp_material_5 extends Fragment{
         TextView tv_tag_3;
         CheckBox ck_1;
     }
-
 
 
     private String getDataResult;

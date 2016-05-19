@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.pingplusplus.android.Pingpp;
@@ -30,6 +33,7 @@ import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 import com.wangdao.our.spread_2.R;
 import com.wangdao.our.spread_2.demo;
+import com.wangdao.our.spread_2.slide_widget.AllUrl;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -40,6 +44,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -85,21 +90,25 @@ public class BecomeAgency extends Activity implements View.OnClickListener{
 //    private Button bfbButton;
 //    private Button jdpayButton;
     private String currentAmount = "";
-
+    private BecomeAgencyHandler bahandler = new BecomeAgencyHandler();
     private boolean bRb_1 = true;
     private boolean bRb_2 = false;
     private String Str_type ;
     private HttpPost httpPost;
+    private HttpPost httpPost_2;
     private HttpResponse httpResponse = null;
     private List<NameValuePair> params = new ArrayList<NameValuePair>();
     private Button bt_buy;
     private RadioButton rb_wx,rb_zfb;
+    private AllUrl allurl = new AllUrl();
+    private TextView tv_money;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mine_agency);
         initView();
         initClick();
+        initAllMoney_();
     }
     private void initView(){
         iv_cancle = (ImageView) findViewById(R.id.activity_mine_agency_iv__cancle);
@@ -107,6 +116,9 @@ public class BecomeAgency extends Activity implements View.OnClickListener{
         rb_wx = (RadioButton) findViewById(R.id.activity_mine_agency_rb_wx);
         rb_zfb = (RadioButton) findViewById(R.id.activity_mine_agency_rb_zfb);
         bt_buy = (Button) findViewById(R.id.activity_mine_agency_bt);
+        tv_money = (TextView) findViewById(R.id.activity_mine_agency_tv_money);
+
+
     }
     private void initClick(){
         iv_cancle.setOnClickListener(this);
@@ -270,7 +282,7 @@ public class BecomeAgency extends Activity implements View.OnClickListener{
             String mToken = sharedPreferences.getString("user_token", "");
             params.add(new BasicNameValuePair("user_token", mToken));
             params.add(new BasicNameValuePair("channel", Str_type));
-            params.add(new BasicNameValuePair("rank_id", "10"));
+            params.add(new BasicNameValuePair("rank_id", rank_id));
 
             Log.i("qqqqqq","channel=="+Str_type);
             try {
@@ -353,6 +365,7 @@ public class BecomeAgency extends Activity implements View.OnClickListener{
         if (requestCode == Pingpp.REQUEST_CODE_PAYMENT) {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getExtras().getString("pay_result");
+
                 /* 处理返回值
                  * "success" - payment succeed
                  * "fail"    - payment failed
@@ -362,7 +375,22 @@ public class BecomeAgency extends Activity implements View.OnClickListener{
 
                 String errorMsg = data.getExtras().getString("error_msg"); // 错误信息
                 String extraMsg = data.getExtras().getString("extra_msg"); // 错误信息
+
+                if(result.equals("success")){
+                    result = "支付成功";
+                }else if(result.equals("fail")){
+                    result = "支付失败";
+                }else if(result.equals("cancel")){
+                    result = "取消支付";
+                }else if(result.equals("invalid")){
+                    result = "支付无效";
+                }
                 showMsg(result, errorMsg, extraMsg);
+
+                Log.i("qqqqq","返回的数据为===="+result);
+
+
+
                 if(result.equals("success")){
                     SharedPreferences sharedPreferences = BecomeAgency.this.getSharedPreferences("user", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -377,5 +405,70 @@ public class BecomeAgency extends Activity implements View.OnClickListener{
     public void onBackPressed() {
         setResult(2);
         finish();
+    }
+
+    /**
+     * 提示用户应购买代理的钱数
+     */
+    private String xianshiMoney = "0.00";
+    private String rank_id = "10";
+    private void initAllMoney_(){
+
+        httpPost_2 = new HttpPost(allurl.getBuyVipInfo());
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    httpPost_2.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+                    httpResponse = new DefaultHttpClient().execute(httpPost_2);
+
+                    if (httpResponse.getStatusLine().getStatusCode() == 200) {
+
+                        Log.i("qqqqq","asgagaga");
+
+                        String result = EntityUtils.toString(httpResponse.getEntity());
+                        Log.i("qqqqq","------"+result);
+                        JSONObject jo = new JSONObject(result);
+                        if(jo.getString("status").equals("1")){
+                            Log.i("qqqqq","成功");
+                            JSONArray ja = jo.getJSONArray("data");
+                            xianshiMoney = ja.getJSONObject(0).getString("cost");
+                            Log.i("qqqqqq","xianshiMoney"+xianshiMoney);
+                            rank_id = ja.getJSONObject(0).getString("id");
+                            Log.i("qqqqqqq","rank_id"+rank_id);
+                            bahandler.sendEmptyMessage(1);
+                        }else{
+                            bahandler.sendEmptyMessage(2);
+                        }
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+
+    class BecomeAgencyHandler extends Handler{
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                //获取数据成功
+                case 1:
+                    Log.i("qqqqqq","-----------"+xianshiMoney);
+                    tv_money.setText("¥"+xianshiMoney);
+                    break;
+                //获取数据失败
+                case 2:
+
+                    break;
+            }
+        }
     }
 }

@@ -76,6 +76,23 @@ public class Fragment_MyMoney_1 extends Fragment{
         fm1_adapter = new Fm1_Adapter(list_commission);
         lv_fm1.setAdapter(fm1_adapter);
 
+        lv_fm1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent intent = new Intent(myContext, CommissionInfo.class);
+                intent.putExtra("jiao",list_commission.get(position).getcNum());
+                intent.putExtra("price",list_commission.get(position).getcPrice());
+                intent.putExtra("payway",list_commission.get(position).getPayWay());
+                intent.putExtra("info",list_commission.get(position).getcRemark());
+                intent.putExtra("time",list_commission.get(position).getcTime());
+                intent.putExtra("id",list_commission.get(position).getcId());
+                intent.putExtra("status",list_commission.get(position).getcStatus());
+
+                startActivityForResult(intent,1);
+            }
+        });
+
         initData();
         return myView;
     }
@@ -126,7 +143,8 @@ private void initView(){
      * 初始化数据
      */
     private String myMoneyResulr = "网络异常";
-    private void initData(){
+    public void initData(){
+        list_commission.clear();
         httpPost = new HttpPost(allurl.getCommission());
         SharedPreferences sharedPreferences = myContext.getSharedPreferences("user", myContext.MODE_PRIVATE);
         String mToken = sharedPreferences.getString("user_token", "");
@@ -151,9 +169,11 @@ private void initView(){
                                 commission.setcTime(jo_2.getString("create_time"));
                                 commission.setcPrice(jo_2.getString("price"));
                                 commission.setcRemark(jo_2.getString("remark"));
-//                                commission.setcNum(jo_2.getString("order_no"));
-//                                commission.setPayWay(jo_2.getString("pay_way"));
-//                                commission.setcId(jo_2.getString("id"));
+
+                                commission.setcNum(jo_2.getString("order_no"));
+                                commission.setPayWay(jo_2.getString("pay_way"));
+                                commission.setcId(jo_2.getString("id"));
+                                commission.setcStatus(jo_2.getString("status"));
                                 list_commission.add(commission);
                             }
                             fm1_handler.sendEmptyMessage(11);

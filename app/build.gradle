@@ -12,8 +12,8 @@ android {
         applicationId "com.wangdao.our.spread_2"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 4
+        versionName "1.0.3"
     }
 
     buildTypes {
@@ -42,5 +42,5 @@ dependencies {
     compile files('libs/okio-1.0.1.jar')
     compile files('libs/zxing.jar')
     compile 'com.android.support:support-v4:+'
-    compile 'com.facebook.fresco:fresco:0.9.0+'
+    provided 'com.squareup.picasso:picasso:2.2.0'
 }

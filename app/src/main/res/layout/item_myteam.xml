@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -10,12 +11,15 @@
         android:orientation="horizontal"
         android:layout_marginBottom="6dp"
         >
-        <ImageView
+        <com.wangdao.our.spread_2.slide_widget.CircleImageView
             android:id="@+id/item_myteam_iv_icon"
-            android:layout_width="66dp"
+            android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/delete"
+            android:src="@drawable/default_photo"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="6dp"
+            app:border_color="@color/transparent"
+            app:border_width="0dp"
             />
 
         <TextView

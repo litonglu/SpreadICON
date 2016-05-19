@@ -1,6 +1,7 @@
 package com.wangdao.our.spread_2.activity_.mine_activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -31,6 +32,10 @@ public class MyCommission extends FragmentActivity implements View.OnClickListen
     private FragmentManager myFM;
     private TextView tv_1,tv_2,tv_3;
     private View v_1,v_2,v_3;
+
+    private Fragment_MyMoney_1 fm_1 = new Fragment_MyMoney_1();
+    private Fragment_MyMoney_2 fm_2 = new Fragment_MyMoney_2();
+    private Fragment_MyMoney_3 fm_3 = new Fragment_MyMoney_3();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,15 +43,15 @@ public class MyCommission extends FragmentActivity implements View.OnClickListen
         initView();
         initClick();
         myFM = getSupportFragmentManager();
-        list_fragment.add(new Fragment_MyMoney_1());
-        list_fragment.add(new Fragment_MyMoney_2());
-        list_fragment.add(new Fragment_MyMoney_3());
+
+        list_fragment.add(fm_1);
+        list_fragment.add(fm_2);
+        list_fragment.add(fm_3);
         vp_myCommission.setAdapter(new MyCommissionAdapter(myFM));
         vp_myCommission.setOffscreenPageLimit(3);
         vp_myCommission.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
             @Override
             public void onPageSelected(int position) {
@@ -77,6 +82,7 @@ public class MyCommission extends FragmentActivity implements View.OnClickListen
                 v_2.setVisibility(View.VISIBLE);
                 v_3.setVisibility(View.INVISIBLE);
                 break;
+
             case 2:
                 tv_1.setTextColor(getResources().getColor(R.color.textcolor_hui));
                 tv_2.setTextColor(getResources().getColor(R.color.textcolor_hui));
@@ -84,6 +90,7 @@ public class MyCommission extends FragmentActivity implements View.OnClickListen
                 v_1.setVisibility(View.INVISIBLE);
                 v_2.setVisibility(View.INVISIBLE);
                 v_3.setVisibility(View.VISIBLE);
+
                 break;
         }
 
@@ -141,5 +148,13 @@ public class MyCommission extends FragmentActivity implements View.OnClickListen
         public int getCount() {
             return list_fragment.size();
         }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        fm_2.initData();
+        fm_3.initData();
     }
 }
