@@ -119,9 +119,6 @@
 
         <activity android:name=".slide_widget.widget_image.CropImageActivity"/>
 
-
-
-
         <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"

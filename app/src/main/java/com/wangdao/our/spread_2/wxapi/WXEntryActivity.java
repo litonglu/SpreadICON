@@ -156,7 +156,7 @@ private String shareResult;
                 //分享失败
                 case 2:
                     Log.i("qqqqqq",shareResult);
-                    Toast.makeText(WXEntryActivity.this, shareResult, Toast.LENGTH_LONG).show();
+                   // Toast.makeText(WXEntryActivity.this, shareResult, Toast.LENGTH_LONG).show();
                     break;
             }
         }

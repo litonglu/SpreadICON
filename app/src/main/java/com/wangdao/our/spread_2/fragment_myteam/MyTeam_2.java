@@ -111,7 +111,7 @@ public class MyTeam_2 extends Fragment{
                                 JSONObject jo_3 = jo_2.getJSONObject("userinfo");
                                 uTeam.setIcon_url(jo_3.getString("avatar256"));
                                 uTeam.setName(jo_3.getString("nickname"));
-
+                                uTeam.setLoginTime(jo_3.getString("last_login_time"));
                                 list_team.add(uTeam);
                             }
 
@@ -195,7 +195,8 @@ public class MyTeam_2 extends Fragment{
 
             mtHoledr.tTv_name.setText(teams.get(position).getName());
             mtHoledr.tTv_time.setText(teams.get(position).getAddTime());
-
+            mtHoledr.tTv_time_lately.setText(teams.get(position).getLoginTime());
+            mtHoledr.tTv_member.setText("二级会员");
             return convertView;
         }
     }

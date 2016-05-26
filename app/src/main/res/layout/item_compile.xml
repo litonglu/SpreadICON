@@ -9,6 +9,8 @@
     android:layout_height="60dp"
     android:orientation="horizontal"
     android:weightSum="4"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
     >
 <com.wangdao.our.spread_2.slide_widget.widget_image.RoundedImageView
     android:id="@+id/item_compile_iv_icon"

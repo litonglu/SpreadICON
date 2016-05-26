@@ -10,6 +10,7 @@ public class Team {
     private String addTime;
     private String loginTime;
     private String status;
+    private String level;
 
     public Team() {
     }
@@ -52,5 +53,13 @@ public class Team {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 }

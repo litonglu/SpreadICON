@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +19,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.wangdao.our.spread_2.ExampleApplication;
 import com.wangdao.our.spread_2.R;
 import com.wangdao.our.spread_2.activity_.mine_activity.CommissionInfo;
 import com.wangdao.our.spread_2.bean.Commission;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
+import com.wangdao.our.spread_2.slide_widget.CircleImageView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -143,7 +147,10 @@ private void initView(){
      * 初始化数据
      */
     private String myMoneyResulr = "网络异常";
+    private JSONObject jo;
+    private Commission commission;
     public void initData(){
+
         list_commission.clear();
         httpPost = new HttpPost(allurl.getCommission());
         SharedPreferences sharedPreferences = myContext.getSharedPreferences("user", myContext.MODE_PRIVATE);
@@ -155,42 +162,63 @@ private void initView(){
                 try {
                     httpPost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
                     httpResponse = new DefaultHttpClient().execute(httpPost);
-                    if (httpResponse.getStatusLine().getStatusCode() == 200) {
-                        String result = EntityUtils.toString(httpResponse.getEntity());
-                        JSONObject jo = new JSONObject(result);
-                        myMoneyResulr = jo.getString("info");
-                        if(jo.getString("status").equals("1")){
-                            JSONArray ja = jo.getJSONArray("data");
-                            for(int i = 0;i<ja.length();i++){
-                                JSONObject jo_2 = ja.getJSONObject(i);
-                                Commission commission = new Commission();
-                                commission.setcTime(jo_2.getString("create_time"));
-                               // commission.setcIconUrl(jo_2.getString()); //头像
-                                commission.setcTime(jo_2.getString("create_time"));
-                                commission.setcPrice(jo_2.getString("price"));
-                                commission.setcRemark(jo_2.getString("remark"));
 
-                                commission.setcNum(jo_2.getString("order_no"));
-                                commission.setPayWay(jo_2.getString("pay_way"));
-                                commission.setcId(jo_2.getString("id"));
-                                commission.setcStatus(jo_2.getString("status"));
-                                list_commission.add(commission);
-                            }
-                            fm1_handler.sendEmptyMessage(11);
-                        }else{
-                            fm1_handler.sendEmptyMessage(12);
-                        }
-
-                    }
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 } catch (ClientProtocolException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
+
+                    if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                        String result = null;
+                        try {
+                        result = EntityUtils.toString(httpResponse.getEntity());
+                         jo = new JSONObject(result);
+                        myMoneyResulr = jo.getString("info");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            if(jo.getString("status").equals("1")){
+                                JSONArray ja = jo.getJSONArray("data");
+                                for(int i = 0;i<ja.length();i++){
+                                    JSONObject jo_2 = ja.getJSONObject(i);
+                                     commission = new Commission();
+
+
+                                    commission.setcTime(jo_2.getString("create_time"));
+                                    commission.setcPrice(jo_2.getString("price"));
+                                    commission.setcRemark(jo_2.getString("remark"));
+
+                                    commission.setcNum(jo_2.getString("order_no"));
+                                    commission.setPayWay(jo_2.getString("pay_way"));
+                                    commission.setcId(jo_2.getString("id"));
+                                    commission.setcStatus(jo_2.getString("status"));
+
+                                    JSONObject jo_userInfo = jo_2.getJSONObject("userinfo");
+
+
+                                    if(jo_userInfo.length() > 3){
+                                        commission.setcIconUrl(jo_userInfo.getString("avatar256"));
+                                    }else{
+                                        commission.setcIconUrl("");
+                                    }
+
+
+                                    list_commission.add(commission);
+                                }
+                                fm1_handler.sendEmptyMessage(11);
+                            }else{
+                                fm1_handler.sendEmptyMessage(12);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
 
             }
         }).start();
@@ -248,7 +276,7 @@ private void initView(){
             if(convertView == null){
                 convertView = myInflater.inflate(R.layout.item_fragment_mymoney,null);
                 fm1_viewHolder = new Fm1_ViewHolder();
-                fm1_viewHolder.iv_ivon = (ImageView) convertView.findViewById(R.id.item_fragment_mymoney_iv_icon);
+                fm1_viewHolder.iv_ivon = (CircleImageView) convertView.findViewById(R.id.item_fragment_mymoney_iv_icon);
                 fm1_viewHolder.tv_time = (TextView) convertView.findViewById(R.id.item_fragment_mymoney_tv_time);
                 fm1_viewHolder.tv_info = (TextView) convertView.findViewById(R.id.item_fragment_mymoney_tv_info);
                 fm1_viewHolder.tv_price = (TextView) convertView.findViewById(R.id.item_fragment_mymoney_tv_price);
@@ -261,12 +289,16 @@ private void initView(){
             fm1_viewHolder.tv_info.setText(list_commission.get(position).getcRemark());
             fm1_viewHolder.tv_price.setText(list_commission.get(position).getcPrice());
 
+            ImageLoader.getInstance().displayImage(list_commission.get(position).getcIconUrl() ==null ? "": list_commission.get(position).getcIconUrl(),fm1_viewHolder.iv_ivon,
+                    ExampleApplication.getInstance().getOptions(R.drawable.default_photo)
+            );
+
             return convertView;
         }
     }
 
     class Fm1_ViewHolder{
-        ImageView iv_ivon;
+        CircleImageView iv_ivon;
         TextView tv_time;
         TextView tv_info;
         TextView tv_price;

@@ -29,6 +29,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.webkit.ConsoleMessage;
 import android.webkit.GeolocationPermissions;
 import android.webkit.JavascriptInterface;
@@ -152,8 +155,6 @@ public class Article_info extends FragmentActivity implements View.OnClickListen
      */
     private int current_int = 0;
 
-    //分享抓取等待后台处理dialog
-    private Dialog dialog_wait;
     private Document doc;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -168,9 +169,7 @@ public class Article_info extends FragmentActivity implements View.OnClickListen
         mt_title = gIntent.getExtras().getString("title");
         myImgUrl = gIntent.getExtras().getString("img");
         if(myUid.equals("zhan")){
-            dialog_wait = new Dialog(this,R.style.dialog);
-            dialog_wait.setContentView(R.layout.dialog_wait);
-            dialog_wait.show();
+            startDialog();
             load();
         }
         init(myUrl);
@@ -192,6 +191,27 @@ public class Article_info extends FragmentActivity implements View.OnClickListen
         });
     }
 
+
+    private Dialog dia_wait;
+    private ImageView dialog_iv;
+    private void startDialog(){
+
+        View dialog_view = getLayoutInflater().inflate(R.layout.dialog_wait_2,null);
+        dia_wait = new Dialog(this,R.style.dialog);
+        dia_wait.setContentView(dialog_view);
+        dia_wait.setCanceledOnTouchOutside(false);
+        dia_wait.setCancelable(false);
+        dialog_iv  = (ImageView) dialog_view.findViewById(R.id.dialog_wait_2_iv);
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.dialog_zhuang);
+
+        LinearInterpolator lir = new LinearInterpolator();
+        anim.setInterpolator(lir);
+
+        dialog_iv.startAnimation(anim);
+
+        dia_wait.show();
+    }
+
     String myContent;
 //    String myTitle;
     handler ah = new handler();
@@ -205,13 +225,23 @@ public class Article_info extends FragmentActivity implements View.OnClickListen
                 Element content_ = doc.getElementById("js_content");
                 Elements title_ = doc.getElementsByTag("title");
 
-                Elements cTitle = title_.get(0).getElementsByTag("title");
+                 Elements cTitle = title_.get(0).getElementsByTag("title");
+
+                if(cTitle.isEmpty() || content_ == null){
+
+                    ah.sendEmptyMessage(6);
+                    return;
+
+                }else {
+                    Log.i("qqqqq",mt_title+"------"+myContent);
+                    mt_title = cTitle.text().toString();
+                    myContent = content_.toString();
+
+                }
 
 
 
 
-                mt_title = cTitle.text().toString();
-                myContent = content_.toString();
         } catch (MalformedURLException e1) {
             ah.sendEmptyMessage(3);
             e1.printStackTrace();
@@ -238,7 +268,7 @@ class handler extends Handler{
                 String mUid = sharedPreferences.getString("uid", "");
                 myUrl = default_url+"?writing_id="+myUid+"&uid="+mUid;
                 init(myUrl);
-                dialog_wait.dismiss();
+                dia_wait.dismiss();
                 break;
 
             case 2:
@@ -253,7 +283,7 @@ class handler extends Handler{
                             }
                         })
                         .show();
-                dialog_wait.dismiss();
+                dia_wait.dismiss();
                 break;
             case 3:
                 new AlertDialog.Builder(Article_info.this)
@@ -267,8 +297,31 @@ class handler extends Handler{
                             }
                         })
                         .show();
-                dialog_wait.dismiss();
+                dia_wait.dismiss();
                 break;
+            case 6:
+                AlertDialog s;
+                s = new AlertDialog.Builder(Article_info.this)
+                        .setTitle("抓取失败")
+                        .setMessage("网址错误")
+                        .setCancelable(false)
+                        .setNegativeButton("返回", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+                dia_wait.dismiss();
+
+                s.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        Article_info.this.finish();
+                    }
+                });
+
+            break;
         }
     }
 }
@@ -776,7 +829,7 @@ switch (v.getId()) {
     private MaterialAdapter dialogAdapter;
     private  TextView tvnull;
     private View line_1,line_2,line_3,line_4;
-    private TextView tv_allNum;
+    private TextView tv_allNum,tv_title;
     private void showMaterialDialog(){
         httpPost = new HttpPost(allurl.getGgList());
         myFM = this.getSupportFragmentManager();
@@ -784,6 +837,7 @@ switch (v.getId()) {
         material_view = getLayoutInflater().inflate(R.layout.dialog_select_m,null);
         tv_cancle = (TextView) material_view.findViewById(R.id.dialog_select_m_tv_cancle);
         tv_ok = (TextView) material_view.findViewById(R.id.dialog_select_m_tv_ok);
+        tv_title = (TextView) material_view.findViewById(R.id.dialog_select_m_tv_title);
         vp_dialog = (ViewPager) material_view.findViewById(R.id.fragment_material_vp);
         lv_dialog = (ListView) material_view.findViewById(R.id.dialog_select_m_lv);
         tvnull = (TextView) material_view.findViewById(R.id.dialog_select_m_tvnull);
@@ -818,6 +872,13 @@ switch (v.getId()) {
 //        MaterialPagerAdapter mpa = new MaterialPagerAdapter(myFM);
 //       // vp_dialog.setOffscreenPageLimit(4);
 //        vp_dialog.setAdapter(mpa);
+
+        if(addType.equals("top")){
+            tv_title.setText("头部还能选择：");
+        }else{
+            tv_title.setText("底部还能选择：");
+        }
+
 
         getTong("banner");
         tv_cancle.setOnClickListener(this);
@@ -1279,7 +1340,7 @@ switch (v.getId()) {
         }
 
         ImageLoader.getInstance().displayImage(myImgUrl == null ? "" : myImgUrl,iv_temp,
-                ExampleApplication.getInstance().getOptions(R.drawable.icon),
+                ExampleApplication.getInstance().getOptions(R.drawable.icon_2),
                     new SimpleImageLoadingListener() {
                         @Override
                         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
@@ -1313,7 +1374,7 @@ switch (v.getId()) {
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         if(image == null){
-            Bitmap bmm = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon);
+            Bitmap bmm = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon_2);
             return bmm;
         }
         image.compress(Bitmap.CompressFormat.JPEG, 85, out);
@@ -1351,8 +1412,9 @@ switch (v.getId()) {
         }else {
             msg_2.title = str;
         }
+
         ImageLoader.getInstance().displayImage(myImgUrl == null ? "" : myImgUrl,iv_temp,
-                ExampleApplication.getInstance().getOptions(R.drawable.icon),
+                ExampleApplication.getInstance().getOptions(R.drawable.icon_2),
                 new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {

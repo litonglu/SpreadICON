@@ -17,10 +17,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.wangdao.our.spread_2.ExampleApplication;
 import com.wangdao.our.spread_2.R;
 import com.wangdao.our.spread_2.activity_.mine_activity.CommissionInfo;
 import com.wangdao.our.spread_2.bean.Commission;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
+import com.wangdao.our.spread_2.slide_widget.CircleImageView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -123,8 +126,7 @@ public class Fragment_MyMoney_2 extends Fragment{
                             for(int i = 0;i<ja.length();i++){
                                 JSONObject jo_2 = ja.getJSONObject(i);
                                 Commission commission = new Commission();
-                                commission.setcTime(jo_2.getString("create_time"));
-                                // commission.setcIconUrl(jo_2.getString()); //头像
+
                                 commission.setcTime(jo_2.getString("create_time"));
                                 commission.setcPrice(jo_2.getString("price"));
                                 commission.setcRemark(jo_2.getString("remark"));
@@ -133,6 +135,14 @@ public class Fragment_MyMoney_2 extends Fragment{
                                 commission.setPayWay(jo_2.getString("pay_way"));
                                 commission.setcId(jo_2.getString("id"));
                                 commission.setcStatus(jo_2.getString("status"));
+
+                                JSONObject jo_userInfo = jo_2.getJSONObject("userinfo");
+                                if(jo_userInfo.length() > 3){
+                                    commission.setcIconUrl(jo_userInfo.getString("avatar256"));
+                                }else{
+                                    commission.setcIconUrl("");
+                                }
+
                                 list_c.add(commission);
                             }
                             fm2_handler.sendEmptyMessage(11);
@@ -200,7 +210,7 @@ public class Fragment_MyMoney_2 extends Fragment{
             if(convertView == null){
                 convertView = myInflater.inflate(R.layout.item_fragment_mymoney,null);
                 fm1_viewHolder = new Fm2_ViewHolder();
-                fm1_viewHolder.iv_ivon = (ImageView) convertView.findViewById(R.id.item_fragment_mymoney_iv_icon);
+                fm1_viewHolder.iv_ivon = (CircleImageView) convertView.findViewById(R.id.item_fragment_mymoney_iv_icon);
                 fm1_viewHolder.tv_time = (TextView) convertView.findViewById(R.id.item_fragment_mymoney_tv_time);
                 fm1_viewHolder.tv_info = (TextView) convertView.findViewById(R.id.item_fragment_mymoney_tv_info);
                 fm1_viewHolder.tv_price = (TextView) convertView.findViewById(R.id.item_fragment_mymoney_tv_price);
@@ -213,20 +223,25 @@ public class Fragment_MyMoney_2 extends Fragment{
             fm1_viewHolder.tv_info.setText(list_commission.get(position).getcRemark());
             fm1_viewHolder.tv_price.setText(list_commission.get(position).getcPrice());
 
+
+            ImageLoader.getInstance().displayImage(list_commission.get(position).getcIconUrl() ==null ? "": list_commission.get(position).getcIconUrl(),fm1_viewHolder.iv_ivon,
+                    ExampleApplication.getInstance().getOptions(R.drawable.default_photo)
+            );
             return convertView;
         }
     }
 
     class Fm2_ViewHolder{
-        ImageView iv_ivon;
+        CircleImageView iv_ivon;
         TextView tv_time;
         TextView tv_info;
         TextView tv_price;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        initData();
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        initData();
+//    }
+
 }

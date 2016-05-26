@@ -36,6 +36,7 @@ import com.wangdao.our.spread_2.R;
 import com.wangdao.our.spread_2.activity_.ChangeNickName;
 import com.wangdao.our.spread_2.activity_.ChangePwd;
 import com.wangdao.our.spread_2.activity_.mine_activity.BindingAccount;
+import com.wangdao.our.spread_2.activity_.mine_activity.Popularize;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
 import com.wangdao.our.spread_2.slide_widget.CacheUtils;
 import com.wangdao.our.spread_2.slide_widget.shap_imageview.CustomImageView;
@@ -67,7 +68,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
 /**
  * Created by Administrator on 2016/4/22 0022.
  *
@@ -79,6 +79,7 @@ public class AboutInfo extends Activity implements View.OnClickListener{
     private Button bt_out_login;
 
     private HttpPost httpPost;
+    private HttpPost httpPost_3;
     private HttpResponse httpResponse = null;
     private List<NameValuePair> params = new ArrayList<NameValuePair>();
     private AllUrl allUrl = new AllUrl();
@@ -102,6 +103,7 @@ public class AboutInfo extends Activity implements View.OnClickListener{
             mTempDir.mkdirs();
         }
         initData();
+        initName();
     }
 
     private String getDataResult = "网络异常";
@@ -116,11 +118,10 @@ public class AboutInfo extends Activity implements View.OnClickListener{
 
         httpPost = new HttpPost(allUrl.getUserAllInfo());
         params.add(new BasicNameValuePair("user_token", mToken));
-new Thread(new Runnable() {
+
+        new Thread(new Runnable() {
     @Override
     public void run() {
-
-
         try {
             httpPost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
             httpResponse = new DefaultHttpClient().execute(httpPost);
@@ -150,7 +151,7 @@ new Thread(new Runnable() {
 }).start();
 
         tv_mobile.setText(aMobile);
-        tv_nickname.setText(aNickname);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -163,6 +164,46 @@ new Thread(new Runnable() {
             }
         }).start();
     }
+
+    /**
+     * 初始化用户名
+     */
+    private String mNickName = "";
+    private void initName(){
+        httpPost_3 = new HttpPost(allUrl.getUserAllInfo_all());
+        SharedPreferences sharedPreferences = AboutInfo.this.getSharedPreferences("user", MODE_PRIVATE);
+        String mToken = sharedPreferences.getString("user_token", "");
+        params.add(new BasicNameValuePair("user_token", mToken));
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    httpPost_3.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+                    httpResponse = new DefaultHttpClient().execute(httpPost_3);
+                    if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                        String result = EntityUtils.toString(httpResponse.getEntity());
+                        JSONObject jo = new JSONObject(result);
+                        if(jo.getString("status").equals("1")){
+                            JSONObject jo_2 = jo.getJSONObject("data");
+                            mNickName = jo_2.getString("nickname");
+                            aihandler.sendEmptyMessage(41);
+                        }else{
+                        }
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+
     class AboutInfoHandler extends Handler{
         @Override
         public void handleMessage(Message msg) {
@@ -207,6 +248,14 @@ new Thread(new Runnable() {
                 //获取用户信息失败
                 case 12:
                     break;
+                case 41:
+                    tv_nickname.setText(mNickName);
+                    SharedPreferences sharedPreferences_3 = AboutInfo.this.getSharedPreferences("user", MODE_PRIVATE);
+                    SharedPreferences.Editor editor_3 = sharedPreferences_3.edit();
+                    editor_3.putString("nickname", mNickName);
+                    editor_3.commit();
+                    break;
+
             }
         }
     }
@@ -438,6 +487,7 @@ new Thread(new Runnable() {
             case 5:
             case 11:
                 initData();
+                initName();
                 break;
             case 66:
                 setResult(66);

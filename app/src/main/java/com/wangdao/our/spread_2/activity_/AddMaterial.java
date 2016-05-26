@@ -29,6 +29,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -104,9 +107,9 @@ public class AddMaterial extends Activity implements View.OnClickListener {
     private List<NameValuePair> params = new ArrayList<NameValuePair>();
     private AllUrl allurl = new AllUrl();
     private AddMaterialHandler amh = new AddMaterialHandler();
-    private Dialog dialog_wait;
-    private View dialog_view;
-    private TextView tv_dialog_cancle;
+   // private Dialog dialog_wait;
+   // private View dialog_view;
+ //   private TextView tv_dialog_cancle;
     private Button bt_delete;
     private boolean isCompile = false;//是否是编辑
     /**
@@ -249,11 +252,31 @@ public class AddMaterial extends Activity implements View.OnClickListener {
         iv_cancle = (ImageView) findViewById(R.id.activity_add_m_iv_cancle);
         tv_add = (TextView) findViewById(R.id.activity_add_m_tv_add);
 
-        dialog_view = getLayoutInflater().inflate(R.layout.dialog_wait, null);
-        tv_dialog_cancle = (TextView) dialog_view.findViewById(R.id.dialog_wait_tv_cancle);
+      //  dialog_view = getLayoutInflater().inflate(R.layout.dialog_wait_2, null);
+      //  tv_dialog_cancle = (TextView) dialog_view.findViewById(R.id.dialog_wait_tv_cancle);
 
-        dialog_wait = new Dialog(this, R.style.dialog);
-        dialog_wait.setContentView(dialog_view);
+        //dialog_wait = new Dialog(this, R.style.dialog);
+       // dialog_wait.setContentView(dialog_view);
+
+    }
+
+
+    private Dialog dia_wait;
+    private ImageView dialog_iv;
+    private void startDialog(){
+
+        View dialog_view = getLayoutInflater().inflate(R.layout.dialog_wait_2,null);
+        dia_wait = new Dialog(this,R.style.dialog);
+        dia_wait.setContentView(dialog_view);
+        dialog_iv  = (ImageView) dialog_view.findViewById(R.id.dialog_wait_2_iv);
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.dialog_zhuang);
+
+        LinearInterpolator lir = new LinearInterpolator();
+        anim.setInterpolator(lir);
+
+        dialog_iv.startAnimation(anim);
+
+        dia_wait.show();
     }
 
     private void initOnClick() {
@@ -369,20 +392,14 @@ public class AddMaterial extends Activity implements View.OnClickListener {
      * 加载dialog
      */
     private void showWaitDialog() {
-        tv_dialog_cancle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dimssDialog();
-            }
-        });
-        dialog_wait.show();
+        startDialog();
     }
 
     /**
      * 关闭dialog
      */
     private void dimssDialog() {
-        dialog_wait.dismiss();
+        dia_wait.dismiss();
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)

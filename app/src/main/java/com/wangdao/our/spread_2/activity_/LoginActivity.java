@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -23,6 +24,9 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,6 +39,7 @@ import com.wangdao.our.spread_2.MainActivity;
 import com.wangdao.our.spread_2.R;
 import com.wangdao.our.spread_2.activity_.MessageA;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
+import com.wangdao.our.spread_2.slide_widget.CircleImageView;
 import com.wangdao.our.spread_2.slide_widget.XEditText;
 import com.wangdao.our.spread_2.slide_widget.widget_push.ExampleUtil;
 
@@ -79,11 +84,13 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private String rMobile, rUid, rNickname, rAvatar64, rAvatar128, rAvatar256, rUser_token, rIsVip,rShareCount;
     private TextView tv_forgetPwd;
 
+    private CircleImageView iv_icon;
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
+     *
      */
-    private ImageView iv_icon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +101,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
       //  login_pb = (ProgressBar) findViewById(R.id.activity_login_pb);
         et_tel = (EditText) findViewById(R.id.activity_et_tel);
         et_pwd = (XEditText) findViewById(R.id.activity_et_pwd);
-        iv_icon = (ImageView) findViewById(R.id.activity_login_iv_icon);
         tv_forgetPwd = (TextView) findViewById(R.id.activity_login_tv_forgetpwd);
+        iv_icon = (CircleImageView) findViewById(R.id.activity_login_iv_icon);
 
         httpPost = new HttpPost(allurl.getLogin_url());
 
@@ -103,16 +110,18 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         tv_register.setOnClickListener(this);
         tv_forgetPwd.setOnClickListener(this);
 
+        Bitmap iv_bmp = BitmapFactory.decodeResource(getResources(),R.drawable.icon_2);
+        iv_icon.setImageBitmap(iv_bmp);
 
         et_pwd.setDrawableRightListener(new XEditText.DrawableRightListener() {
             @Override
             public void onDrawableRightClick(View view) {
 
                 if (!mIsShow) {
-                    et_pwd.setCompoundDrawablesWithIntrinsicBounds(R.drawable.login_pwd, 0, R.drawable.zhengyan, 0) ;
+                    //et_pwd.setCompoundDrawablesWithIntrinsicBounds(R.drawable.login_pwd, 0, R.drawable.zhengyan, 0) ;
                     et_pwd.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) ;
                 } else {
-                    et_pwd.setCompoundDrawablesWithIntrinsicBounds(R.drawable.login_pwd, 0, R.drawable.biyan, 0) ;
+                    //et_pwd.setCompoundDrawablesWithIntrinsicBounds(R.drawable.login_pwd, 0, R.drawable.biyan, 0) ;
                     et_pwd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD) ;
                 }
                 mIsShow = !mIsShow ;
@@ -147,69 +156,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
         }
     }
-
-
-    public static Bitmap toRoundBitmap(Bitmap bitmap) {
-
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        float roundPx;
-        float left,top,right,bottom,dst_left,dst_top,dst_right,dst_bottom;
-        if (width <= height) {
-            roundPx = width / 2;
-            top = 0;
-            left = 0;
-            bottom = width;
-            right = width;
-            height = width;
-            dst_left = 0;
-            dst_top = 0;
-            dst_right = width;
-            dst_bottom = width;
-        } else {
-            roundPx = height / 2;
-            float clip = (width - height) / 2;
-            left = clip;
-            right = width - clip;
-            top = 0;
-            bottom = height;
-            width = height;
-            dst_left = 0;
-            dst_top = 0;
-            dst_right = height;
-            dst_bottom = height;
-        }
-
-        Bitmap output = Bitmap.createBitmap(width,
-                height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(output);
-
-        final int color = 0xff424242;
-        final Paint paint = new Paint();
-        final Rect src = new Rect((int)left, (int)top, (int)right, (int)bottom);
-        final Rect dst = new Rect((int)dst_left, (int)dst_top, (int)dst_right, (int)dst_bottom);
-        final RectF rectF = new RectF(dst);
-
-        paint.setAntiAlias(true);
-
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(Color.WHITE);
-        paint.setStrokeWidth(0);
-        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, src, dst, paint);
-
-
-        //鐢荤櫧鑹插渾鍦�
-        paint.reset();
-        paint.setColor(Color.WHITE);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(0);
-        paint.setAntiAlias(true);
-        canvas.drawCircle(width / 2, width / 2, width / 2 - 4 / 2, paint);
-        return output ;
-    }
-
     boolean mIsShow = false;
     private class DrawableRightClickListener implements XEditText.DrawableRightListener {
 
@@ -228,15 +174,27 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
 
     private Dialog dia_wait;
+    private ImageView dialog_iv;
     private void startDialog(){
+
+        View dialog_view = getLayoutInflater().inflate(R.layout.dialog_wait_2,null);
         dia_wait = new Dialog(this,R.style.dialog);
-        dia_wait.setContentView(R.layout.dialog_wait);
+        dia_wait.setContentView(dialog_view);
+        dialog_iv  = (ImageView) dialog_view.findViewById(R.id.dialog_wait_2_iv);
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.dialog_zhuang);
+
+        LinearInterpolator lir = new LinearInterpolator();
+        anim.setInterpolator(lir);
+
+        dialog_iv.startAnimation(anim);
+
         dia_wait.show();
     }
 
     private void stopdialog_wait(){
         dia_wait.dismiss();
     }
+
     private void startLogin() {
 
         params.add(new BasicNameValuePair("mobile", myTel));
@@ -497,4 +455,66 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             }
         }
     };
+
+
+    public static  Bitmap toRoundBitmap(Bitmap bitmap) {
+
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        float roundPx;
+        float left,top,right,bottom,dst_left,dst_top,dst_right,dst_bottom;
+        if (width <= height) {
+            roundPx = width / 2;
+            top = 0;
+            left = 0;
+            bottom = width;
+            right = width;
+            height = width;
+            dst_left = 0;
+            dst_top = 0;
+            dst_right = width;
+            dst_bottom = width;
+        } else {
+            roundPx = height / 2;
+            float clip = (width - height) / 2;
+            left = clip;
+            right = width - clip;
+            top = 0;
+            bottom = height;
+            width = height;
+            dst_left = 0;
+            dst_top = 0;
+            dst_right = height;
+            dst_bottom = height;
+        }
+
+        Bitmap output = Bitmap.createBitmap(width,
+                height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect src = new Rect((int)left, (int)top, (int)right, (int)bottom);
+        final Rect dst = new Rect((int)dst_left, (int)dst_top, (int)dst_right, (int)dst_bottom);
+        final RectF rectF = new RectF(dst);
+
+        paint.setAntiAlias(true);
+
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(Color.WHITE);
+        paint.setStrokeWidth(0);
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, src, dst, paint);
+
+
+        //鐢荤櫧鑹插渾鍦�
+        paint.reset();
+        paint.setColor(Color.WHITE);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(0);
+        paint.setAntiAlias(true);
+        canvas.drawCircle(width / 2, width / 2, width / 2 - 4 / 2, paint);
+        return output ;
+    }
 }

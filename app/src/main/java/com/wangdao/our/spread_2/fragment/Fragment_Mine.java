@@ -1,7 +1,9 @@
 package com.wangdao.our.spread_2.fragment;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -85,12 +87,18 @@ public class Fragment_Mine extends Fragment implements View.OnClickListener{
         bv = new BadgeView(myContext,iv_order);
         bv.setText("");
         bv.setTextColor(getResources().getColor(R.color.colorPrimary));
-        bv.setTextSize(10);
+        bv.setTextSize(5);
         bv.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
-
         bv.show();
         initTag();
         return myView;
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        initTag();
     }
 
 
@@ -127,7 +135,6 @@ public class Fragment_Mine extends Fragment implements View.OnClickListener{
 
 
 private void initOnClick(){
-
     iv_icon.setOnClickListener(this);
     ll_aboutinfo.setOnClickListener(this);
     rl_tellme.setOnClickListener(this);
@@ -160,8 +167,28 @@ switch (v.getId()){
         break;
     //推广
     case R.id.fragment_mine_ll_tuiguang:
-        Intent tuiIntent = new Intent(myContext, Popularize.class);
-        startActivity(tuiIntent);
+
+        SharedPreferences sharedPreferences = myContext.getSharedPreferences("user", myContext.MODE_PRIVATE);
+        String isVip = sharedPreferences.getString("isvip", "");
+        if(isVip.equals("0")){
+            new AlertDialog.Builder(myContext)
+                    .setTitle("提醒：")
+                    .setMessage("您还不是代理\n不能进行推广赚钱")
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+
+        }else {
+            Intent tuiIntent = new Intent(myContext, Popularize.class);
+            startActivity(tuiIntent);
+        }
+
+
+
         break;
     //我的佣金
     case R.id.fragment_mine_ll_mycommission:
@@ -193,10 +220,11 @@ switch (v.getId()){
     private void initTag(){
         SharedPreferences sharedPreferences_tag = this.getActivity().getSharedPreferences("tag", myContext.MODE_PRIVATE);
         final String Tag = sharedPreferences_tag.getString("tg", "");
-        if(Tag.equals("1")){
-            bv.hide();
-        }else{
+
+        if(Tag.equals("0")){
             bv.show();
+        }else{
+            bv.hide();
         }
     }
     /**

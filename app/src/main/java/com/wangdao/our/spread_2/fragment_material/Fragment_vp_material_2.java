@@ -99,7 +99,8 @@ private TextView tv_null;
         myContext.registerReceiver(netBroadcast, intentFilter);
         ma_Adapter = new MaterialAdapter(list_my_Material);
         list_fm_1.setAdapter(ma_Adapter);
-        setListViewHeightBasedOnChildren(list_fm_1);
+     //   setListViewHeightBasedOnChildren(list_fm_1);
+
         list_fm_1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -320,15 +321,17 @@ private TextView tv_null;
             switch (msg.what){
                 //获取数据成功
                 case 1:
-                    ma_Adapter.notifyDataSetChanged();
-                    setListViewHeightBasedOnChildren(list_fm_1);
+
                     pull_scrollview.onRefreshComplete();
+
                     if(list_my_Material.size() ==0){
                         list_fm_1.setVisibility(View.GONE);
                         tv_null.setVisibility(View.VISIBLE);
                     }else{
                         tv_null.setVisibility(View.GONE);
                         list_fm_1.setVisibility(View.VISIBLE);
+                        ma_Adapter.notifyDataSetChanged();
+                        setListViewHeightBasedOnChildren(list_fm_1);
                     }
                     break;
                 //获取数据失败
@@ -357,6 +360,7 @@ private TextView tv_null;
             listItem.measure(0, 0);
             totalHeight += listItem.getMeasuredHeight();
         }
+
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight
                 + (listView.getDividerHeight() * (listAdapter.getCount() - 1))

@@ -70,21 +70,36 @@
     android:layout_marginLeft="15dp"
     android:weightSum="2"
     >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="20sp"
+        android:textColor="@color/colorPrimary"
+        android:gravity="center_vertical"
+        android:text="我是"
+        />
     <TextView
         android:id="@+id/activity_popularize_tv_name"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:text=""
         android:textSize="20sp"
         android:textColor="@color/colorPrimary"
         android:gravity="center_vertical"
         />
+    </LinearLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="快来加入我们的大家庭吧"
+        android:text="快加入我的团队吧~"
         android:textSize="20sp"
         android:textColor="@color/colorPrimary"
         android:gravity="center_vertical"
@@ -159,6 +174,7 @@
                 android:layout_gravity="bottom"
                 android:layout_marginLeft="60dp"
                 android:textSize="@dimen/textsize_x"
+                android:visibility="gone"
                 />
         </LinearLayout>
         <View
@@ -187,6 +203,7 @@
                 android:text="立即成为我的成员"
                 android:textColor="@color/white"
                 android:textSize="@dimen/textsize_x"
+                android:visibility="gone"
                 />
 
         </LinearLayout>

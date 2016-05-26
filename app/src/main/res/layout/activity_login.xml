@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,6 +12,7 @@
         android:layout_height="60dp"
         >
     </RelativeLayout>
+
 <View
     android:layout_width="match_parent"
     android:layout_height="@dimen/line_x"
@@ -30,9 +31,8 @@
             android:src="@drawable/icon_2"
             app:border_color="@color/transparent"
             app:border_width="0dp"
+
             />
-
-
     </RelativeLayout>
 
 
@@ -48,6 +48,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:inputType="number"
+        android:layout_marginTop="26dp"
         />
 
     <com.wangdao.our.spread_2.slide_widget.XEditText
@@ -61,7 +62,7 @@
         android:textColor="@color/textcolor_hui"
         android:drawableLeft="@drawable/login_pwd"
         android:textSize="@dimen/textsize_x"
-        android:drawableRight="@drawable/biyan"
+        android:drawableRight="@drawable/zhengyan"
         android:inputType="textPassword"
         android:singleLine="true"
         />
@@ -78,13 +79,14 @@
         android:layout_marginTop="10dp"
         android:textSize="@dimen/textsize_actionbar"
         />
-<RelativeLayout
+
+    <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="40dp"
     android:orientation="horizontal"
     android:layout_marginTop="16dp"
     >
-    <TextView
+        <TextView
         android:id="@+id/activity_login_tv_forgetpwd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

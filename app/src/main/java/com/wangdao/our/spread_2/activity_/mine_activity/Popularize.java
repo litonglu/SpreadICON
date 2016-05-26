@@ -501,7 +501,7 @@ new Thread(new Runnable() {
 //        urlcontext = "http://qr.liantu.com/api.php?text="+allurl.getShare_Url()+"?link="+mUid+
 //                "&w=140&bg=FFFFFF&fg=000000&logo="+userIconUrl;
 
-        urlcontext = "http://qr.liantu.com/api.php?text="+mUid+
+        urlcontext = "http://qr.liantu.com/api.php?text=拇指营销"+mUid+
                 "&w=240&bg=FFFFFF&fg=000000&logo="+userIconUrl;
 
         new Thread(new Runnable() {

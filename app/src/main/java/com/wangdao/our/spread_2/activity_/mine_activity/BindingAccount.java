@@ -7,13 +7,15 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.wangdao.our.spread_2.R;
-import com.wangdao.our.spread_2.activity_.ChangeNickName;
+
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
 
 import org.apache.http.HttpResponse;
@@ -44,16 +46,19 @@ public class BindingAccount extends Activity implements View.OnClickListener{
     private EditText et_wx,et_aripay,et_name;
 
     private HttpPost httpPost;
+    private HttpPost httpPost_2;
     private HttpResponse httpResponse = null;
     private List<NameValuePair> params = new ArrayList<NameValuePair>();
     private AllUrl allurl = new AllUrl();
     private BindingHandler bdHandler = new BindingHandler();
+    private String TName,TWx,TAripay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mine_bd);
         initView();
         initClick();
+        initAccount();
     }
 
     private void initView(){
@@ -81,31 +86,37 @@ public class BindingAccount extends Activity implements View.OnClickListener{
     }
     private String bindingResult = "网络异常";
     private void startBingd(){
-        if(et_name.getText().toString().length() == 0){
+        TName = et_name.getText().toString();
+        TWx = et_wx.getText().toString();
+        TAripay = et_aripay.getText().toString();
+
+        Log.i("qqqqq","TAripayTAripayTAripayTAripay"+TAripay);
+
+
+        if(TName.length() == 0){
+            Toast.makeText(BindingAccount.this,"请填写真实姓名",Toast.LENGTH_SHORT).show();
             return;
         }
-        if(et_aripay.getText().toString().length() == 0 && et_wx.getText().toString().length() == 0 ){
+        if(TAripay.length() == 0 && TWx.length() == 0 ){
+            Toast.makeText(BindingAccount.this,"请填写账号",Toast.LENGTH_SHORT).show();
             return;
         }
-        if(et_name.getText().toString().length() ==0){
-            return;
-        }
+
         httpPost = new HttpPost(allurl.getChange_user_info());
         SharedPreferences sharedPreferences = BindingAccount.this.getSharedPreferences("user", MODE_PRIVATE);
         params.add(new BasicNameValuePair("user_token", sharedPreferences.getString("user_token", "")));
-        params.add(new BasicNameValuePair("truename", et_name.getText().toString()));
+        params.add(new BasicNameValuePair("truename", TName));
 
-        if(et_wx.getText().toString().length() != 0){
-            params.add(new BasicNameValuePair("wx_num",et_wx.getText().toString()));
+        if(TWx.length() != 0){
+            params.add(new BasicNameValuePair("wx_num",TWx));
         }
-        if(et_aripay.getText().toString().length() != 0){
-            params.add(new BasicNameValuePair("alipay_num ",et_aripay.getText().toString()));
+        if(TAripay.length() != 0){
+            params.add(new BasicNameValuePair("alipay_num",TAripay));
         }
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 try {
                     httpPost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
                     httpResponse = new DefaultHttpClient().execute(httpPost);
@@ -118,7 +129,6 @@ public class BindingAccount extends Activity implements View.OnClickListener{
                         }else{
                             bdHandler.sendEmptyMessage(2);
                         }
-
                     }
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
@@ -129,7 +139,6 @@ public class BindingAccount extends Activity implements View.OnClickListener{
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         }).start();
     }
@@ -153,7 +162,6 @@ public class BindingAccount extends Activity implements View.OnClickListener{
                             })
                             .show();
                     break;
-
                 //绑定失败
                 case 2:
                     new AlertDialog.Builder(BindingAccount.this)
@@ -167,7 +175,60 @@ public class BindingAccount extends Activity implements View.OnClickListener{
                             })
                             .show();
                     break;
+                case 11:
+                    et_name.setText(TName);
+                    et_aripay.setText(TAripay);
+                    et_wx.setText(TWx);
+                    break;
             }
         }
+    }
+
+    /**
+     * 初始化账户数据
+     */
+
+    private void initAccount(){
+
+        httpPost_2 = new HttpPost(allurl.getUserAllInfo_all());
+        SharedPreferences sharedPreferences = BindingAccount.this.getSharedPreferences("user", MODE_PRIVATE);
+        String uToken = sharedPreferences.getString("user_token", "");
+        params.add(new BasicNameValuePair("user_token", uToken));
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    httpPost_2.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+                    httpResponse = new DefaultHttpClient().execute(httpPost_2);
+                    if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                        String result = EntityUtils.toString(httpResponse.getEntity());
+                        JSONObject jo = new JSONObject(result);
+                        if(jo.getString("status").equals("1")){
+
+                            JSONObject jo_2 = jo.getJSONObject("data");
+                            TName = jo_2.getString("truename");
+                            TAripay = jo_2.getString("alipay_num");
+                            TWx = jo_2.getString("wx_num");
+
+                            bdHandler.sendEmptyMessage(11);
+                        }else{
+                            bdHandler.sendEmptyMessage(12);
+                        }
+
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
     }
 }

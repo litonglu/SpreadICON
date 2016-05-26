@@ -29,12 +29,26 @@
     </RelativeLayout>
 
     <EditText
+        android:id="@+id/activity_register_et_nickname"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="请输入昵称"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/line_qq"
+        android:paddingLeft="10dp"
+        android:textColor="#C6C6C6"
+
+        />
+
+    <EditText
         android:id="@+id/activity_register_et_tel"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:hint="请输入手机号码"
         android:layout_margin="15dp"
-        android:background="@color/line_q"
+        android:background="@color/line_qq"
         android:paddingLeft="10dp"
         android:textColor="#C6C6C6"
         android:inputType="number"
@@ -46,7 +60,7 @@
         android:hint="请输入手机密码"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:background="@color/line_q"
+        android:background="@color/line_qq"
         android:paddingLeft="10dp"
         android:textColor="#C6C6C6"
         />
@@ -65,7 +79,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:hint="验证码"
-            android:background="@color/line_q"
+            android:background="@color/line_qq"
             android:paddingLeft="10dp"
             />
     <Button

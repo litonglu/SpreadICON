@@ -10,6 +10,7 @@
         android:layout_height="78dp"
         android:orientation="horizontal"
         android:layout_marginBottom="6dp"
+        android:layout_marginTop="6dp"
         >
         <com.wangdao.our.spread_2.slide_widget.CircleImageView
             android:id="@+id/item_myteam_iv_icon"
@@ -32,28 +33,60 @@
             android:layout_marginLeft="10dp"
             android:textSize="@dimen/textsize_x"
             />
+        <LinearLayout
+            android:id="@+id/item_myteam_ll_add"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:orientation="horizontal"
+            android:layout_toRightOf="@+id/item_myteam_iv_icon"
+            android:layout_below="@+id/item_myteam_tv_name"
+            android:layout_marginLeft="10dp"
+            >
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:text="加入时间:\t"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/textsize_x"
+                />
         <TextView
             android:id="@+id/item_myteam_tv_time"
             android:layout_width="wrap_content"
             android:layout_height="26dp"
-            android:text="加入时间:\t2015-02-01\t12:30"
-            android:layout_toRightOf="@+id/item_myteam_iv_icon"
-            android:layout_below="@+id/item_myteam_tv_name"
-            android:gravity="center"
-            android:layout_marginLeft="10dp"
+            android:text="2015-02-01\t12:30"
+            android:gravity="center_vertical"
             android:textSize="@dimen/textsize_x"
             />
-        <TextView
-            android:id="@+id/item_myteam_tv_time_lately"
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="26dp"
-            android:text="最近登录:\t昨天13:00"
-            android:layout_toRightOf="@+id/item_myteam_iv_icon"
-            android:layout_below="@+id/item_myteam_tv_time"
-            android:gravity="center"
+            android:orientation="horizontal"
             android:layout_marginLeft="10dp"
-            android:textSize="@dimen/textsize_x"
-            />
+            android:layout_toRightOf="@+id/item_myteam_iv_icon"
+            android:layout_below="@+id/item_myteam_ll_add"
+            android:gravity="center"
+            >
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:text="最近登录:\t"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/textsize_x"
+                />
+            <TextView
+                android:id="@+id/item_myteam_tv_time_lately"
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:text="昨天13:00"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/textsize_x"
+                />
+
+        </LinearLayout>
+
         <ImageView
             android:id="@+id/item_myteam_iv_right"
             android:layout_width="wrap_content"
@@ -66,12 +99,16 @@
         <TextView
             android:id="@+id/item_myteam_member"
             android:layout_width="wrap_content"
-            android:layout_height="26dp"
-            android:text="普通会员"
+            android:layout_height="20dp"
+            android:text="一级会员"
             android:layout_toLeftOf="@+id/item_myteam_iv_right"
             android:gravity="center"
-            android:textColor="@color/textcolor_hui"
+            android:textColor="@color/white"
             android:layout_marginRight="6dp"
+            android:background="@drawable/shape_sure_btn_blue"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:textSize="@dimen/textsize_xx"
             />
     </RelativeLayout>
 

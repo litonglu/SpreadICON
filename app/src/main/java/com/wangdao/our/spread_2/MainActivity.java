@@ -139,7 +139,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.i("qqqqq","重新走ReStart");
     }
 
     @Override

@@ -45,7 +45,7 @@ import java.util.List;
  * Created by Administrator on 2016/4/25 0025.
  */
 public class RegisterActivity extends Activity implements View.OnClickListener{
-    private EditText et_tel,et_pwd,et_vf,et_it;
+    private EditText et_tel,et_pwd,et_vf,et_nickname;
     private Button bt_send,bt_sendvf,bt_okr;
     private AllUrl allurl = new AllUrl();
     private String registerResult;
@@ -66,13 +66,14 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
         bt_send.setOnClickListener(this);
         bt_sendvf.setOnClickListener(this);
         iv_cancle.setOnClickListener(this);
+
     }
 
     private void initView(){
         et_tel = (EditText) findViewById(R.id.activity_register_et_tel);
         et_pwd = (EditText) findViewById(R.id.activity_register_et_pwd);
         et_vf = (EditText) findViewById(R.id.activity_register_et_vf);
-        et_it = (EditText) findViewById(R.id.activity_register_et_it);
+        et_nickname = (EditText) findViewById(R.id.activity_register_et_nickname);
         bt_send = (Button) findViewById(R.id.activity_register_et_send);
         bt_okr = (Button) findViewById(R.id.activity_register_bt_okr);
         bt_sendvf = (Button) findViewById(R.id.activity_register_bt_sendvf);
@@ -184,17 +185,18 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
 
 
     private void register(){
-        if(et_tel.getText().toString().length() !=0 || et_pwd.getText().toString().length() != 0){
             myTel = et_tel.getText().toString();
             myPwd = et_pwd.getText().toString();
             httpPost = new HttpPost(allurl.getRegister_url());
 
             params.add(new BasicNameValuePair("reg_verify", et_vf.getText().toString()));//手机验证
+
           //  params.add(new BasicNameValuePair("img_verify", dialog_vf));//图形验证码
           //  params.add(new BasicNameValuePair("invite_code", "1234"));//邀请码
 
             params.add(new BasicNameValuePair("mobile", myTel));
             params.add(new BasicNameValuePair("password", myPwd));
+            params.add(new BasicNameValuePair("nickname", et_nickname.getText().toString()));
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -225,7 +227,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
             }).start();
 
 
-        }
+
 
     }
 
@@ -234,30 +236,30 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case 1:
-                new AlertDialog.Builder(RegisterActivity.this)
-                        .setTitle("注册结果")
-                        .setMessage(registerResult)
-                        .setPositiveButton("去登陆", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent register  = new Intent();
-                                register.putExtra("tel", myTel);
-                                register.putExtra("pwd", myPwd);
-                                setResult(1, register);
-                                finish();
-                            }
-                        })
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
+                    new AlertDialog.Builder(RegisterActivity.this)
+                            .setTitle("RESULT:")
+                            .setMessage(registerResult)
+                            .setPositiveButton("去登陆", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent register  = new Intent();
+                                    register.putExtra("tel", myTel);
+                                    register.putExtra("pwd", myPwd);
+                                    setResult(1, register);
+                                    finish();
+                                }
+                            })
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
                     break;
                 case 2:
                     new AlertDialog.Builder(RegisterActivity.this)
-                            .setTitle("注册结果")
+                            .setTitle("RESULT:")
                             .setMessage(registerResult)
                             .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override

@@ -27,6 +27,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -514,24 +517,9 @@ new Thread(new Runnable() {
             fs_viewHolder.tv_clickNum.setText(list_myArticles.get(position).getClickNum());
             fs_viewHolder.tv_time.setText(list_myArticles.get(position).getTime());
 
-//            Uri aniImageUri = Uri.parse(list_myArticles.get(position).getIconUrl());
-//            ImageRequest request = ImageRequestBuilder.newBuilderWithSource(aniImageUri)
-//                    .build();
-
-//            DraweeController controller = Fresco.newDraweeControllerBuilder()
-//                    .setImageRequest(request)
-//                    .setAutoPlayAnimations(true)
-//                    .build();
-//            fs_viewHolder.iv_icon.setController(controller);
-
-//            RoundingParams roundingParams = RoundingParams.fromCornersRadius(20f);
-//            fs_viewHolder.iv_icon.getHierarchy().setRoundingParams(roundingParams);
-
-
             ImageLoader.getInstance().displayImage(list_myArticles.get(position).getIconUrl() == null ? "" : list_myArticles.get(position).getIconUrl(), fs_viewHolder.iv_icon,
                     ExampleApplication.getInstance().getOptions(R.drawable.moren)
             );
-
 
             return convertView;
         }
@@ -611,15 +599,16 @@ new Thread(new Runnable() {
     private String saoResut = "网络异常";
     private void JianLi(){
 
+
         httpPost = new HttpPost(allurl.getSaoMaTuiGuang());
         SharedPreferences sharedPreferences = myContext.getSharedPreferences("user", myContext.MODE_PRIVATE);
         String mToken = sharedPreferences.getString("user_token", "");
         params.add(new BasicNameValuePair("user_token", mToken));
-        params.add(new BasicNameValuePair("link", scanResult));
+        params.add(new BasicNameValuePair("link", scanResult_num));
+
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 try {
                     httpPost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
                     httpResponse = new DefaultHttpClient().execute(httpPost);
@@ -650,26 +639,42 @@ new Thread(new Runnable() {
     }
 
 
+
+
     private Dialog dia_wait;
+    private ImageView dialog_iv;
     private void startDialog(){
+
+        View dialog_view = myInflater.inflate(R.layout.dialog_wait_2,null);
         dia_wait = new Dialog(myContext,R.style.dialog);
-        dia_wait.setContentView(R.layout.dialog_wait);
+        dia_wait.setContentView(dialog_view);
+        dialog_iv  = (ImageView) dialog_view.findViewById(R.id.dialog_wait_2_iv);
+        Animation anim = AnimationUtils.loadAnimation(myContext, R.anim.dialog_zhuang);
+
+        LinearInterpolator lir = new LinearInterpolator();
+        anim.setInterpolator(lir);
+        dialog_iv.startAnimation(anim);
         dia_wait.show();
     }
 
 
-    private String scanResult;
+    private String scanResult ="";
+    private String scanResult_num = "";
+    private String scanResultTemp = "";
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == -1) {
             Bundle bundle = data.getExtras();
-             scanResult = bundle.getString("result");
-            if(scanResult.length()!=0){
-                Log.i("qqqqq","返回的数据为:"+scanResult);
+
+            scanResult = bundle.getString("result");
+            scanResultTemp = scanResult.substring(0,4);
+            scanResult_num = scanResult.substring(4,scanResult.length());
+            if(scanResultTemp.equals("拇指营销")){
                 startDialog();
                 JianLi();
             }else{
+                Toast.makeText(myContext, "请扫描正确的二维码", Toast.LENGTH_SHORT).show();
             }
         }
     }

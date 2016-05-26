@@ -36,6 +36,7 @@ public class MyCommission extends FragmentActivity implements View.OnClickListen
     private Fragment_MyMoney_1 fm_1 = new Fragment_MyMoney_1();
     private Fragment_MyMoney_2 fm_2 = new Fragment_MyMoney_2();
     private Fragment_MyMoney_3 fm_3 = new Fragment_MyMoney_3();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +60,6 @@ public class MyCommission extends FragmentActivity implements View.OnClickListen
             }
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
     }

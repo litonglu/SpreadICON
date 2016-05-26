@@ -70,7 +70,6 @@ public class SplashActivity extends Activity {
 					Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
 					startActivity(intent);
 				}
-
 				finish();
 			}
 		}, DELAY_TIME);

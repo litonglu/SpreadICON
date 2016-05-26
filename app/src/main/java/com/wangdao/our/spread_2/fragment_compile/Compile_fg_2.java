@@ -115,6 +115,7 @@ switch (v.getId()){
     case R.id.compile_fragment_2_bt_clip:
         SharedPreferences sharedPreferences = myContext.getSharedPreferences("user", myContext.MODE_PRIVATE);
         String isVip = sharedPreferences.getString("isvip", "");
+
         if(isVip.equals("0")){
             new AlertDialog.Builder(myContext)
                     .setTitle("提醒：")

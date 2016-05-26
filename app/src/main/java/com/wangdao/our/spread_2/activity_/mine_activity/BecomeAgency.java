@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -32,6 +33,7 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 import com.wangdao.our.spread_2.R;
+import com.wangdao.our.spread_2.activity_.RegisterActivity;
 import com.wangdao.our.spread_2.demo;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
 
@@ -109,6 +111,30 @@ public class BecomeAgency extends Activity implements View.OnClickListener{
         initView();
         initClick();
         initAllMoney_();
+        SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
+        String isVip = sharedPreferences.getString("isvip", "");
+        if(isVip.equals("0")){
+
+        }else{
+            bt_buy.setBackgroundColor(getResources().getColor(R.color.backround_q_hui));
+            bt_buy.setText("您已经是代理，无需重复购买");
+            bt_buy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AlertDialog.Builder(BecomeAgency.this)
+                            .setTitle("提醒：")
+                            .setMessage("您已经是代理，无需重复购买")
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                }
+            });
+        }
+
     }
     private void initView(){
         iv_cancle = (ImageView) findViewById(R.id.activity_mine_agency_iv__cancle);
@@ -170,13 +196,16 @@ public class BecomeAgency extends Activity implements View.OnClickListener{
                 break;
             case R.id.activity_mine_agency_bt:
 
-                if(bRb_1){
-                    startBuy("wx");
-                    Str_type = "wx";
-                }else{
-                    startBuy("alipay");
-                    Str_type = "alipay";
-                }
+//                if(bRb_1){
+//                    startBuy("wx");
+//                    Str_type = "wx";
+//                }else{
+//                    startBuy("alipay");
+//                    Str_type = "alipay";
+//                }
+
+                startBuy("alipay");
+                Str_type = "alipay";
                 break;
         }
     }
@@ -378,28 +407,50 @@ public class BecomeAgency extends Activity implements View.OnClickListener{
 
                 if(result.equals("success")){
                     result = "支付成功";
-                }else if(result.equals("fail")){
-                    result = "支付失败";
-                }else if(result.equals("cancel")){
-                    result = "取消支付";
-                }else if(result.equals("invalid")){
-                    result = "支付无效";
-                }
-                showMsg(result, errorMsg, extraMsg);
 
-                Log.i("qqqqq","返回的数据为===="+result);
-
-
-
-                if(result.equals("success")){
                     SharedPreferences sharedPreferences = BecomeAgency.this.getSharedPreferences("user", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("isvip", "1");
                     editor.commit();
+
+                    new AlertDialog.Builder(BecomeAgency.this)
+                            .setTitle(result)
+                            .setMessage("立即去推广")
+                            .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent tuiIntent = new Intent(BecomeAgency.this,Popularize.class);
+                                    startActivity(tuiIntent);
+                                    finish();
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setNegativeButton("否", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+
+                }else if(result.equals("fail")){
+                    result = "支付失败";
+                    showMsg(result, "", "");
+                }else if(result.equals("cancel")){
+                    result = "取消支付";
+                    showMsg(result, "", "");
+                }else if(result.equals("invalid")){
+                    result = "支付无效";
+                    showMsg(result, "", "");
                 }
+
+
+                Log.i("qqqqq","返回的数据为===="+result);
+
             }
         }
     }
+
 
     @Override
     public void onBackPressed() {
@@ -423,9 +474,6 @@ public class BecomeAgency extends Activity implements View.OnClickListener{
                     httpResponse = new DefaultHttpClient().execute(httpPost_2);
 
                     if (httpResponse.getStatusLine().getStatusCode() == 200) {
-
-                        Log.i("qqqqq","asgagaga");
-
                         String result = EntityUtils.toString(httpResponse.getEntity());
                         Log.i("qqqqq","------"+result);
                         JSONObject jo = new JSONObject(result);
@@ -463,6 +511,31 @@ public class BecomeAgency extends Activity implements View.OnClickListener{
                 case 1:
                     Log.i("qqqqqq","-----------"+xianshiMoney);
                     tv_money.setText("¥"+xianshiMoney);
+                    bt_buy.setText("确认支付¥"+xianshiMoney);
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
+                    String isVip = sharedPreferences.getString("isvip", "");
+                    if(isVip.equals("0")){
+
+                    }else{
+                        bt_buy.setBackgroundColor(getResources().getColor(R.color.backround_q_hui));
+                        bt_buy.setText("您已经是代理，无需重复购买");
+                        bt_buy.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                new AlertDialog.Builder(BecomeAgency.this)
+                                        .setTitle("提醒：")
+                                        .setMessage("您已经是代理，无需重复购买")
+                                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        })
+                                        .show();
+                            }
+                        });
+                    }
                     break;
                 //获取数据失败
                 case 2:
