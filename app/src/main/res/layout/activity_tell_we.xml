@@ -27,6 +27,18 @@
     android:textSize="@dimen/textsize_actionbar"
     android:layout_centerInParent="true"
     />
+        <TextView
+            android:id="@+id/activity_tell_we_tv_share"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="分享"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsize_x"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            />
     </RelativeLayout>
 
     <View
@@ -37,6 +49,12 @@
         android:layout_below="@+id/activity_tell_we_actionbar"
         />
 
+    <WebView
+        android:id="@+id/activity_tell_we_wb"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/activity_tell_we_line_1"
+        ></WebView>
 
 
     <LinearLayout
@@ -46,6 +64,7 @@
         android:layout_below="@+id/activity_tell_we_line_1"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
+        android:visibility="gone"
         >
 
         <TextView
@@ -62,7 +81,9 @@
             android:text="\t企业网址:http://www.wangdao.co"
             android:layout_marginTop="10dp"
             android:textSize="16sp"
+            android:visibility="gone"
             />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -87,6 +108,7 @@
         android:layout_centerInParent="true"
         android:layout_marginLeft="15dp"
         android:orientation="vertical"
+        android:visibility="gone"
         >
         <TextView
             android:layout_width="wrap_content"

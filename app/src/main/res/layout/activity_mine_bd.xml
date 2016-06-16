@@ -40,8 +40,10 @@
     android:layout_height="@dimen/height_mine_line"
     android:orientation="horizontal"
     android:background="@color/white"
-    android:layout_marginTop="8dp"
+    android:layout_marginTop="18dp"
     android:weightSum="10"
+    android:visibility="gone"
+
     >
     <TextView
         android:layout_width="0dp"
@@ -76,6 +78,7 @@
     android:orientation="horizontal"
     android:background="@color/white"
         android:weightSum="10"
+        android:layout_marginTop="10dp"
     >
     <TextView
         android:layout_width="0dp"

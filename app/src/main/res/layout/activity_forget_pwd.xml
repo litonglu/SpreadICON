@@ -35,17 +35,7 @@
         android:textColor="#C6C6C6"
         android:inputType="number"
         />
-    <EditText
-        android:id="@+id/activity_forget_pwd_et_pwd"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_mine_line"
-        android:hint="请输入密码"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:background="@color/line_qq"
-        android:paddingLeft="10dp"
-        android:textColor="#C6C6C6"
-        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -76,6 +66,19 @@
             android:textColor="@color/text_color_white"
             />
     </LinearLayout>
+
+    <EditText
+        android:id="@+id/activity_forget_pwd_et_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_mine_line"
+        android:hint="请输入密码"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/line_qq"
+        android:paddingLeft="10dp"
+        android:textColor="#C6C6C6"
+        android:layout_marginTop="20dp"
+        />
     <Button
        android:id="@+id/activity_forget_pwd_bt_repwd"
         android:layout_width="match_parent"
@@ -86,4 +89,5 @@
         android:textSize="@dimen/textsize_x"
         android:layout_margin="15dp"
         />
+
 </LinearLayout>

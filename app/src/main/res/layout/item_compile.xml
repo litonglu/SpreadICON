@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="70dp"
     android:orientation="horizontal"
     android:weightSum="4"
     android:layout_marginTop="4dp"
@@ -15,7 +15,7 @@
 <com.wangdao.our.spread_2.slide_widget.widget_image.RoundedImageView
     android:id="@+id/item_compile_iv_icon"
     android:layout_width="0dp"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_weight="1"
     android:src="@drawable/moren"
     android:scaleType="fitXY"
@@ -38,6 +38,7 @@
             android:layout_height="wrap_content"
             android:text="如果你讨厌电动车充电,那就等到2017年再买吧"
             android:textColor="@color/textcolor_hui"
+            android:maxLines="2"
             />
         <TextView
             android:id="@+id/item_compile_tv_num"

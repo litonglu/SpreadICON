@@ -174,7 +174,6 @@ public class FragmentMaterial extends Fragment implements ViewPager.OnPageChange
                         fm_tv_4.setText(allGgType.get(3).getGt_word());
                         fm_tv_5.setText(allGgType.get(4).getGt_word());
                     }
-
                     break;
             }
         }

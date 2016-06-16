@@ -104,6 +104,8 @@ public class BecomeAgency extends Activity implements View.OnClickListener{
     private RadioButton rb_wx,rb_zfb;
     private AllUrl allurl = new AllUrl();
     private TextView tv_money;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

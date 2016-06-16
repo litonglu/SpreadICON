@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wangdao.our.spread_2.R;
+import com.wangdao.our.spread_2.activity_.mine_activity.BindingAccount;
 import com.wangdao.our.spread_2.activity_.mine_activity.GetMoney;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
 
@@ -204,6 +205,14 @@ public class TiXianToSomeHere extends Activity implements View.OnClickListener{
                     new AlertDialog.Builder(TiXianToSomeHere.this)
                             .setTitle("RESULT：")
                             .setMessage(tixianResult)
+                            .setPositiveButton("去绑定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent bIntent  = new Intent(TiXianToSomeHere.this, BindingAccount.class);
+                                    startActivity(bIntent);
+                                    finish();
+                                }
+                            })
                             .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

@@ -96,12 +96,13 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             />
+
         <TextView
             android:id="@+id/item_myteam_member"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:text="一级会员"
-            android:layout_toLeftOf="@+id/item_myteam_iv_right"
+            android:layout_toLeftOf="@+id/item_myteam_iv_vip"
             android:gravity="center"
             android:textColor="@color/white"
             android:layout_marginRight="6dp"
@@ -110,8 +111,17 @@
             android:paddingRight="4dp"
             android:textSize="@dimen/textsize_xx"
             />
+
+        <ImageView
+
+            android:id="@+id/item_myteam_iv_vip"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/vip_2"
+            android:layout_toLeftOf="@+id/item_myteam_iv_right"
+            android:layout_marginRight="6dp"
+            android:gravity="center"
+
+            />
     </RelativeLayout>
-
-
-
 </LinearLayout>

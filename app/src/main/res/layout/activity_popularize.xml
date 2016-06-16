@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,6 +10,7 @@
         android:layout_height="@dimen/height_actionbar"
         android:background="@color/colorPrimary"
         >
+
         <ImageView
             android:id="@+id/activity_popularize_iv_cancle"
             android:layout_width="wrap_content"
@@ -18,10 +18,13 @@
             android:src="@drawable/takeout_ic_back_pressed"
             android:layout_centerVertical="true"
             />
-<ImageView
+
+        <ImageView
     android:id="@+id/popularize_iv_temp"
     android:layout_width="0dp"
-    android:layout_height="0dp" />
+    android:layout_height="0dp"
+            />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,103 +47,8 @@
     </RelativeLayout>
 
 
-<LinearLayout
-    android:id="@+id/activity_popularize_ll_1"
-    android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:orientation="horizontal"
-    android:layout_below="@+id/activity_popularize_rl_actionbar"
-    android:layout_marginTop="10dp"
 
-    >
-<com.wangdao.our.spread_2.slide_widget.CircleImageView
-    android:id="@+id/activity_popularize_iv_icon"
-    android:layout_width="70dp"
-    android:layout_height="70dp"
-    android:layout_marginLeft="15dp"
-    app:border_color="@color/transparent"
-    app:border_width="0dp"
-    />
 
-<LinearLayout
-
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_marginLeft="15dp"
-    android:weightSum="2"
-    >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_weight="1"
-        >
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:textSize="20sp"
-        android:textColor="@color/colorPrimary"
-        android:gravity="center_vertical"
-        android:text="我是"
-        />
-    <TextView
-        android:id="@+id/activity_popularize_tv_name"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text=""
-        android:textSize="20sp"
-        android:textColor="@color/colorPrimary"
-        android:gravity="center_vertical"
-        />
-    </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="快加入我的团队吧~"
-        android:textSize="20sp"
-        android:textColor="@color/colorPrimary"
-        android:gravity="center_vertical"
-        />
-</LinearLayout>
-
-</LinearLayout>
-
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="160dp"
-    android:layout_centerHorizontal="true"
-    android:layout_below="@+id/activity_popularize_ll_1"
-    android:layout_marginTop="10dp"
-    >
-
-    <ImageView
-        android:id="@+id/activity_popularize_iv_erweima"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:layout_centerHorizontal="true"
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="点击二维码保存到本地"
-        android:layout_below="@+id/activity_popularize_iv_erweima"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="10dp"
-        />
-
-    <ProgressBar
-        android:id="@+id/activity_popularize_pb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-
-        />
-
-</RelativeLayout>
 <ImageView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -150,68 +58,58 @@
 
     />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="10"
-        >
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="7.1"
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="快来分享'拇指营销'寻找你的成员吧"
-                android:textColor="@color/white"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="60dp"
-                android:textSize="@dimen/textsize_x"
-                android:visibility="gone"
-                />
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.7"
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:weightSum="5"
-            >
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="立即成为我的成员"
-                android:textColor="@color/white"
-                android:textSize="@dimen/textsize_x"
-                android:visibility="gone"
-                />
-
-        </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.2"
             />
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="5"
+        >
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/activity_popularize_ll_1"
+        >
+
+        <ImageView
+            android:id="@+id/activity_popularize_iv_erweima"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_centerHorizontal="true"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_below="@+id/activity_popularize_iv_erweima"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            />
+
+        <ProgressBar
+            android:id="@+id/activity_popularize_pb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            />
+
+    </RelativeLayout>
 
     </LinearLayout>
 </RelativeLayout>

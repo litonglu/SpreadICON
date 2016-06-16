@@ -32,6 +32,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.wangdao.our.spread_2.ExampleApplication;
 import com.wangdao.our.spread_2.R;
 import com.wangdao.our.spread_2.activity_.AboutInfo;
 import com.wangdao.our.spread_2.activity_.LoginActivity;
@@ -230,6 +232,7 @@ switch (v.getId()){
     /**
      * 初始化头像
      */
+    private String icon_url_temp = "";
     private Bitmap myIcon;
     private void initIcon(){
 
@@ -237,19 +240,14 @@ switch (v.getId()){
         final String url = sharedPreferences.getString("avatar256", "");
         myNickName =  sharedPreferences.getString("nickname","");
         tv_nickName.setText(myNickName);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    myIcon = getImage(url);
-                    Log.i("sssss","=============="+url);
-                    fh_handler.sendEmptyMessage(1);
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+
+                    icon_url_temp = url;
+                    //myIcon = getImage(url);
+                    Log.i("sssss","=============="+url);
+
+        ImageLoader.getInstance().displayImage(url ==null ? "": url,iv_icon, ExampleApplication.getInstance().getOptions(R.drawable.default_photo));
+                 //   fh_handler.sendEmptyMessage(1);
     }
 
     // 获取指定路径的图片

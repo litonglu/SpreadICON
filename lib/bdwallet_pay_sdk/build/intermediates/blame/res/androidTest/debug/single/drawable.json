@@ -24,12 +24,12 @@
         "source": "D:\\mystudio\\myfile\\Spread\\lib\\bdwallet_pay_sdk\\build\\intermediates\\bundles\\debug\\res\\drawable\\wallet_base_pwdpay_submit_selector.xml"
     },
     {
-        "merged": "D:\\mystudio\\myfile\\Spread\\lib\\bdwallet_pay_sdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\wallet_base_btn.xml",
-        "source": "D:\\mystudio\\myfile\\Spread\\lib\\bdwallet_pay_sdk\\build\\intermediates\\bundles\\debug\\res\\drawable\\wallet_base_btn.xml"
-    },
-    {
         "merged": "D:\\mystudio\\myfile\\Spread\\lib\\bdwallet_pay_sdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\wallet_base_dialog_rightbtn_selector.xml",
         "source": "D:\\mystudio\\myfile\\Spread\\lib\\bdwallet_pay_sdk\\build\\intermediates\\bundles\\debug\\res\\drawable\\wallet_base_dialog_rightbtn_selector.xml"
+    },
+    {
+        "merged": "D:\\mystudio\\myfile\\Spread\\lib\\bdwallet_pay_sdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\wallet_base_btn.xml",
+        "source": "D:\\mystudio\\myfile\\Spread\\lib\\bdwallet_pay_sdk\\build\\intermediates\\bundles\\debug\\res\\drawable\\wallet_base_btn.xml"
     },
     {
         "merged": "D:\\mystudio\\myfile\\Spread\\lib\\bdwallet_pay_sdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\wallet_base_corners_bg.xml",

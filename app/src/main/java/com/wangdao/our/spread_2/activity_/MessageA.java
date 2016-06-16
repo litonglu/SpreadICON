@@ -87,6 +87,7 @@ public class MessageA extends Activity implements View.OnClickListener{
         lv_mg.setAdapter(mAdapter);
         initData();
         iv_cancle.setOnClickListener(this);
+
         initTag();
 
         lv_mg.setOnItemClickListener(new AdapterView.OnItemClickListener() {

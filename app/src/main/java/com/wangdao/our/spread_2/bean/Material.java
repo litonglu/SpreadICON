@@ -28,6 +28,8 @@ public class Material implements Serializable{
     private String mId;//广告的id
     private boolean isChoose = false;
 
+    private String picture_id;
+
     public Material() {
     }
 
@@ -147,5 +149,13 @@ public class Material implements Serializable{
 
     public void setIsChoose(boolean isChoose) {
         this.isChoose = isChoose;
+    }
+
+    public String getPicture_id() {
+        return picture_id;
+    }
+
+    public void setPicture_id(String picture_id) {
+        this.picture_id = picture_id;
     }
 }

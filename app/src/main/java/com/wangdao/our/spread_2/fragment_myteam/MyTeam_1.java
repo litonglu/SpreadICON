@@ -1,6 +1,7 @@
 package com.wangdao.our.spread_2.fragment_myteam;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.wangdao.our.spread_2.ExampleApplication;
 import com.wangdao.our.spread_2.R;
+import com.wangdao.our.spread_2.activity_.mine_activity.Team_info;
 import com.wangdao.our.spread_2.bean.Team;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
 import com.wangdao.our.spread_2.slide_widget.CircleImageView;
@@ -59,6 +62,8 @@ public class MyTeam_1 extends Fragment{
     private MyTeam1_Handler myTeam1_handler = new MyTeam1_Handler();
     private List<Team> list_team = new ArrayList<>();
 
+
+    private TextView tv_num;
     private TextView tv_erro;
     private MyTeamAdapter my1Adapter ;
     @Nullable
@@ -74,13 +79,24 @@ public class MyTeam_1 extends Fragment{
         mT1_lv.setAdapter(my1Adapter);
         initData();
 
+        mT1_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+                Intent pIntent = new Intent(myContext,Team_info.class);
+                pIntent.putExtra("id",list_team.get(position).getUid());
+                startActivity(pIntent);
+
+            }
+        });
         return myView;
     }
-    private void initView(){
 
+    private void initView(){
+        tv_num = (TextView) myView.findViewById(R.id.fragment_myteam_1_tv_num);
         mT1_lv = (ListView) myView.findViewById(R.id.fragment_myteam_1_lv);
         tv_erro = (TextView) myView.findViewById(R.id.fragment_myteam_1_tv_erro);
-
     }
 
     /**
@@ -109,11 +125,16 @@ public class MyTeam_1 extends Fragment{
                             for(int i = 0;i<ja.length();i++){
                                 JSONObject jo_2 = ja.getJSONObject(i);
                                 Team uTeam = new Team();
+
+                                uTeam.setUid(jo_2.getString("uid"));
+
                                 uTeam.setAddTime(jo_2.getString("create_time"));
                                 JSONObject jo_3 = jo_2.getJSONObject("userinfo");
                                 uTeam.setIcon_url(jo_3.getString("avatar256"));
                                 uTeam.setName(jo_3.getString("nickname"));
                                 uTeam.setLoginTime(jo_3.getString("last_login_time"));
+                                uTeam.setIsVip(jo_3.getString("agents_level"));
+
                                 list_team.add(uTeam);
                             }
 
@@ -142,6 +163,9 @@ public class MyTeam_1 extends Fragment{
             switch (msg.what){
                 //获取数据成功
                 case 1:
+                    tv_num.setText("("+list_team.size()+")");
+
+
                     my1Adapter.notifyDataSetChanged();
                     tv_erro.setVisibility(View.GONE);
                     break;
@@ -188,6 +212,7 @@ public class MyTeam_1 extends Fragment{
                 mtHoledr.tTv_time = (TextView) convertView.findViewById(R.id.item_myteam_tv_time);
                 mtHoledr.tTv_time_lately = (TextView) convertView.findViewById(R.id.item_myteam_tv_time_lately);
                 mtHoledr.tTv_member = (TextView) convertView.findViewById(R.id.item_myteam_member);
+                mtHoledr.iv_vip = (ImageView) convertView.findViewById(R.id.item_myteam_iv_vip);
                 convertView.setTag(mtHoledr);
             }else{
                 mtHoledr = (MyTeamHolder) convertView.getTag();
@@ -195,6 +220,14 @@ public class MyTeam_1 extends Fragment{
 
             ImageLoader.getInstance().displayImage(teams.get(position).getIcon_url() == null ? "" : teams.get(position).getIcon_url(), mtHoledr.tIv_icon,
                     ExampleApplication.getInstance().getOptions(R.drawable.nopilc_2));
+
+
+            if(teams.get(position).getIsVip().equals("3")){
+                mtHoledr.iv_vip.setVisibility(View.VISIBLE);
+            }else{
+                mtHoledr.iv_vip.setVisibility(View.INVISIBLE);
+            }
+
 
             mtHoledr.tTv_name.setText(teams.get(position).getName());
             mtHoledr.tTv_time.setText(teams.get(position).getAddTime());
@@ -210,5 +243,6 @@ public class MyTeam_1 extends Fragment{
         TextView tTv_time;
         TextView tTv_time_lately;
         TextView tTv_member;
+        ImageView iv_vip;
     }
 }

@@ -144,7 +144,9 @@ public class Crop {
      * @param activity Activity that will receive result
      */
     public static void pickImage(Activity activity) {
+
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT).setType("image/*");
+
         try {
             activity.startActivityForResult(intent, REQUEST_PICK);
         } catch (ActivityNotFoundException e) {

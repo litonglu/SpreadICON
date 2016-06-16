@@ -5,7 +5,7 @@
 
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="76dp"
     android:orientation="horizontal"
     >
 
@@ -22,13 +22,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="2"
+    android:weightSum="5"
     android:layout_marginLeft="10dp"
     >
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         >
@@ -63,8 +64,8 @@
         android:id="@+id/item_messager_tv_info"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="乱七八糟的一些介绍的东西啊啊啊啊啊啊啊啊啊啊啊啊啊啊"
+        android:layout_weight="3"
+        android:text="乱七八糟的一"
         android:gravity="center_vertical"
         android:textSize="@dimen/textsize_xx"
         android:layout_marginRight="10dp"

@@ -53,17 +53,7 @@
         android:textColor="#C6C6C6"
         android:inputType="number"
         />
-    <EditText
-        android:id="@+id/activity_register_et_pwd"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:hint="请输入手机密码"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:background="@color/line_qq"
-        android:paddingLeft="10dp"
-        android:textColor="#C6C6C6"
-        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -95,7 +85,18 @@
         />
     </LinearLayout>
 
-
+    <EditText
+        android:id="@+id/activity_register_et_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="请输入手机密码"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/line_qq"
+        android:paddingLeft="10dp"
+        android:textColor="#C6C6C6"
+        android:layout_marginTop="20dp"
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"

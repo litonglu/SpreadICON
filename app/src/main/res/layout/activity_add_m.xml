@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/line_q">
+    android:background="@color/white">
 
 <RelativeLayout
     android:layout_width="match_parent"
@@ -128,6 +128,7 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@color/text_color_white"
+
         >
         <TextView
             android:layout_width="wrap_content"
@@ -135,6 +136,8 @@
             android:text="位置："
             android:textColor="@color/textcolor_q"
             android:layout_marginLeft="10dp"
+            android:visibility="gone"
+
             />
 
         <RadioButton
@@ -146,6 +149,7 @@
             android:textColor="@color/textcolor_hui"
             android:layout_marginLeft="10dp"
             android:textSize="@dimen/textsize_x"
+            android:visibility="gone"
             />
         <RadioButton
             android:id="@+id/activity_add_m_rb_2"
@@ -156,16 +160,22 @@
             android:textColor="@color/textcolor_hui"
             android:layout_marginLeft="10dp"
             android:textSize="@dimen/textsize_x"
+            android:visibility="gone"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="是否裁剪"
+            android:layout_marginLeft="6dp"
+            android:textSize="@dimen/textsize_x"
             />
         <RadioButton
             android:id="@+id/activity_add_m_rb_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxHeight="16dp"
-            android:text="裁剪"
+
+            android:text=""
             android:textColor="@color/textcolor_hui"
-            android:layout_marginLeft="10dp"
-            android:textSize="@dimen/textsize_x"
             />
     </LinearLayout>
 
@@ -331,7 +341,7 @@
 <LinearLayout
     android:id="@+id/activity_add_m_ll_yi"
     android:layout_width="match_parent"
-    android:layout_height="30dp"
+    android:layout_height="26dp"
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:background="@color/text_color_white"
@@ -339,9 +349,10 @@
     >
 
 <ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/tag_no"
+    android:layout_width="16dp"
+    android:layout_height="16dp"
+    android:src="@drawable/biaoqian"
+    android:layout_marginLeft="6dp"
     />
 
     <EditText
@@ -355,8 +366,240 @@
         android:textSize="@dimen/textsize_xx"
         android:textColor="@color/textcolor_hui"
         android:paddingLeft="10dp"
+        android:layout_marginLeft="20dp"
         />
 </LinearLayout>
+
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="26dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/text_color_white"
+        android:visibility="visible"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        >
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/text_"
+            android:layout_marginLeft="6dp"
+            />
+
+        <EditText
+            android:id="@+id/activity_add_m_et_title"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_sure_btn_hui_kong"
+            android:layout_marginRight="20dp"
+            android:hint="请输入标题"
+            android:textSize="@dimen/textsize_xx"
+            android:textColor="@color/textcolor_hui"
+            android:paddingLeft="10dp"
+            android:layout_marginLeft="20dp"
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="26dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/text_color_white"
+        android:visibility="visible"
+        >
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/text_"
+            android:layout_marginLeft="6dp"
+            />
+
+        <EditText
+            android:id="@+id/activity_add_m_et_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_sure_btn_hui_kong"
+            android:layout_marginRight="20dp"
+            android:hint="请输入描述信息"
+            android:textSize="@dimen/textsize_xx"
+            android:textColor="@color/textcolor_hui"
+            android:paddingLeft="10dp"
+            android:layout_marginLeft="20dp"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="26dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/text_color_white"
+        android:visibility="visible"
+        android:layout_marginTop="4dp"
+        >
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/text_color_tag"
+            android:layout_marginLeft="6dp"
+            />
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
+            android:weightSum="8"
+            >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                >
+
+        <ImageView
+            android:id="@+id/activity_add_m_iv_1"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/shape_sure_btn_blue_11_n"
+            />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                >
+
+                <ImageView
+                    android:id="@+id/activity_add_m_iv_2"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/shape_sure_btn_blue_22_n"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                >
+
+                <ImageView
+                    android:id="@+id/activity_add_m_iv_3"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/shape_sure_btn_blue_33_n"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                >
+
+                <ImageView
+                    android:id="@+id/activity_add_m_iv_4"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/shape_sure_btn_blue_44_n"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                >
+
+                <ImageView
+                    android:id="@+id/activity_add_m_iv_5"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/shape_sure_btn_blue_55_n"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                >
+
+                <ImageView
+                    android:id="@+id/activity_add_m_iv_6"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/shape_sure_btn_blue_66_n"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                >
+
+                <ImageView
+                    android:id="@+id/activity_add_m_iv_7"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/shape_sure_btn_blue_77_n"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                >
+
+                <ImageView
+                    android:id="@+id/activity_add_m_iv_8"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/shape_sure_btn_blue_88_n"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -364,15 +607,17 @@
         android:gravity="center_horizontal"
         android:background="@color/text_color_white"
         >
+
     <TextView
         android:id="@+id/activity_add_m_tv_explain"
         android:layout_marginTop="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="可制作680*120像素图片,链接店铺地址或产品单页等。"
+        android:text="注:可制作680*120像素图片,链接店铺地址或产品单页等. \n    只有系统广告素材才可添加文字."
         android:textSize="@dimen/textsize_xx"
         android:textColor="@color/textcolor_hui"
         />
+
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -385,6 +630,7 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@color/text_color_white"
+        android:visibility="gone"
         >
         <TextView
             android:layout_width="wrap_content"

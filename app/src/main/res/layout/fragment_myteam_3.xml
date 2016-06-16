@@ -22,10 +22,17 @@
 
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="我的三级成员"
+            android:text="我的三级成员\t"
             android:textColor="@color/textcolor_hui"
             android:gravity="center"
             android:layout_marginLeft="6dp"
+            />
+        <TextView
+            android:id="@+id/fragment_myteam_3_tv_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text=""
             />
     </LinearLayout>
     <View

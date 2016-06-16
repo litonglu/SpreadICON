@@ -17,7 +17,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.wangdao.our.spread_2.MainActivity;
@@ -58,6 +62,9 @@ public class Compile_fg_2 extends Fragment implements View.OnClickListener{
     private List<NameValuePair> params = new ArrayList<NameValuePair>();
     private Compile2Handler comHandler = new Compile2Handler();
 
+
+    private myHandler_1 myHandler_1 = new myHandler_1();
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,6 +76,7 @@ public class Compile_fg_2 extends Fragment implements View.OnClickListener{
         bt_clip.setOnClickListener(this);
         return myView;
     }
+
     private ClipboardManager clip;
     private void getC(){
          clip = (ClipboardManager)myContext.getSystemService(Context.CLIPBOARD_SERVICE);
@@ -83,7 +91,9 @@ public class Compile_fg_2 extends Fragment implements View.OnClickListener{
                         }
                     })
                     .show();
+
         }else {
+
             new AlertDialog.Builder(myContext)
                     .setTitle("扫描到的文章链接")
                     .setMessage(clip.getText().toString())
@@ -91,11 +101,10 @@ public class Compile_fg_2 extends Fragment implements View.OnClickListener{
                     .setPositiveButton("继续", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Intent uIntent = new Intent(myContext, Article_info.class);
-                            uIntent.putExtra("url",clip.getText().toString());
-                            uIntent.putExtra("uid","zhan");
-                            uIntent.putExtra("title","zhan");
-                            startActivity(uIntent);
+
+
+                            goCompile(clip.getText().toString());
+                            startDialog();
                             dialog.dismiss();
                         }
                     })
@@ -108,6 +117,122 @@ public class Compile_fg_2 extends Fragment implements View.OnClickListener{
                     .show();
         }
     }
+
+
+    private String compile_result = "网络异常";
+    private void goCompile(String myUrl_){
+
+        httpPost = new HttpPost(allurl.getCopyUrl());
+        SharedPreferences sharedPreferences = myContext.getSharedPreferences("user", myContext.MODE_PRIVATE);
+        String mToken = sharedPreferences.getString("user_token", "");
+
+        params.add(new BasicNameValuePair("user_token", mToken));
+        params.add(new BasicNameValuePair("url", myUrl_ ));
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    httpPost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+                    httpResponse = new DefaultHttpClient().execute(httpPost);
+                    if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                        String result = EntityUtils.toString(httpResponse.getEntity());
+                        JSONObject jo = new JSONObject(result);
+                        Log.i("qqqqqq","啊啊啊啊啊啊啊");
+                        compile_result = jo.getString("info");
+
+                        if (jo.getString("status").equals("1")) {
+
+                            Log.i("qqqqqq",jo.toString());
+
+                        //    myUrl = jo.getString("url");
+                            copyId = jo.getString("id");
+                            copyTitle = jo.getString("title");
+                            copyIcon = jo.getString("writing_default_img");
+                            copyContent = jo.getString("brief");
+
+                            myHandler_1.sendEmptyMessage(1);
+
+
+
+                        }else{
+
+                            Log.i("qqqqq","错误");
+                            myHandler_1.sendEmptyMessage(2);
+
+                        }
+                    }
+                } catch (Exception e) {
+                    myHandler_1.sendEmptyMessage(2);
+                    Log.i("qqqqq",e.toString());
+                    e.printStackTrace();
+                }
+
+
+            }
+        }).start();
+
+    }
+
+    private final String myUrl_2 = "http://wz.ijiaque.com/app/article/articledetail.html";
+
+    class myHandler_1 extends Handler{
+        @Override
+        public void handleMessage(Message msg) {
+
+            switch (msg.what){
+                case 1:
+
+                    SharedPreferences sharedPreferences = myContext.getSharedPreferences("user", myContext.MODE_PRIVATE);
+                    String auid = sharedPreferences.getString("uid", "");
+
+                    Intent uIntent = new Intent(myContext, Article_info.class);
+                    uIntent.putExtra("url",myUrl_2+"?writing_id="+copyId+"&uid="+auid);
+
+                    uIntent.putExtra("uid",copyId);
+                    uIntent.putExtra("title",copyTitle);
+                    uIntent.putExtra("img",copyIcon);
+                    uIntent.putExtra("content",copyContent);
+
+                    Log.i("qqqqqqqqqq",myUrl_2+"?writing_id="+copyId+"&uid="+auid);
+
+                    startActivity(uIntent);
+
+                    dia_wait.dismiss();
+
+                    break;
+                case 2:
+                    dia_wait.dismiss();
+                    new AlertDialog.Builder(myContext)
+                            .setTitle("提示")
+                            .setMessage(compile_result)
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                    break;
+            }
+        }
+    }
+
+
+    private Dialog dia_wait;
+    private ImageView dialog_iv;
+    private void startDialog(){
+        View dialog_view = myInflater.inflate(R.layout.dialog_wait_2,null);
+        dia_wait = new Dialog(myContext,R.style.dialog);
+        dia_wait.setContentView(dialog_view);
+        dialog_iv  = (ImageView) dialog_view.findViewById(R.id.dialog_wait_2_iv);
+        Animation anim = AnimationUtils.loadAnimation(myContext, R.anim.dialog_zhuang);
+        LinearInterpolator lir = new LinearInterpolator();
+        anim.setInterpolator(lir);
+        dialog_iv.startAnimation(anim);
+        dia_wait.show();
+    }
+
+
 
     @Override
     public void onClick(View v) {
@@ -138,7 +263,11 @@ switch (v.getId()){
      * 发送链接
      */
     private String copyResult;
+    private String copyId;
     private String myUrl;
+    private String copyTitle;
+    private String copyIcon;
+    private String copyContent;
     private void sendUrlTo(String wUrl){
         httpPost = new HttpPost(allurl.getCopyUrl());
         SharedPreferences sharedPreferences = myContext.getSharedPreferences("user", myContext.MODE_PRIVATE);
@@ -157,7 +286,12 @@ switch (v.getId()){
                         copyResult = jo.getString("info");
                         if(jo.getString("status").equals("1")){
                             myUrl = jo.getString("url");
+                            copyId = jo.getString("id");
+                            copyTitle = jo.getString("title");
+                            copyIcon = jo.getString("writing_default_img");
+                            copyContent = jo.getString("brief");
                             comHandler.sendEmptyMessage(1);
+
                         }else{
                             comHandler.sendEmptyMessage(2);
                         }
@@ -168,7 +302,6 @@ switch (v.getId()){
                 }
             }
         }).start();
-
     }
 
     class Compile2Handler extends Handler{
@@ -177,11 +310,17 @@ switch (v.getId()){
             switch (msg.what){
                 //抓取成功
                 case 1:
+                    SharedPreferences sharedPreferences = myContext.getSharedPreferences("user", myContext.MODE_PRIVATE);
+                    String auid = sharedPreferences.getString("uid", "");
 
                     Intent uIntent = new Intent(myContext, Article_info.class);
-                    uIntent.putExtra("url",myUrl);
-                    uIntent.putExtra("uid","0");
-                    uIntent.putExtra("title","0");
+                    uIntent.putExtra("url",myUrl+"?writing_id="+copyId+"&uid="+auid);
+
+                    uIntent.putExtra("uid",copyId);
+                    uIntent.putExtra("title",copyTitle);
+                    uIntent.putExtra("img",copyIcon);
+                    uIntent.putExtra("content",copyContent);
+
                     startActivity(uIntent);
 
                     break;

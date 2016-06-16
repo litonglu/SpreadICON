@@ -78,7 +78,6 @@ import com.wangdao.our.spread_2.fragment_material.Fragment_vp_material_3;
 import com.wangdao.our.spread_2.fragment_material.Fragment_vp_material_4;
 import com.wangdao.our.spread_2.fragment_material.Fragment_vp_material_5;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
-import com.wangdao.our.spread_2.slide_widget.widget_image.AsynImageLoader;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -124,6 +123,8 @@ import java.util.Map;
  */
 public class Article_info extends FragmentActivity implements View.OnClickListener{
 
+
+    private boolean isPush = false;
     private final String default_url = "http://wz.ijiaque.com/app/article/articledetail.html";
     private ImageView iv_bottom;
     private TextView tv_bottom;
@@ -149,6 +150,7 @@ public class Article_info extends FragmentActivity implements View.OnClickListen
     private List<Material> list_myChoose = new ArrayList<>();
     private ImageView iv_temp;
     private String myImgUrl;
+    private String myContent_ = "";
 
     /**
      * 当前位置
@@ -168,12 +170,24 @@ public class Article_info extends FragmentActivity implements View.OnClickListen
         myUid = gIntent.getExtras().getString("uid");
         mt_title = gIntent.getExtras().getString("title");
         myImgUrl = gIntent.getExtras().getString("img");
-        if(myUid.equals("zhan")){
-            startDialog();
-            load();
-        }
+        myContent_ = gIntent.getExtras().getString("content");
+
+
+            share_content = myContent_;
+
+
+
+//        if(myUid.equals("zhan")){
+//            startDialog();
+//            load();
+//        }
+
+
+        Log.i("qqqqqqq","-----"+myUrl);
         init(myUrl);
+
         webView.setWebChromeClient(new WebChromeClient() {
+
             /**
              * 添加广告点击事件
              * @param consoleMessage
@@ -191,16 +205,19 @@ public class Article_info extends FragmentActivity implements View.OnClickListen
         });
     }
 
-
     private Dialog dia_wait;
     private ImageView dialog_iv;
     private void startDialog(){
 
         View dialog_view = getLayoutInflater().inflate(R.layout.dialog_wait_2,null);
+
         dia_wait = new Dialog(this,R.style.dialog);
         dia_wait.setContentView(dialog_view);
+
         dia_wait.setCanceledOnTouchOutside(false);
+
         dia_wait.setCancelable(false);
+
         dialog_iv  = (ImageView) dialog_view.findViewById(R.id.dialog_wait_2_iv);
         Animation anim = AnimationUtils.loadAnimation(this, R.anim.dialog_zhuang);
 
@@ -210,9 +227,11 @@ public class Article_info extends FragmentActivity implements View.OnClickListen
         dialog_iv.startAnimation(anim);
 
         dia_wait.show();
+
     }
 
     String myContent;
+    private String share_content = "";
 //    String myTitle;
     handler ah = new handler();
     protected void load() {
@@ -231,17 +250,12 @@ public class Article_info extends FragmentActivity implements View.OnClickListen
 
                     ah.sendEmptyMessage(6);
                     return;
-
                 }else {
-                    Log.i("qqqqq",mt_title+"------"+myContent);
+                    share_content = content_.text();
                     mt_title = cTitle.text().toString();
                     myContent = content_.toString();
 
                 }
-
-
-
-
         } catch (MalformedURLException e1) {
             ah.sendEmptyMessage(3);
             e1.printStackTrace();
@@ -251,7 +265,6 @@ public class Article_info extends FragmentActivity implements View.OnClickListen
             e1.printStackTrace();
         }
                 ah.sendEmptyMessage(0);
-
             }
         }).start();
     }
@@ -285,6 +298,7 @@ class handler extends Handler{
                         .show();
                 dia_wait.dismiss();
                 break;
+
             case 3:
                 new AlertDialog.Builder(Article_info.this)
                         .setTitle("抓取失败")
@@ -372,6 +386,7 @@ new Thread(new Runnable() {
         tv_share = (TextView) findViewById(R.id.action_article_tv_share);
         webView = (WebView) findViewById(R.id.activity_article_wb);
     }
+
     private void initOnClick(){
         iv_bottom.setOnClickListener(this);
         tv_bottom.setOnClickListener(this);
@@ -402,14 +417,17 @@ new Thread(new Runnable() {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url.toString().equals("activity:2:[object Window]")) {
-                    addType = "bottom";
+                Log.i("qqqqqqq",url);
 
-                } else if (url.toString().equals("activity:1:[object Window]")) {
-                    addType = "top";
-                }
 
-                if (url.toString().equals("activity:2:[object Window]") || url.toString().equals("activity:1:[object Window]")) {
+                if (url.toString().equals("activity:2:[object Window]") || url.toString().equals("activity:1:[object Window]") || url.toString().equals("activity:1:[object DOMWindow]")|| url.toString().equals("activity:2:[object DOMWindow]") ) {
+
+                    if (url.toString().equals("activity:2:[object DOMWindow]") || url.toString().equals("activity:2:[object Window]")) {
+                        addType = "bottom";
+
+                    } else if (url.toString().equals("activity:1:[object DOMWindow]") || url.toString().equals("activity:1:[object Window]")) {
+                        addType = "top";
+                    }
                     if (fristOpen) {
                         fristOpen = false;
                     } else {
@@ -467,8 +485,6 @@ switch (v.getId()) {
             params.add(new BasicNameValuePair("writing_ads_top",name_str));
         }
 
-        Log.i("qqqqq","casnhu:===="+myUid+"======="+userToken+"========="+name_str);
-
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -479,31 +495,24 @@ switch (v.getId()) {
                         String result = EntityUtils.toString(httpResponse.getEntity());
                         JSONObject jo = new JSONObject(result);
                         compielResult = jo.getString("info");
+
                         if(jo.getString("status").equals("1")){
                             ahandler.sendEmptyMessage(11);
                         }else{
                             ahandler.sendEmptyMessage(12);
                         }
+
                     }
-                } catch (UnsupportedEncodingException e) {
-                    ahandler.sendEmptyMessage(12);
-                    e.printStackTrace();
-                } catch (ClientProtocolException e) {
-                    ahandler.sendEmptyMessage(12);
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    ahandler.sendEmptyMessage(12);
-                    e.printStackTrace();
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     ahandler.sendEmptyMessage(12);
                     e.printStackTrace();
                 }
-
             }
         }).start();
 
         materialDialog.dismiss();
         break;
+
     //分享到微信
     case R.id.dialog_share_iv_wx:
 
@@ -551,7 +560,9 @@ switch (v.getId()) {
                         })
                         .show();
             }else{
+
                 TuiJianToWX(mt_title);
+
             }
 
         }else {
@@ -774,11 +785,22 @@ switch (v.getId()) {
                 case 1:
                     list_dm.clear();
                     if(current_int ==0){
-                        for(Material a:myChoose){
-                            list_dm.add(a);
+                        if(myChoose.size()!=0){
+                         //   list_dm = myChoose;
+
+                            for(int i = 0;i<myChoose.size();i++){
+                                list_dm.add(myChoose.get(i));
+                            }
+
+//                        for(Material a:myChoose){
+//                            list_dm.add(a);
+//                        }
                         }
 
                     }else if(current_int ==1){
+
+
+
                         for(Material a:myChoose_2){
                             list_dm.add(a);
                         }
@@ -807,12 +829,11 @@ switch (v.getId()) {
                 case 11:
                     fristOpen = true;
                     init(myUrl);
-                    Log.i("qqqqq","编辑成功"+myUrl);
                     break;
                 //编辑失败
                 case 12:
-                    Log.i("qqqqq","编辑失败");
-                    Toast.makeText(Article_info.this,compielResult,Toast.LENGTH_SHORT).show();
+                    init(myUrl);
+                    // Toast.makeText(Article_info.this,compielResult,Toast.LENGTH_SHORT).show();
                     break;
             }
         }
@@ -891,6 +912,7 @@ switch (v.getId()) {
         materialDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
+                isPush = false;
                 list_myChoose.clear();
                 myChoose.clear();
                 myChoose_2.clear();
@@ -930,7 +952,7 @@ switch (v.getId()) {
     class MaterialAdapter extends BaseAdapter {
         Fm1_ViewHolder FVH ;
         List<Material> my_Material;
-        AsynImageLoader asynImageLoader = new AsynImageLoader();
+        //AsynImageLoader asynImageLoader = new AsynImageLoader();
         int allNum = 5;
         // 用来控制CheckBox的选中状况
         private HashMap<Integer, Boolean> isSelected = new HashMap<>();
@@ -986,6 +1008,7 @@ switch (v.getId()) {
                 FVH.ck_1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        isPush = true;
                         if (!myChoose.get(position).isChoose()) {
                             if (allNum > 0) {
                                 allNum -= 1;
@@ -1079,6 +1102,7 @@ switch (v.getId()) {
                         }
                     }
                 });
+
             }else if(current_int ==3){
                 FVH.ck_1.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -1118,6 +1142,7 @@ switch (v.getId()) {
                 convertView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        isPush = true;
                         if (!myChoose.get(position).isChoose()) {
                             if (allNum > 0) {
                                 Log.i("qqqqq", "list_size=" + list_dm.size());
@@ -1155,6 +1180,7 @@ switch (v.getId()) {
                 convertView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        isPush = true;
                         if (!myChoose_2.get(position).isChoose()) {
                             if (allNum > 0) {
                                 allNum -= 1;
@@ -1262,7 +1288,9 @@ switch (v.getId()) {
             FVH.tv_tag_2.setVisibility(View.GONE);
             FVH.tv_tag_3.setVisibility(View.GONE);
 
-            if(my_Material.get(position).getmType() == 0){//通知栏
+            Log.i("aaaaaa",my_Material.get(position).getIcon_url());
+
+            if(my_Material.get(position).getmType() == 0){ //通知栏
                 FVH.ll_icon.setVisibility(View.INVISIBLE);
                 FVH.ll_info.setVisibility(View.INVISIBLE);
                 FVH.mAll_icon.setVisibility(View.VISIBLE);
@@ -1270,7 +1298,14 @@ switch (v.getId()) {
                 FVH.tv_tag_1.setText(R.string.tag_tong);
                 FVH.mTitle.setText(my_Material.get(position).getmTitle());
                 FVH.mInfo.setText(my_Material.get(position).getmInfo());
-                asynImageLoader.showImageAsyn(FVH.mAll_icon, my_Material.get(position).getIcon_url(), R.drawable.nopic);
+           //     asynImageLoader.showImageAsyn(FVH.mAll_icon, my_Material.get(position).getIcon_url(), R.drawable.nopic);
+
+                if(!isPush){
+                    ImageLoader.getInstance().displayImage(my_Material.get(position).getIcon_url() ==null?"":my_Material.get(position).getIcon_url(),FVH.mAll_icon,
+                            ExampleApplication.getInstance().getOptions(R.drawable.nopic));
+                }
+
+
 
             }else if(my_Material.get(position).getmType() == 1){
                 FVH.ll_icon.setVisibility(View.VISIBLE);
@@ -1280,7 +1315,10 @@ switch (v.getId()) {
                 FVH.tv_tag_1.setText(R.string.tag_tuwen);
                 FVH.mTitle.setText(my_Material.get(position).getmTitle());
                 FVH.mInfo.setText(my_Material.get(position).getmInfo());
-                asynImageLoader.showImageAsyn(FVH.mIcon, my_Material.get(position).getIcon_url(), R.drawable.nopic);
+             //   asynImageLoader.showImageAsyn(FVH.mIcon, my_Material.get(position).getIcon_url(), R.drawable.nopic);
+
+                ImageLoader.getInstance().displayImage(my_Material.get(position).getIcon_url() ==null?"":my_Material.get(position).getIcon_url(),FVH.mAll_icon,
+                        ExampleApplication.getInstance().getOptions(R.drawable.nopic));
 
             }else if(my_Material.get(position).getmType() == 2){
                 FVH.ll_icon.setVisibility(View.VISIBLE);
@@ -1292,7 +1330,12 @@ switch (v.getId()) {
                 FVH.mInfo.setText(my_Material.get(position).getmPhone());
                 FVH.mAdress.setText(my_Material.get(position).getmAdress());
 
-                asynImageLoader.showImageAsyn(FVH.mIcon, my_Material.get(position).getIcon_url(), R.drawable.nopic);
+            //    asynImageLoader.showImageAsyn(FVH.mIcon, my_Material.get(position).getIcon_url(), R.drawable.nopic);
+
+                ImageLoader.getInstance().displayImage(my_Material.get(position).getIcon_url() ==null?"":my_Material.get(position).getIcon_url(),FVH.mAll_icon,
+                        ExampleApplication.getInstance().getOptions(R.drawable.nopic));
+
+
             }else if(my_Material.get(position).getmType() == 3){
                 FVH.ll_icon.setVisibility(View.VISIBLE);
                 FVH.ll_info.setVisibility(View.VISIBLE);
@@ -1302,13 +1345,18 @@ switch (v.getId()) {
                 FVH.mAdress.setVisibility(View.GONE);
                 FVH.mTitle.setText(my_Material.get(position).getmTitle());
                 FVH.mInfo.setText(my_Material.get(position).getmInfo());
-                asynImageLoader.showImageAsyn(FVH.mIcon, my_Material.get(position).getIcon_url(), R.drawable.nopic);
+              //  asynImageLoader.showImageAsyn(FVH.mIcon, my_Material.get(position).getIcon_url(), R.drawable.nopic);
+
+
+                ImageLoader.getInstance().displayImage(my_Material.get(position).getIcon_url() ==null?"":my_Material.get(position).getIcon_url(),FVH.mAll_icon,
+                        ExampleApplication.getInstance().getOptions(R.drawable.nopic));
             }
             return convertView;
         }
     }
 
     class Fm1_ViewHolder{
+
         ImageView mIcon;
         TextView mTitle;
         TextView mInfo;
@@ -1320,6 +1368,7 @@ switch (v.getId()) {
         TextView tv_tag_2;
         TextView tv_tag_3;
         CheckBox ck_1;
+
     }
 
     /**
@@ -1334,19 +1383,54 @@ switch (v.getId()) {
         msg_1 = new WXMediaMessage(webpage_2);
 
         if(str.equals("null")){
-            msg_1.title  = "轻松分享,黑马营销";
+            msg_1.title  = "轻松分享,拇指营销";
         }else {
-            msg_1.title = str;
+                msg_1.title = str;
         }
+            msg_1.description = myContent_;
 
-        ImageLoader.getInstance().displayImage(myImgUrl == null ? "" : myImgUrl,iv_temp,
+//        if(myImgUrl != null){
+//
+//            new LoadPicThread(myImgUrl,new Handler(){
+//
+//                @Override
+//                public void handleMessage(Message msg) {
+//                   byte[] b = (byte[]) msg.obj;
+//
+//                    msg_1.thumbData = Util.bmpToByteArray(Bytes2Bimap(b), false);
+//                    SendMessageToWX.Req req = new SendMessageToWX.Req();
+//                    req.transaction = buildTransaction("webpage");
+//                    req.message = msg_1;
+//                    req.scene = SendMessageToWX.Req.WXSceneSession;
+//                    api.sendReq(req);
+//                }
+//            });
+//        }else{
+//
+//Bitmap bb = BitmapFactory.d
+//        }
+
+     //   Log.i("qqqqqqqqqq",myImgUrl+"-------------");
+        ImageLoader.getInstance().displayImage(myImgUrl == null  ? "" : myImgUrl,iv_temp,
                 ExampleApplication.getInstance().getOptions(R.drawable.icon_2),
                     new SimpleImageLoadingListener() {
                         @Override
                         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                             super.onLoadingComplete(imageUri, view, loadedImage);
-                            thumb_1 =  yaSuoImage(loadedImage);
-                            msg_1.thumbData = Util.bmpToByteArray(thumb_1, false);
+
+                                if(imageUri.equals("null")){
+
+                                    thumb_1 = BitmapFactory.decodeResource(Article_info.this.getResources(),R.drawable.icon_2);
+                                    msg_1.thumbData = Util.bmpToByteArray(thumb_1, false);
+
+                                }else{
+                                    thumb_1 =  yaSuoImage(loadedImage);
+                                    msg_1.thumbData = Util.bmpToByteArray(thumb_1, false);
+                                }
+
+                            Log.i("qqqqqqqq",imageUri+"------------");
+
+
                             SendMessageToWX.Req req = new SendMessageToWX.Req();
                             req.transaction = buildTransaction("webpage");
                             req.message = msg_1;
@@ -1360,24 +1444,29 @@ switch (v.getId()) {
                         }
                     }
         );
-
-
-
-
-
     }
+
+
+//    public Bitmap Bytes2Bimap(byte[] b) {
+//        if(b.length != 0) {
+//            return BitmapFactory.decodeByteArray(b, 0, b.length);
+//            }else{
+//            return null;
+//            }
+//        }
+
 
     /**
      * 压缩图片
      */
     private Bitmap yaSuoImage(Bitmap image){
-
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         if(image == null){
             Bitmap bmm = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon_2);
             return bmm;
         }
-        image.compress(Bitmap.CompressFormat.JPEG, 85, out);
+
+        image.compress(Bitmap.CompressFormat.JPEG, 100, out);
 
         float zoom = (float)Math.sqrt(10 * 1024 / (float)out.toByteArray().length);
 
@@ -1387,16 +1476,63 @@ switch (v.getId()) {
         Bitmap result = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
 
         out.reset();
-        result.compress(Bitmap.CompressFormat.JPEG, 85, out);
+        result.compress(Bitmap.CompressFormat.JPEG, 100, out);
+
         while(out.toByteArray().length > 10 * 1024){
             System.out.println(out.toByteArray().length);
             matrix.setScale(0.9f, 0.9f);
             result = Bitmap.createBitmap(result, 0, 0, result.getWidth(), result.getHeight(), matrix, true);
             out.reset();
-             result.compress(Bitmap.CompressFormat.JPEG, 85, out);
+             result.compress(Bitmap.CompressFormat.JPEG, 100, out);
         }
         return result;
     }
+
+    public static final int IMAGE_SIZE=32768;//微信分享图片大小限制
+    private class LoadPicThread extends Thread{
+        private String url;
+        private Handler handler;
+        public LoadPicThread(String url,Handler handler){
+            this.url=url;
+            this.handler=handler;
+        }
+
+        @Override
+        public void run(){
+            try {
+
+                URL picurl = new URL(url);
+                HttpURLConnection conn = (HttpURLConnection)picurl.openConnection(); // 获得连接
+                conn.setConnectTimeout(6000);//设置超时
+                conn.setDoInput(true);
+                conn.setUseCaches(false);//不缓存
+                conn.connect();
+                Bitmap bmp=BitmapFactory.decodeStream(conn.getInputStream());
+
+                ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+                bmp.compress(Bitmap.CompressFormat.JPEG, 100, output);
+                int options = 100;
+                while (output.toByteArray().length > IMAGE_SIZE && options != 10) {
+                    output.reset(); //清空baos
+                    bmp.compress(Bitmap.CompressFormat.JPEG, options, output);//这里压缩options%，把压缩后的数据存放到baos中
+                    options -= 10;
+                }
+
+                bmp.recycle();
+                byte[] result = output.toByteArray();
+                output.close();
+
+                Message message=handler.obtainMessage();
+                message.obj=result;
+                message.sendToTarget();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 
     /**
      * 分享到朋友圈
@@ -1408,32 +1544,54 @@ switch (v.getId()) {
         webpage.webpageUrl = myUrl+"&share=true";
         msg_2 = new WXMediaMessage(webpage);
         if(str.equals("null")){
-            msg_2.title  = "轻松分享,黑马营销";
+            msg_2.title  = "轻松分享,拇指营销";
         }else {
             msg_2.title = str;
         }
 
-        ImageLoader.getInstance().displayImage(myImgUrl == null ? "" : myImgUrl,iv_temp,
+
+        msg_2.description = myContent_;
+
+        ImageLoader.getInstance().displayImage(myImgUrl.equals("null") ? "" : myImgUrl,iv_temp,
                 ExampleApplication.getInstance().getOptions(R.drawable.icon_2),
                 new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         super.onLoadingComplete(imageUri, view, loadedImage);
-                        thumb_2 = yaSuoImage(loadedImage);
-                        msg_2.thumbData = Util.bmpToByteArray(thumb_2, true);
+
+                        if(imageUri.equals("null")){
+                            thumb_2 = BitmapFactory.decodeResource(Article_info.this.getResources(),R.drawable.icon_2);
+                            msg_2.thumbData = Util.bmpToByteArray(thumb_1, false);
+                        }else{
+                            thumb_2 = yaSuoImage(loadedImage);
+                            msg_2.thumbData = Util.bmpToByteArray(thumb_2, true);
+                        }
+
                         SendMessageToWX.Req req = new SendMessageToWX.Req();
+
                         req.transaction = buildTransaction("webpage");
+
                         req.message = msg_2;
+
                         req.scene = SendMessageToWX.Req.WXSceneTimeline;
+
                         api.sendReq(req);
+
                         SharedPreferences sharedPreferences = Article_info.this.getSharedPreferences("shareid", MODE_PRIVATE);
+
                         SharedPreferences.Editor editor = sharedPreferences.edit();
+
                         editor.putString("sid",myUid);
+
                         editor.commit();
+
                         dialog_help.dismiss();
                     }
                 }
         );
+
+
+
     }
 
 

@@ -37,7 +37,7 @@ public class ExampleApplication extends Application {
     	 Log.d(TAG, "[ExampleApplication] onCreate");
          super.onCreate();
         initImageLoader();
-         JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+         JPushInterface.setDebugMode(false); 	// 设置开启日志,发布时请关闭日志
          JPushInterface.init(this);     		// 初始化 JPush
     }
 
@@ -47,24 +47,30 @@ public class ExampleApplication extends Application {
     public void initImageLoader(){
         File cacheDir = StorageUtils.getCacheDirectory(getApplicationContext());
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
-                .memoryCache(new LruMemoryCache(5*1024*1024))
-                .memoryCacheSize(10*1024*1024)
+                .memoryCache(new LruMemoryCache(1*1024*1024))
+           //     .memoryCache(new LruMemoryCache(5*1024*1024))
+                .memoryCacheSize(2*1024*1024)
+            //    .memoryCacheSize(10*1024*1024)
                 .discCache(new UnlimitedDiscCache(cacheDir))
                 .discCacheFileNameGenerator(new HashCodeFileNameGenerator())
+                .memoryCacheExtraOptions(480, 800)
+                .memoryCacheSizePercentage(13)
+                .threadPoolSize(5)
                 .build();
         ImageLoader.getInstance().init(config);
     }
 
     public DisplayImageOptions getOptions(int drawableId){
         return new DisplayImageOptions.Builder()
+
                 .showImageOnLoading(drawableId)
                 .showImageForEmptyUri(drawableId)
                 .showImageOnFail(drawableId)
                 .resetViewBeforeLoading(true)
-                .cacheInMemory(true)
-                .cacheOnDisc(true)
+                .cacheInMemory(false)
+                .cacheOnDisc(false)
                 .imageScaleType(ImageScaleType.EXACTLY)
-                .displayer(new FadeInBitmapDisplayer(300))
+//                .displayer(new FadeInBitmapDisplayer(300))
                 .bitmapConfig(Bitmap.Config.RGB_565)
 //                .bitmapConfig(Bitmap.Config.ARGB_8888)
                 .build();

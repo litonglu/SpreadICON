@@ -15,6 +15,7 @@ import android.os.Message;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -83,20 +84,17 @@ public class Popularize extends Activity implements View.OnClickListener{
     private HttpResponse httpResponse = null;
     private List<NameValuePair> params = new ArrayList<NameValuePair>();
     private AllUrl allurl = new AllUrl();
-    private CircleImageView pIv_icon;
     private Bitmap myIcon;
     private ImageView iv_erweima;
     private String userIconUrl;
-    private TextView tv_shareName;
     private ProgressBar popularize_pb;
+    private int longDown = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popularize);
-
         api = WXAPIFactory.createWXAPI(Popularize.this, APP_ID);
-
         initView();
         initClick();
         initData();
@@ -107,17 +105,39 @@ public class Popularize extends Activity implements View.OnClickListener{
         iv_cancle = (ImageView) findViewById(R.id.activity_popularize_iv_cancle);
         tv_share = (TextView) findViewById(R.id.activity_popularize_tv_share);
         iv_temp = (ImageView) findViewById(R.id.popularize_iv_temp);
-        pIv_icon = (CircleImageView) findViewById(R.id.activity_popularize_iv_icon);
         iv_erweima = (ImageView) findViewById(R.id.activity_popularize_iv_erweima);
-        tv_shareName = (TextView) findViewById(R.id.activity_popularize_tv_name);
         popularize_pb = (ProgressBar) findViewById(R.id.activity_popularize_pb);
     }
 
+
+    private static long firstTime;
     private void initClick(){
         iv_cancle.setOnClickListener(this);
         tv_share.setOnClickListener(this);
         iv_erweima.setOnClickListener(this);
+
+//
+//        iv_erweima.setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                Log.i("qqqqqq",event.getEventTime()+"------"+event.getDownTime());
+//                switch (event.getAction()) {
+//                    case KeyEvent.ACTION_DOWN:
+//                        firstTime = System.currentTimeMillis();
+//                        break;
+//                    case KeyEvent.ACTION_UP:
+//                        if (  System.currentTimeMillis() - firstTime >= 1000) {
+//                            showIsSaveDialog();
+//                        }
+//                }
+//                return false;
+//            }
+//        });
+
+
     }
+
+
 
     /**
      * 初始化头像
@@ -167,6 +187,16 @@ public class Popularize extends Activity implements View.OnClickListener{
                 break;
             //点击二维码
             case R.id.activity_popularize_iv_erweima:
+
+//            case KeyEvent.ACTION_DOWN:
+//                firstTime = System.currentTimeMillis();
+//                break;
+//            case KeyEvent.ACTION_UP:
+//                if (  System.currentTimeMillis() - firstTime >= 1000) {
+//                    showIsSaveDialog();
+//                }
+
+
                 showIsSaveDialog();
                 break;
             //确定保存二维码到本地
@@ -257,7 +287,7 @@ public class Popularize extends Activity implements View.OnClickListener{
                     break;
                 //初始化头像
                 case 21:
-                    pIv_icon.setImageBitmap(myIcon);
+                   // pIv_icon.setImageBitmap(myIcon);
                     break;
                 //初始化二维码
                 case 31:
@@ -271,7 +301,7 @@ public class Popularize extends Activity implements View.OnClickListener{
                     break;
                 //初始化姓名
                 case 41:
-                    tv_shareName.setText(mNickName);
+                //    tv_shareName.setText(mNickName);
                     break;
             }
         }
@@ -495,19 +525,30 @@ new Thread(new Runnable() {
     private String urlcontext;
     private Bitmap bmp_icon;
     private void initErWeiMa(){
+
         popularize_pb.setVisibility(View.VISIBLE);
         SharedPreferences sharedPreferences = Popularize.this.getSharedPreferences("user", MODE_PRIVATE);
         mUid = sharedPreferences.getString("uid", "");
+
 //        urlcontext = "http://qr.liantu.com/api.php?text="+allurl.getShare_Url()+"?link="+mUid+
 //                "&w=140&bg=FFFFFF&fg=000000&logo="+userIconUrl;
 
-        urlcontext = "http://qr.liantu.com/api.php?text=拇指营销"+mUid+
-                "&w=240&bg=FFFFFF&fg=000000&logo="+userIconUrl;
+//        urlcontext = "http://qr.liantu.com/api.php?text=拇指营销"+mUid+
+//                "&w=240&bg=FFFFFF&fg=000000&logo="+"";
+
+
+        urlcontext = "http://qr.liantu.com/api.php?text="+allurl.getShare_Url()+"?link="+mUid+
+                "&w=240&bg=FFFFFF&fg=000000&logo="+"";
+
+//            urlcontext = "http://qr.liantu.com/api.php?text=http://android.myapp.com/myapp/detail.htm?apkName=com.example.administrator.gamedemo"+
+//                "&w=440&bg=FFFFFF&fg=000000&logo="+"http://bmob-cdn-113.b0.upaiyun.com/2016/05/27/a3903d7b40e1fc64805d70cedd853cd5.png";
+
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
+
                     bmp_icon = getHttpBitmap(urlcontext);
                     URL url = new URL(urlcontext);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -522,10 +563,13 @@ new Thread(new Runnable() {
                     is.close();
                     //关闭连接
                     connection.disconnect();
+
                 } catch (Exception e) {
+
                     popHandler.sendEmptyMessage(32);
                     Log.i("qqqqq","异常"+e);
                     e.printStackTrace();
+
                 }
 
 

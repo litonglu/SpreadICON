@@ -48,7 +48,6 @@ import com.wangdao.our.spread_2.R;
 import com.wangdao.our.spread_2.bean.Material;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
 import com.wangdao.our.spread_2.slide_widget.CacheUtils;
-import com.wangdao.our.spread_2.slide_widget.widget_image.AsynImageLoader;
 import com.wangdao.our.spread_2.slide_widget.widget_image.Crop;
 import com.wangdao.our.spread_2.slide_widget.widget_image.FileUtils;
 import com.wangdao.our.spread_2.slide_widget.widget_image.RoundedImageView;
@@ -80,6 +79,8 @@ import java.util.List;
  * Created by Administrator on 2016/4/23 0023.
  */
 public class AddMaterial extends Activity implements View.OnClickListener {
+
+    private boolean bo_isSys = false;
     private RadioButton radioButton_1, radioButton_2, radioButton_3, radioButton_4;
     private boolean b_rb1 = false;
     private boolean b_rb2 = false;
@@ -111,39 +112,49 @@ public class AddMaterial extends Activity implements View.OnClickListener {
    // private View dialog_view;
  //   private TextView tv_dialog_cancle;
     private Button bt_delete;
+
     private boolean isCompile = false;//是否是编辑
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
+
     private GoogleApiClient client;
+
+    private String select_color = "#000000";
+    private TextView et_title,et_content;
+    private ImageView ivb_1,ivb_2,ivb_3,ivb_4,ivb_5,ivb_6,ivb_7,ivb_8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_m);
+         setContentView(R.layout.activity_add_m);
         initView();
         initOnClick();
         initRb();
         Intent intentData = getIntent();
         myType = intentData.getExtras().getInt("type");
+
         if (myType == 0) {//添加素材
+
             isCompile = false;
             tv_actionbar.setText(R.string.actionbar_add_m);
             bt_delete.setVisibility(View.GONE);
             isCompile = false;
 
         } else {//编辑素材
+
             isCompile = true;
             bt_delete.setVisibility(View.VISIBLE);
             tv_actionbar.setText(R.string.actionbar_compile_m);
             intent_m = (Material) intentData.getExtras().getSerializable("compile_m");
+
             if (intent_m.ismTop()) {
+
                 b_rb1 = true;
                 radioButton_1.setChecked(true);
+
             } else {
+
                 b_rb1 = false;
                 radioButton_1.setChecked(false);
+
             }
             if (intent_m.ismBottom()) {
                 b_rb2 = true;
@@ -158,6 +169,15 @@ public class AddMaterial extends Activity implements View.OnClickListener {
             } else {
                 b_rb3 = false;
                 radioButton_3.setChecked(false);
+            }
+
+            if(intent_m.getPicture_id().equals("null")){
+
+            } else{
+
+                bo_isSys = true;
+                sysm_id = intent_m.getPicture_id();
+
             }
 
             switch (intent_m.getmType()) {
@@ -188,7 +208,6 @@ public class AddMaterial extends Activity implements View.OnClickListener {
                             .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-
                                     dialog.dismiss();
                                 }
                             })
@@ -208,6 +227,62 @@ public class AddMaterial extends Activity implements View.OnClickListener {
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
+
+    /**
+     * 加文字
+     */
+
+    private String text_id;
+    private void addText(){
+
+        httpPost = new HttpPost(allurl.getAddText());
+
+        SharedPreferences sharedPreferences = AddMaterial.this.getSharedPreferences("user", MODE_PRIVATE);
+        String mToken = sharedPreferences.getString("user_token", "");
+
+        params.add(new BasicNameValuePair("user_token", mToken));
+      //  params.add(new BasicNameValuePair("ad_banner_id", sysm_id));
+
+        //if(!intent_m.getPicture_id().equals("null")){
+         //   params.add(new BasicNameValuePair("banner_id", intent_m.getPicture_id()));
+        //}else{
+            params.add(new BasicNameValuePair("banner_id", sysm_id));
+        //}
+
+        params.add(new BasicNameValuePair("text", et_title.getText().toString()));
+        params.add(new BasicNameValuePair("sub", et_content.getText().toString()));
+        params.add(new BasicNameValuePair("color", select_color));
+
+       new Thread(new Runnable() {
+           @Override
+           public void run() {
+
+               try {
+                   httpPost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+                   httpResponse = new DefaultHttpClient().execute(httpPost);
+                   if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                       String result = EntityUtils.toString(httpResponse.getEntity());
+                       JSONObject jo = new JSONObject(result);
+                       if(jo.getString("status").equals("1")){
+                           text_id = jo.getString("id");
+                            amh.sendEmptyMessage(41);
+                       }
+                   }
+               } catch (UnsupportedEncodingException e) {
+                   e.printStackTrace();
+               } catch (ClientProtocolException e) {
+                   e.printStackTrace();
+               } catch (IOException e) {
+                   e.printStackTrace();
+               } catch (JSONException e) {
+                   e.printStackTrace();
+               }
+           }
+       }).start();
+    }
+
+
+
     private void initRb() {
         radioButton_1.setChecked(true);
         radioButton_2.setChecked(true);
@@ -221,6 +296,20 @@ public class AddMaterial extends Activity implements View.OnClickListener {
     }
 
     private void initView() {
+
+        ivb_1 = (ImageView) findViewById(R.id.activity_add_m_iv_1);
+        ivb_2 = (ImageView) findViewById(R.id.activity_add_m_iv_2);
+        ivb_3 = (ImageView) findViewById(R.id.activity_add_m_iv_3);
+        ivb_4 = (ImageView) findViewById(R.id.activity_add_m_iv_4);
+        ivb_5 = (ImageView) findViewById(R.id.activity_add_m_iv_5);
+        ivb_6 = (ImageView) findViewById(R.id.activity_add_m_iv_6);
+        ivb_7 = (ImageView) findViewById(R.id.activity_add_m_iv_7);
+        ivb_8 = (ImageView) findViewById(R.id.activity_add_m_iv_8);
+
+
+        et_title = (TextView) findViewById(R.id.activity_add_m_et_title);
+        et_content = (TextView) findViewById(R.id.activity_add_m_et_content);
+
         bt_delete = (Button) findViewById(R.id.activity_add_m_bt_delete);
         radioButton_1 = (RadioButton) findViewById(R.id.activity_add_m_rb_1);
         radioButton_2 = (RadioButton) findViewById(R.id.activity_add_m_rb_2);
@@ -280,6 +369,19 @@ public class AddMaterial extends Activity implements View.OnClickListener {
     }
 
     private void initOnClick() {
+
+        ivb_1.setOnClickListener(this);
+        ivb_2.setOnClickListener(this);
+        ivb_3.setOnClickListener(this);
+        ivb_4.setOnClickListener(this);
+        ivb_5.setOnClickListener(this);
+        ivb_6.setOnClickListener(this);
+        ivb_7.setOnClickListener(this);
+        ivb_8.setOnClickListener(this);
+
+
+
+
         tv_1.setOnClickListener(this);
         tv_2.setOnClickListener(this);
         tv_3.setOnClickListener(this);
@@ -428,8 +530,39 @@ public class AddMaterial extends Activity implements View.OnClickListener {
             //保存
             case R.id.activity_add_m_tv_add:
                 showWaitDialog();
-                uploadingImg();
+                if(bo_isSys){
+                    addText();
+                }else{
+                    uploadingImg();
+                }
+
                 //addM();
+                break;
+
+
+            case R.id.activity_add_m_iv_1:
+                initColorText(1);
+                break;
+case R.id.activity_add_m_iv_2:
+    initColorText(2);
+                break;
+case R.id.activity_add_m_iv_3:
+    initColorText(3);
+                break;
+case R.id.activity_add_m_iv_4:
+    initColorText(4);
+                break;
+case R.id.activity_add_m_iv_5:
+    initColorText(5);
+                break;
+case R.id.activity_add_m_iv_6:
+    initColorText(6);
+                break;
+case R.id.activity_add_m_iv_7:
+    initColorText(7);
+                break;
+case R.id.activity_add_m_iv_8:
+    initColorText(8);
                 break;
 
             //选图片
@@ -441,10 +574,99 @@ public class AddMaterial extends Activity implements View.OnClickListener {
     }
 
     /**
+     * 初始化color
+     */
+    private void initColorText(int color_num){
+        if(color_num == 1) {
+            select_color = "#FF0000";
+            ivb_1.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_11_y));
+            ivb_2.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_22_n));
+            ivb_3.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_33_n));
+            ivb_4.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_44_n));
+            ivb_5.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_55_n));
+            ivb_6.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_66_n));
+            ivb_7.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_77_n));
+            ivb_8.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_88_n));
+        }else if(color_num == 2){
+            select_color = "#FFFF00";
+            ivb_1.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_11_n));
+            ivb_2.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_22_y));
+            ivb_3.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_33_n));
+            ivb_4.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_44_n));
+            ivb_5.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_55_n));
+            ivb_6.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_66_n));
+            ivb_7.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_77_n));
+            ivb_8.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_88_n));
+        }else if(color_num == 3){
+            select_color = "#00FF00";
+            ivb_1.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_11_n));
+            ivb_2.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_22_n));
+            ivb_3.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_33_y));
+            ivb_4.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_44_n));
+            ivb_5.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_55_n));
+            ivb_6.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_66_n));
+            ivb_7.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_77_n));
+            ivb_8.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_88_n));
+        }else if(color_num == 4){
+            select_color = "#00FFFF";
+            ivb_1.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_11_n));
+            ivb_2.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_22_n));
+            ivb_3.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_33_n));
+            ivb_4.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_44_y));
+            ivb_5.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_55_n));
+            ivb_6.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_66_n));
+            ivb_7.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_77_n));
+            ivb_8.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_88_n));
+        }else if(color_num == 5){
+            select_color = "#0000FF";
+            ivb_1.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_11_n));
+            ivb_2.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_22_n));
+            ivb_3.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_33_n));
+            ivb_4.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_44_n));
+            ivb_5.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_55_y));
+            ivb_6.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_66_n));
+            ivb_7.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_77_n));
+            ivb_8.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_88_n));
+        }else if(color_num == 6){
+            select_color = "#A020F0";
+            ivb_1.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_11_n));
+            ivb_2.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_22_n));
+            ivb_3.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_33_n));
+            ivb_4.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_44_n));
+            ivb_5.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_55_n));
+            ivb_6.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_66_y));
+            ivb_7.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_77_n));
+            ivb_8.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_88_n));
+        }else if(color_num == 7){
+            select_color = "#FFFFFF";
+            ivb_1.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_11_n));
+            ivb_2.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_22_n));
+            ivb_3.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_33_n));
+            ivb_4.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_44_n));
+            ivb_5.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_55_n));
+            ivb_6.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_66_n));
+            ivb_7.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_77_y));
+            ivb_8.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_88_n));
+        }else if(color_num == 8){
+            select_color = "#000000";
+            ivb_1.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_11_n));
+            ivb_2.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_22_n));
+            ivb_3.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_33_n));
+            ivb_4.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_44_n));
+            ivb_5.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_55_n));
+            ivb_6.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_66_n));
+            ivb_7.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_77_n));
+            ivb_8.setImageDrawable(getResources().getDrawable(R.drawable.shape_sure_btn_blue_88_y));
+        }
+
+    }
+
+    /**
      * 上传图片
      */
     private String imgUrl;
     private Bitmap abc;
+    private String id_temp;
 
     private void uploadingImg() {
         if (currentType == 0) {
@@ -479,7 +701,9 @@ public class AddMaterial extends Activity implements View.OnClickListener {
                         addResult = jo.getString("info");
                         if (jo.getString("status").equals("1")) {
                             JSONObject jo_2 = jo.getJSONObject("data");
-                            addM(jo_2.getString("id"));
+                            id_temp = jo_2.getString("id");
+
+                            amh.sendEmptyMessage(31);
 
                         } else {
                             amh.sendEmptyMessage(2);
@@ -536,6 +760,7 @@ public class AddMaterial extends Activity implements View.OnClickListener {
                 params.add(new BasicNameValuePair("ad_top", top + ""));
                 params.add(new BasicNameValuePair("ad_bottom", bottom + ""));
                 params.add(new BasicNameValuePair("ad_cut", cut + ""));
+                params.add(new BasicNameValuePair("ad_banner_id",sysm_id));
 
                 new Thread(new Runnable() {
                     @Override
@@ -719,14 +944,64 @@ public class AddMaterial extends Activity implements View.OnClickListener {
         }
     }
 
+    private Dialog dialog_content;
+    private TextView tv_biantai_content;
+    private TextView tv_biantai_cancle;
+    private View view_biantai_dialog;
+    private void dialog_biantai(String content_,int num_){
+        view_biantai_dialog = getLayoutInflater().inflate(R.layout.dialog_biantai,null);
+        tv_biantai_content = (TextView) view_biantai_dialog.findViewById(R.id.dialog_biantai_content);
+        tv_biantai_cancle = (TextView) view_biantai_dialog.findViewById(R.id.dialog_biantai_cancle);
+
+        dialog_content = new Dialog(AddMaterial.this,R.style.dialog);
+        dialog_content.setContentView(view_biantai_dialog);
+        tv_biantai_content.setText(content_);
+
+//        if(num_ == 1) {
+//            tv_biantai_cancle.setText("返回");
+//            tv_biantai_content.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    setResult(5);
+//                    finish();
+//                    dialog_content.dismiss();
+//                }
+//            });
+//        }
+// else {
+//
+//            tv_biantai_cancle.setText("取消");
+//            tv_biantai_content.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    dialog_content.dismiss();
+//                }
+//            });
+//        }
+        dialog_content.show();
+
+
+        tv_biantai_content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(5);
+                finish();
+                dialog_content.dismiss();
+
+            }
+        });
+
+    }
+
     class AddMaterialHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 //保存成功
                 case 1:
+//                    dialog_biantai(addResult,1);
                     new AlertDialog.Builder(AddMaterial.this)
-                            .setTitle("RESULT")
+                            .setTitle("提醒:")
                             .setMessage(addResult)
                             .setNegativeButton("完成", new DialogInterface.OnClickListener() {
                                 @Override
@@ -738,11 +1013,14 @@ public class AddMaterial extends Activity implements View.OnClickListener {
                             })
                             .show();
                     dimssDialog();
+
+
                     break;
                 //保存失败
                 case 2:
+//                    dialog_biantai(addResult,2);
                     new AlertDialog.Builder(AddMaterial.this)
-                            .setTitle("RESULT")
+                            .setTitle("提醒:")
                             .setMessage(addResult)
                             .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
@@ -755,8 +1033,9 @@ public class AddMaterial extends Activity implements View.OnClickListener {
                     break;
                 //删除成功
                 case 22:
+//                    dialog_biantai(delectResult,1);
                     new AlertDialog.Builder(AddMaterial.this)
-                            .setTitle("删除结果")
+                            .setTitle("提醒:")
                             .setMessage(delectResult)
                             .setNegativeButton("返回", new DialogInterface.OnClickListener() {
                                 @Override
@@ -771,8 +1050,9 @@ public class AddMaterial extends Activity implements View.OnClickListener {
                     break;
                 //删除失败
                 case 21:
+//                    dialog_biantai(delectResult,2);
                     new AlertDialog.Builder(AddMaterial.this)
-                            .setTitle("删除结果")
+                            .setTitle("提醒:")
                             .setMessage(delectResult)
                             .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
@@ -782,6 +1062,14 @@ public class AddMaterial extends Activity implements View.OnClickListener {
                             })
                             .show();
                     dimssDialog();
+                    break;
+
+                case 31:
+                    addM(id_temp);
+                    break;
+                case 41:
+                    Log.i("qqqqqqq",text_id);
+                    addM(text_id);
                     break;
             }
         }
@@ -838,12 +1126,16 @@ public class AddMaterial extends Activity implements View.OnClickListener {
     }
 
     private String iconUrl;
-
+    private String sysm_id;
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent result) {
         super.onActivityResult(requestCode, resultCode, result);
+
+
+
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == Crop.REQUEST_PICK) {
+                bo_isSys = false;
                 if (b_rb3) {
                     beginCrop(result.getData());
                 } else {
@@ -862,8 +1154,10 @@ public class AddMaterial extends Activity implements View.OnClickListener {
                     }
                 }
             } else if (requestCode == Crop.REQUEST_CROP) {
+                bo_isSys = false;
                 handleCrop(resultCode, result);
             } else if (requestCode == REQUEST_CODE_CAPTURE_CAMEIA) {
+                bo_isSys = false;
                 if (mCurrentPhotoPath != null) {
                     if (b_rb3) {
                         beginCrop(Uri.fromFile(new File(mCurrentPhotoPath)));
@@ -876,6 +1170,19 @@ public class AddMaterial extends Activity implements View.OnClickListener {
                 }
             }
         }
+
+
+        if(resultCode == 88){
+
+            bo_isSys = true;
+
+             sysm_id = result.getExtras().getString("icon_id");
+            String cUrl = result.getExtras().getString("icon_url");
+            ImageLoader.getInstance().displayImage(cUrl == null ? "" : cUrl, iv_tong_icon,
+                    ExampleApplication.getInstance().getOptions(R.drawable.moren)
+            );
+        }
+
     }
 
 
@@ -1000,8 +1307,13 @@ public class AddMaterial extends Activity implements View.OnClickListener {
         iv_xIcon.setVisibility(View.VISIBLE);
         ll_icon.setVisibility(View.VISIBLE);
         if (isCompile) {
-            AsynImageLoader asynImageLoader = new AsynImageLoader();
-            asynImageLoader.showImageAsyn(iv_xIcon, intent_m.getIcon_url(), R.drawable.nopic);
+
+
+            ImageLoader.getInstance().displayImage(intent_m.getIcon_url(),iv_xIcon,
+                    ExampleApplication.getInstance().getOptions(R.drawable.nopic));
+
+//            AsynImageLoader asynImageLoader = new AsynImageLoader();
+//            asynImageLoader.showImageAsyn(iv_xIcon, intent_m.getIcon_url(), R.drawable.nopic);
         }
         ll_yi.setVisibility(View.VISIBLE);
         ll_er.setVisibility(View.VISIBLE);
@@ -1039,8 +1351,12 @@ public class AddMaterial extends Activity implements View.OnClickListener {
         tv_3.setBackground(getResources().getDrawable(R.drawable.shape_sure_btn_blue));
         tv_4.setBackground(null);
         if (isCompile) {
-            AsynImageLoader asynImageLoader = new AsynImageLoader();
-            asynImageLoader.showImageAsyn(iv_xIcon, intent_m.getIcon_url(), R.drawable.nopic);
+
+            ImageLoader.getInstance().displayImage(intent_m.getIcon_url(),iv_xIcon,
+                    ExampleApplication.getInstance().getOptions(R.drawable.nopic));
+
+//            AsynImageLoader asynImageLoader = new AsynImageLoader();
+//            asynImageLoader.showImageAsyn(iv_xIcon, intent_m.getIcon_url(), R.drawable.nopic);
         }
         ll_icon.setVisibility(View.VISIBLE);
         ll_erx.setVisibility(View.VISIBLE);
@@ -1081,8 +1397,12 @@ public class AddMaterial extends Activity implements View.OnClickListener {
         tv_4.setBackground(getResources().getDrawable(R.drawable.shape_sure_btn_blue));
 
         if (isCompile) {
-            AsynImageLoader asynImageLoader = new AsynImageLoader();
-            asynImageLoader.showImageAsyn(iv_xIcon, intent_m.getIcon_url(), R.drawable.nopic);
+
+            ImageLoader.getInstance().displayImage(intent_m.getIcon_url(),iv_xIcon,
+                    ExampleApplication.getInstance().getOptions(R.drawable.nopic));
+
+//            AsynImageLoader asynImageLoader = new AsynImageLoader();
+//            asynImageLoader.showImageAsyn(iv_xIcon, intent_m.getIcon_url(), R.drawable.nopic);
         }
 
 
@@ -1123,10 +1443,12 @@ public class AddMaterial extends Activity implements View.OnClickListener {
     private void showPhotoDialog() {
         if (hi_2 == null) {
             hi_2 = new helpdialog_item_2();
-            view_2 = getLayoutInflater().inflate(R.layout.dialog_out_login, null);
-            hi_2.tv_help1 = (TextView) view_2.findViewById(R.id.bt_help1);
-            hi_2.tv_help2 = (TextView) view_2.findViewById(R.id.bt_help2);
-            hi_2.tv_helpcancle = (TextView) view_2.findViewById(R.id.bt_helpcancle);
+            view_2 = getLayoutInflater().inflate(R.layout.dialog_out_login_2, null);
+            hi_2.tv_help1 = (TextView) view_2.findViewById(R.id.bt_help_4);
+            hi_2.tv_help2 = (TextView) view_2.findViewById(R.id.bt_help_3);
+            hi_2.tv_help_3 = (TextView) view_2.findViewById(R.id.bt_help3);
+
+            hi_2.tv_helpcancle = (TextView) view_2.findViewById(R.id.bt_helpcancle_3);
             dialog_help_2 = new Dialog(this, R.style.transparentFrameWindowStyle);
             dialog_help_2.setContentView(view_2, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -1143,8 +1465,8 @@ public class AddMaterial extends Activity implements View.OnClickListener {
         } else {
             hi_2 = (helpdialog_item_2) view_2.getTag();
         }
-        hi_2.tv_help1.setText("相册选取");
-        hi_2.tv_help2.setText("相机拍照");
+//        hi_2.tv_help1.setText("相册选取");
+//        hi_2.tv_help2.setText("相机拍照");
         if(b_rb3){
             hi_2.tv_help2.setBackground(getResources().getDrawable(R.drawable.photo_camera_selector1));
         }else{
@@ -1172,6 +1494,19 @@ public class AddMaterial extends Activity implements View.OnClickListener {
                 dialog_help_2.dismiss();
             }
         });
+
+
+        hi_2.tv_help_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent mIntent = new Intent(AddMaterial.this,SystemMaterial.class);
+                startActivityForResult(mIntent,1);
+                dialog_help_2.dismiss();
+            }
+        });
+
+
         hi_2.tv_helpcancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1184,6 +1519,7 @@ public class AddMaterial extends Activity implements View.OnClickListener {
     class helpdialog_item_2 {
         TextView tv_help1;
         TextView tv_help2;
+        TextView tv_help_3;
         TextView tv_helpcancle;
     }
 

@@ -26,14 +26,16 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.wangdao.our.spread_2.ExampleApplication;
 import com.wangdao.our.spread_2.R;
 import com.wangdao.our.spread_2.activity_.Article_info;
+import com.wangdao.our.spread_2.bean.CompileResult;
 import com.wangdao.our.spread_2.bean.RecommendArticle;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
-import com.wangdao.our.spread_2.slide_widget.widget_image.AsynImageLoader;
 import com.wangdao.our.spread_2.slide_widget.widget_image.RoundedImageView;
 import com.wangdao.our.spread_2.widget_pull.PullToRefreshBase;
 import com.wangdao.our.spread_2.widget_pull.PullToRefreshScrollView;
@@ -49,6 +51,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,8 +115,10 @@ public class Fragment_vp_compile_5 extends Fragment{
     /**
      * 初始化数据
      */
+    private int cNum = 1;
     private String queryResult;
     private void initData(){
+        cNum = 1;
         list_reArticle.clear();
         SharedPreferences sharedPreferences = myContext.getSharedPreferences("tag", myContext.MODE_PRIVATE);
         httpPost = new HttpPost(allurl.getWenZhangAll());
@@ -128,22 +133,89 @@ public class Fragment_vp_compile_5 extends Fragment{
                     if (httpResponse.getStatusLine().getStatusCode() == 200) {
                         String result = EntityUtils.toString(httpResponse.getEntity());
                         JSONObject jo =new JSONObject(result);
-                        queryResult = jo.getString("info");
-                        if(jo.getString("status").equals("1")){
-                            JSONArray ja = jo.getJSONArray("data");
-                            for(int i = 0;i<ja.length();i++){
-                                JSONObject jo_2 = ja.getJSONObject(i);
-                                RecommendArticle mWenZ = new RecommendArticle();
-                                mWenZ.setTitle(jo_2.getString("writing_title"));
-                                mWenZ.setTryNum(jo_2.getString("writing_use"));
-                                mWenZ.setaId(jo_2.getString("id"));
-                                mWenZ.setIconUrl(jo_2.getString("writing_img"));
-                                list_reArticle.add(mWenZ);
-                            }
-                            fhandler_5.sendEmptyMessage(1);
-                        }else{
-                            fhandler_5.sendEmptyMessage(2);
+                       // queryResult = jo.getString("info");
+
+                        Type type = new TypeToken<CompileResult>() {}.getType();
+                        Gson gson = new Gson();
+                        CompileResult compileResult = gson.fromJson(result, type);
+                        queryResult = compileResult.info;
+                        for(RecommendArticle temp__:compileResult.data){
+                            list_reArticle.add(temp__);
                         }
+                        fhandler_5.sendEmptyMessage(1);
+
+//                        if(jo.getString("status").equals("1")){
+//                            JSONArray ja = jo.getJSONArray("data");
+//                            RecommendArticle mWenZ = new RecommendArticle();
+//                            for(int i = 0;i<ja.length();i++){
+//                                JSONObject jo_2 = ja.getJSONObject(i);
+//
+//                                mWenZ.setTitle(jo_2.getString("writing_title"));
+//                                mWenZ.setTryNum(jo_2.getString("writing_use"));
+//                                mWenZ.setaId(jo_2.getString("id"));
+//                                mWenZ.setIconUrl(jo_2.getString("writing_img"));
+//                                mWenZ.setContent_(jo_2.getString("writing_brief"));
+//                                list_reArticle.add(mWenZ);
+//                            }
+//                            fhandler_5.sendEmptyMessage(1);
+//                        }else{
+//                            fhandler_5.sendEmptyMessage(2);
+//                        }
+                    }
+                } catch (Exception e) {
+                    fhandler_5.sendEmptyMessage(2);
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+
+    }
+
+    private void initData_2(){
+        cNum +=1;
+        SharedPreferences sharedPreferences = myContext.getSharedPreferences("tag", myContext.MODE_PRIVATE);
+        httpPost = new HttpPost(allurl.getWenZhangAll());
+        params.add(new BasicNameValuePair("keywordtags",sharedPreferences.getString("tag4","")));
+        params.add(new BasicNameValuePair("page", cNum+""));
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    httpPost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+                    httpResponse = new DefaultHttpClient().execute(httpPost);
+                    if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                        String result = EntityUtils.toString(httpResponse.getEntity());
+                        JSONObject jo =new JSONObject(result);
+                        //queryResult = jo.getString("info");
+
+                        Type type = new TypeToken<CompileResult>() {}.getType();
+                        Gson gson = new Gson();
+                        CompileResult compileResult = gson.fromJson(result, type);
+                        queryResult = compileResult.info;
+                        for(RecommendArticle temp__:compileResult.data){
+                            list_reArticle.add(temp__);
+                        }
+                        fhandler_5.sendEmptyMessage(1);
+
+
+//                        if(jo.getString("status").equals("1")){
+//                            JSONArray ja = jo.getJSONArray("data");
+//                            RecommendArticle mWenZ = new RecommendArticle();
+//                            for(int i = 0;i<ja.length();i++){
+//                                JSONObject jo_2 = ja.getJSONObject(i);
+//                                mWenZ.setTitle(jo_2.getString("writing_title"));
+//                                mWenZ.setTryNum(jo_2.getString("writing_use"));
+//                                mWenZ.setaId(jo_2.getString("id"));
+//                                mWenZ.setIconUrl(jo_2.getString("writing_img"));
+//                                mWenZ.setContent_(jo_2.getString("writing_brief"));
+//                                list_reArticle.add(mWenZ);
+//
+//                            }
+//                            fhandler_5.sendEmptyMessage(1);
+//                        }else{
+//                            fhandler_5.sendEmptyMessage(2);
+//                        }
                     }
                 } catch (Exception e) {
                     fhandler_5.sendEmptyMessage(2);
@@ -192,7 +264,7 @@ public class Fragment_vp_compile_5 extends Fragment{
             }
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ScrollView> refreshView) {
-                initData();
+                initData_2();
 
             }
         });
@@ -201,7 +273,6 @@ public class Fragment_vp_compile_5 extends Fragment{
     class FVC_Adapter extends BaseAdapter {
         FVC_ViewHolder fvc_viewHolder;
         List<RecommendArticle> reArticles;
-        AsynImageLoader asynImageLoader = new AsynImageLoader();
         public FVC_Adapter(List<RecommendArticle> reArticles){
             this.reArticles = reArticles;
         }
@@ -237,43 +308,37 @@ public class Fragment_vp_compile_5 extends Fragment{
             SharedPreferences sharedPreferences = myContext.getSharedPreferences("user", myContext.MODE_PRIVATE);
             auid = sharedPreferences.getString("uid", "");
 
-            convertView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent myIntent = new Intent(myContext, Article_info.class);
-                    myIntent.putExtra("url",myUrl+"?writing_id="+reArticles.get(position).getaId()+"&uid="+auid);
-                    myIntent.putExtra("uid",reArticles.get(position).getaId());
-                    myIntent.putExtra("title", reArticles.get(position).getTitle());
-                    myIntent.putExtra("img",reArticles.get(position).getIconUrl());
-                    startActivity(myIntent);
-                }
-            });
             fvc_viewHolder.bt_compile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent myIntent = new Intent(myContext, Article_info.class);
-                    myIntent.putExtra("url",myUrl+"?writing_id="+reArticles.get(position).getaId()+"&uid="+auid);
-                    myIntent.putExtra("uid", reArticles.get(position).getaId());
-                    myIntent.putExtra("title", reArticles.get(position).getTitle());
-                    myIntent.putExtra("img",reArticles.get(position).getIconUrl());
+                    myIntent.putExtra("url",myUrl+"?writing_id="+reArticles.get(position).getId()+"&uid="+auid);
+                    myIntent.putExtra("uid", reArticles.get(position).getId());
+                    myIntent.putExtra("title", reArticles.get(position).getWriting_title());
+                    myIntent.putExtra("img",reArticles.get(position).getWriting_img());
+                    myIntent.putExtra("content",reArticles.get(position).getWriting_brief());
                     startActivity(myIntent);
                 }
             });
 
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent myIntent = new Intent(myContext, Article_info.class);
+                    myIntent.putExtra("url",myUrl+"?writing_id="+reArticles.get(position).getId()+"&uid="+auid);
+                    myIntent.putExtra("uid", reArticles.get(position).getId());
+                    myIntent.putExtra("title", reArticles.get(position).getWriting_title());
+                    myIntent.putExtra("img",reArticles.get(position).getWriting_img());
+                    myIntent.putExtra("content",reArticles.get(position).getWriting_brief());
+                    startActivity(myIntent);
+                }
+            });
+            fvc_viewHolder.tv_title.setText(reArticles.get(position).getWriting_title());
+            fvc_viewHolder.tv_num.setText("使用次数：\t"+reArticles.get(position).getWriting_use());
 
-            fvc_viewHolder.tv_title.setText(reArticles.get(position).getTitle());
-            fvc_viewHolder.tv_num.setText("使用次数：\t"+reArticles.get(position).getTryNum());
-
-            ImageLoader.getInstance().displayImage(reArticles.get(position).getIconUrl() == null ? "" : reArticles.get(position).getIconUrl(), fvc_viewHolder.iv_icon,
+            ImageLoader.getInstance().displayImage(reArticles.get(position).getWriting_img() ==null ? "": reArticles.get(position).getWriting_img(),fvc_viewHolder.iv_icon,
                     ExampleApplication.getInstance().getOptions(R.drawable.moren)
-//                    ,
-//                    new SimpleImageLoadingListener() {
-//                        @Override
-//                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-//                            super.onLoadingComplete(imageUri, view, loadedImage);
-//                            fvc_viewHolder.iv_icon.setImageBitmap(loadedImage);
-//                        }
-//                    }
+
             );
 
 

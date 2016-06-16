@@ -17,6 +17,7 @@
         android:paddingTop="4dp"
         android:paddingBottom="4dp"
         >
+
         <LinearLayout
             android:id="@+id/activity_main_ll_statistics"
             android:layout_width="0dp"
@@ -29,13 +30,13 @@
                 android:id="@+id/activity_main_iv_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/tongji_2"
+                android:src="@drawable/compile_edit_2"
                 />
             <TextView
                 android:id="@+id/activity_main_tv_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="统计"
+                android:text="编辑"
                 android:textColor="@color/colorPrimary"
                 />
         </LinearLayout>
@@ -52,14 +53,14 @@
                 android:id="@+id/activity_main_iv_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/compile_edit_1"
+                android:src="@drawable/sucai_1"
 
                 />
             <TextView
                 android:id="@+id/activity_main_tv_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="编辑"
+                android:text="素材"
                 android:textColor="@color/textcolor_hui"
                 />
         </LinearLayout>
@@ -76,13 +77,13 @@
                 android:id="@+id/activity_main_iv_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/sucai_1"
+                android:src="@drawable/tongji_1"
                 />
             <TextView
                 android:id="@+id/activity_main_tv_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="素材"
+                android:text="统计"
                 android:textColor="@color/textcolor_hui"
                 />
         </LinearLayout>

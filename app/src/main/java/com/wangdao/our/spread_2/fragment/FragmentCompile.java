@@ -40,8 +40,6 @@ import java.util.List;
 
 public class FragmentCompile extends Fragment implements View.OnClickListener{
 
-
-
     private Context myContext;
     private View myView;
     private LayoutInflater myInflater;

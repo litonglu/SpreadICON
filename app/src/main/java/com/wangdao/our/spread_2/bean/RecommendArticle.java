@@ -8,58 +8,53 @@ import android.widget.TextView;
  */
 public class RecommendArticle {
 
-    private Bitmap rd_icon;
-    private String title;
-    private String tryNum;
-    private String iconUrl;
-    private String aId;
+    private String writing_title;
+    private String writing_use;
+    private String writing_img;
+    private String id;
+    private String writing_brief;
 
     public RecommendArticle() {
     }
 
-    public RecommendArticle(Bitmap rd_icon, String title, String tryNum) {
-        this.rd_icon = rd_icon;
-        this.title = title;
-        this.tryNum = tryNum;
+
+    public String getWriting_title() {
+        return writing_title;
     }
 
-    public Bitmap getRd_icon() {
-        return rd_icon;
+    public void setWriting_title(String writing_title) {
+        this.writing_title = writing_title;
     }
 
-    public void setRd_icon(Bitmap rd_icon) {
-        this.rd_icon = rd_icon;
+    public String getWriting_use() {
+        return writing_use;
     }
 
-    public String getTitle() {
-        return title;
+    public void setWriting_use(String writing_use) {
+        this.writing_use = writing_use;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public String getWriting_img() {
+        return writing_img;
     }
 
-    public String getTryNum() {
-        return tryNum;
+    public void setWriting_img(String writing_img) {
+        this.writing_img = writing_img;
     }
 
-    public void setTryNum(String tryNum) {
-        this.tryNum = tryNum;
+    public String getId() {
+        return id;
     }
 
-    public String getIconUrl() {
-        return iconUrl;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setIconUrl(String iconUrl) {
-        this.iconUrl = iconUrl;
+    public String getWriting_brief() {
+        return writing_brief;
     }
 
-    public String getaId() {
-        return aId;
-    }
-
-    public void setaId(String aId) {
-        this.aId = aId;
+    public void setWriting_brief(String writing_brief) {
+        this.writing_brief = writing_brief;
     }
 }

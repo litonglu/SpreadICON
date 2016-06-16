@@ -53,7 +53,7 @@ public class ForgetPwd extends Activity implements View.OnClickListener{
     private String dialog_vf;
     private Forget_Handler forget_handler = new Forget_Handler();
     private ImageView iv_cancle;
-
+    private int miao = 60;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +70,7 @@ public class ForgetPwd extends Activity implements View.OnClickListener{
         bt_getCode = (Button) findViewById(R.id.activity_forget_pwd_bt_getcode);
         bt_rePwd = (Button) findViewById(R.id.activity_forget_pwd_bt_repwd);
         iv_cancle= (ImageView) findViewById(R.id.activity_forget_pwd_iv_cancle);
+
     }
 
 
@@ -209,10 +210,40 @@ class Forget_Handler extends Handler{
             //发送短信成功
             case 11:
                 Toast.makeText(ForgetPwd.this,sendResult,Toast.LENGTH_SHORT).show();
+                miao = 60;
+                bt_getCode.setClickable(false);
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            while (true)
+                            {
+                                Thread.sleep(1000);
+                                forget_handler.sendEmptyMessage(31);
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+
                 break;
             //发送短信失败
             case 12:
                 Toast.makeText(ForgetPwd.this,sendResult,Toast.LENGTH_SHORT).show();
+                break;
+            case 31:
+
+                if(miao == 0){
+                    bt_getCode.setClickable(true);
+                    bt_getCode.setText("获取验证码");
+                    return;
+                }else if(miao > 0){
+                    miao -= 1;
+                    bt_getCode.setText(miao+"\t秒后重新发送");
+                }
+
                 break;
         }
     }

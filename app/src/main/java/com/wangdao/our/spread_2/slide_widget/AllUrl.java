@@ -94,10 +94,25 @@ public class AllUrl {
     //消息删除
     private final String userMessage_delete = "http://wz.ijiaque.com/app/public/msg_del.html";
 
+    //获取队友信息
+    private final String teamPersonInfo = "http://wz.ijiaque.com/app/share/employee_info.html";
+
+    //检查更新
+    private final String autoUpdate = "http://wz.ijiaque.com/app/public/update.html";
+
+    //系统素材库
+    private final String systemMaterial = "http://wz.ijiaque.com/app/article/bannerlist.html";
+
     /**
      * 购买详情
      */
     private final String buyVipInfo = "http://wz.ijiaque.com/app/toup/vip_info.html";
+
+    //删除我的文章
+    private final String deleteMyAritice = "http://wz.ijiaque.com/app/article/article_del.html";
+
+    //文字图片合成
+    private final String addText = "http://wz.ijiaque.com/app/article/banneredit.html";
 
     public String getRegister_url() {
         return register_url;
@@ -240,5 +255,25 @@ public class AllUrl {
 
     public String getBuyVipInfo() {
         return buyVipInfo;
+    }
+
+    public String getTeamPersonInfo() {
+        return teamPersonInfo;
+    }
+
+    public String getDeleteMyAritice() {
+        return deleteMyAritice;
+    }
+
+    public String getAutoUpdate() {
+        return autoUpdate;
+    }
+
+    public String getSystemMaterial() {
+        return systemMaterial;
+    }
+
+    public String getAddText() {
+        return addText;
     }
 }

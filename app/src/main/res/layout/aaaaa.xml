@@ -7,7 +7,9 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
+
 
     <com.wangdao.our.spread_2.slide_widget.widget_image.RoundedImageView
         android:layout_width="180dp"
@@ -17,6 +19,8 @@
         app:border_width="3dip"
         app:oval="false"
         app:border_color="#C6C6C6"
-        />
+        app:riv_corner_radius_bottom_left="40dp"
+    />
+
 
 </RelativeLayout>

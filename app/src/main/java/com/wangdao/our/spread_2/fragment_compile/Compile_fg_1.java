@@ -101,6 +101,7 @@ public class Compile_fg_1 extends Fragment{
         myContext.registerReceiver(netBroadcast, intentFilter);
 
         return myView;
+
     }
 
     private String tagResult;
@@ -123,25 +124,33 @@ public class Compile_fg_1 extends Fragment{
                         String result = EntityUtils.toString(httpResponse.getEntity());
                         JSONObject jo = new JSONObject(result);
                         tagResult = jo.getString("info");
+
                         if(jo.getString("status").equals("1")){
                             JSONArray ja = jo.getJSONArray("data");
                             allTitle = new String[ja.length()+2];
-                            for(int i = 0; i < ja.length();i++){
+
+                            for(int i = 0; i < ja.length()+2;i++){
                                 if(i==0){
                                     allTitle[0] = "热文";
                                 }else if(i==1){
                                     allTitle[1] = "我的";
-                                }else {
-                                    allTitle[i] = ja.getJSONObject(i-2).getString("tags");
+                                }else if(i == 2){
+                                    allTitle[i] = ja.getJSONObject(0).getString("tags");
+                                }else if( i == 3){
+                                    allTitle[i] = ja.getJSONObject(1).getString("tags");
+                                }else if( i == 4 ){
+                                    allTitle[i] = ja.getJSONObject(2).getString("tags");
+                                }else if( i == 5){
+                                    allTitle[i] = ja.getJSONObject(3).getString("tags");
+                                }else if( i == 6){
+                                    allTitle[i] = ja.getJSONObject(4).getString("tags");
+                                }else if( i == 7){
+                                    allTitle[i] = ja.getJSONObject(5).getString("tags");
+                                }else if( i == 8){
+                                    allTitle[i] = ja.getJSONObject(6).getString("tags");
                                 }
-                                n = i;
+                                Log.i("qqqqq","length == "+ allTitle.length+"---"+allTitle.toString());
                             }
-
-                            allTitle[ja.length()-1] = ja.getJSONObject(n-2).getString("tags");
-                            allTitle[ja.length()] = ja.getJSONObject(n-1).getString("tags");
-                            allTitle[ja.length()+1] = ja.getJSONObject(n).getString("tags");
-
-                            Log.i("qqqqq","length == "+ allTitle.length+"---"+allTitle.toString());
                             c1Handler.sendEmptyMessage(1);
                         }else{
                             c1Handler.sendEmptyMessage(2);

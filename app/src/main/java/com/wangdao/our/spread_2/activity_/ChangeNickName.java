@@ -36,24 +36,31 @@ import java.util.List;
 public class ChangeNickName extends Activity implements View.OnClickListener{
     private HttpPost httpPost;
     private HttpResponse httpResponse = null;
-    private List<NameValuePair> params = new ArrayList<NameValuePair>();
+    private List<NameValuePair> params = new ArrayList<>();
     private ImageView iv_cancle;
     private EditText et_new_name;
     private Button bt_okChange;
     private AllUrl allUrl = new AllUrl();
     private ChangeNkHandler cnHandler = new ChangeNkHandler();
     private ProgressBar changeNick_pb;
+
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_change_nickname);
         iv_cancle = (ImageView) findViewById(R.id.activity_change_nickname_iv_cancle);
         et_new_name = (EditText) findViewById(R.id.activity_change_nickname_et_newname);
         bt_okChange = (Button) findViewById(R.id.activity_change_nickname_bt_okchange);
         changeNick_pb = (ProgressBar) findViewById(R.id.activity_change_nickname_pb);
+
         iv_cancle.setOnClickListener(this);
         bt_okChange.setOnClickListener(this);
-
 
         httpPost = new HttpPost(allUrl.getChange_user_info());
     }

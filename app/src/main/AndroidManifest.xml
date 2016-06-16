@@ -46,8 +46,9 @@
     <!--保存到本地权限-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-
+    <uses-permission android:name="android.permission.MOUNT_FORMAT_FILESYSTEMS"/>
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="androd.permission.WRITE_EXTERNAL_STORAGE"/>
 
 
     <application
@@ -93,6 +94,8 @@
         <activity android:name=".activity_.mine_activity.CommissionInfo"/>
         <activity android:name=".slide_widget.widget_push.TestActivity"/>
         <activity android:name=".activity_.myZidingyi"/>
+        <activity android:name=".activity_.mine_activity.Team_info"/>
+        <activity android:name=".activity_.SystemMaterial"/>
 
         <activity
             android:configChanges="orientation|keyboardHidden"

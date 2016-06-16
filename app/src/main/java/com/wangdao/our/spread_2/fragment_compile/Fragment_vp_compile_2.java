@@ -1,14 +1,19 @@
 package com.wangdao.our.spread_2.fragment_compile;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -17,30 +22,37 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.wangdao.our.spread_2.ExampleApplication;
 import com.wangdao.our.spread_2.R;
 import com.wangdao.our.spread_2.activity_.Article_info;
 import com.wangdao.our.spread_2.activity_.LoginActivity;
+import com.wangdao.our.spread_2.bean.CompileResult;
 import com.wangdao.our.spread_2.bean.RecommendArticle;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
-import com.wangdao.our.spread_2.slide_widget.widget_image.AsynImageLoader;
 import com.wangdao.our.spread_2.slide_widget.widget_image.RoundedImageView;
 import com.wangdao.our.spread_2.widget_pull.PullToRefreshBase;
 import com.wangdao.our.spread_2.widget_pull.PullToRefreshScrollView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -48,8 +60,17 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,9 +95,10 @@ public class Fragment_vp_compile_2 extends Fragment{
     private fcHandler_2 fhandler_2 = new fcHandler_2();
     private TextView tvnull;
     private final String myUrl = "http://wz.ijiaque.com/app/article/articledetail.html";
-
     private NetBroadcast netBroadcast;
     private IntentFilter intentFilter;
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -93,13 +115,14 @@ public class Fragment_vp_compile_2 extends Fragment{
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         netBroadcast = new NetBroadcast();
         myContext.registerReceiver(netBroadcast, intentFilter);
+
         return myView;
+
     }
 
     private class NetBroadcast extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            // TODO Auto-generated method stub
             ConnectivityManager connectionManager =
                     (ConnectivityManager) myContext.getSystemService(context.CONNECTIVITY_SERVICE);
             NetworkInfo netinfo = connectionManager.getActiveNetworkInfo();
@@ -108,13 +131,36 @@ public class Fragment_vp_compile_2 extends Fragment{
             }else{
             }
         }
-
     }
+
+    private Dialog dia_wait;
+    private ImageView dialog_iv;
+    private void startDialog(){
+
+        View dialog_view = myInflater.inflate(R.layout.dialog_wait_2,null);
+        dia_wait = new Dialog(myContext,R.style.dialog);
+        dia_wait.setContentView(dialog_view);
+        dialog_iv  = (ImageView) dialog_view.findViewById(R.id.dialog_wait_2_iv);
+
+        Animation anim = AnimationUtils.loadAnimation(myContext, R.anim.dialog_zhuang);
+
+        LinearInterpolator lir = new LinearInterpolator();
+        anim.setInterpolator(lir);
+
+        dialog_iv.startAnimation(anim);
+
+        dia_wait.show();
+    }
+
+
     /**
      * 初始化数据
      */
+    private int cNum = 1;
     private String queryResult;
     private void initData(){
+        startDialog();
+        cNum = 1;
         list_reArticle.clear();
         SharedPreferences sharedPreferences = myContext.getSharedPreferences("user", myContext.MODE_PRIVATE);
         String mToken = sharedPreferences.getString("user_token", "");
@@ -122,7 +168,6 @@ public class Fragment_vp_compile_2 extends Fragment{
         params.add(new BasicNameValuePair("keywordtags","我的"));
         params.add(new BasicNameValuePair("page", "1"));
         params.add(new BasicNameValuePair("user_token", mToken));
-
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -131,25 +176,110 @@ public class Fragment_vp_compile_2 extends Fragment{
                     httpResponse = new DefaultHttpClient().execute(httpPost);
                     if (httpResponse.getStatusLine().getStatusCode() == 200) {
                         String result = EntityUtils.toString(httpResponse.getEntity());
-                        JSONObject jo =new JSONObject(result);
-                        queryResult = jo.getString("info");
-                        Log.i("qqqqq","===="+jo.toString());
 
-                        if(jo.getString("status").equals("1")){
-                            JSONArray ja = jo.getJSONArray("data");
-                            for(int i = 0;i<ja.length();i++){
-                                JSONObject jo_2 = ja.getJSONObject(i);
-                                RecommendArticle mWenZ = new RecommendArticle();
-                                mWenZ.setTitle(jo_2.getString("writing_title"));
-                                mWenZ.setTryNum(jo_2.getString("writing_use"));
-                                mWenZ.setaId(jo_2.getString("writing_id"));
-                                mWenZ.setIconUrl(jo_2.getString("writing_img"));
-                                list_reArticle.add(mWenZ);
-                            }
-                            fhandler_2.sendEmptyMessage(1);
-                        }else{
-                            fhandler_2.sendEmptyMessage(2);
+                        Type type = new TypeToken<CompileResult>() {}.getType();
+                        Gson gson = new Gson();
+                        CompileResult compileResult = gson.fromJson(result, type);
+
+                        Log.i("qqqqqqqq",compileResult.info);
+                        queryResult = compileResult.info;
+
+                        for(RecommendArticle temp__:compileResult.data){
+                            list_reArticle.add(temp__);
                         }
+
+
+
+                        JSONObject jo =new JSONObject(result);
+                      //  queryResult = jo.getString("info");
+
+                        fhandler_2.sendEmptyMessage(1);
+
+//                        if(jo.getString("status").equals("1")){
+//                            JSONArray ja = jo.getJSONArray("data");
+//                            RecommendArticle mWenZ = new RecommendArticle();
+//                            for(int i = 0;i<ja.length();i++){
+//                                JSONObject jo_2 = ja.getJSONObject(i);
+//
+//                                mWenZ.setTitle(jo_2.getString("writing_title"));
+//                                mWenZ.setTryNum(jo_2.getString("writing_use"));
+//                                mWenZ.setaId(jo_2.getString("writing_id"));
+//                                mWenZ.setIconUrl(jo_2.getString("writing_img"));
+//                                mWenZ.setContent_(jo_2.getString("writing_brief"));
+//                                mWenZ.setId(jo_2.getString("id"));
+//
+//                                list_reArticle.add(mWenZ);
+//                            }
+//                            fhandler_2.sendEmptyMessage(1);
+//                        }else{
+//                            fhandler_2.sendEmptyMessage(2);
+//                        }
+                    }
+                } catch (Exception e) {
+                    fhandler_2.sendEmptyMessage(2);
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+
+    }
+
+    private void initData_2(){
+        startDialog();
+      //  list_reArticle.clear();
+        cNum+=1;
+        SharedPreferences sharedPreferences = myContext.getSharedPreferences("user", myContext.MODE_PRIVATE);
+        String mToken = sharedPreferences.getString("user_token", "");
+        httpPost = new HttpPost(allurl.getWenZhangAll());
+        params.add(new BasicNameValuePair("keywordtags","我的"));
+         params.add(new BasicNameValuePair("page", cNum+""));
+        params.add(new BasicNameValuePair("user_token", mToken));
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    httpPost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+                    httpResponse = new DefaultHttpClient().execute(httpPost);
+                    if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                        String result = EntityUtils.toString(httpResponse.getEntity());
+
+
+                        Type type = new TypeToken<CompileResult>() {}.getType();
+                        Gson gson = new Gson();
+                        CompileResult compileResult = gson.fromJson(result, type);
+                        Log.i("qqqqqqqq",compileResult.info);
+                        queryResult = compileResult.info;
+                        for(RecommendArticle temp__:compileResult.data){
+                            list_reArticle.add(temp__);
+                        }
+
+
+
+                        JSONObject jo =new JSONObject(result);
+                        //queryResult = jo.getString("info");
+
+                        fhandler_2.sendEmptyMessage(1);
+
+
+//                        if(jo.getString("status").equals("1")){
+//                            JSONArray ja = jo.getJSONArray("data");
+//                            for(int i = 0;i<ja.length();i++){
+//                                JSONObject jo_2 = ja.getJSONObject(i);
+//                                RecommendArticle mWenZ = new RecommendArticle();
+//                                mWenZ.setTitle(jo_2.getString("writing_title"));
+//                                mWenZ.setTryNum(jo_2.getString("writing_use"));
+//                                mWenZ.setaId(jo_2.getString("writing_id"));
+//                                mWenZ.setIconUrl(jo_2.getString("writing_img"));
+//                                mWenZ.setContent_(jo_2.getString("writing_brief"));
+//                                mWenZ.setId(jo_2.getString("id"));
+//
+//                                list_reArticle.add(mWenZ);
+//                            }
+//                            fhandler_2.sendEmptyMessage(1);
+//                        }else{
+//                            fhandler_2.sendEmptyMessage(2);
+//                        }
                     }
                 } catch (Exception e) {
                     fhandler_2.sendEmptyMessage(2);
@@ -166,22 +296,38 @@ public class Fragment_vp_compile_2 extends Fragment{
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case 1:
+
                     fAdapter.notifyDataSetChanged();
                     setListViewHeightBasedOnChildren(myListView);
                     pull_ScrollView.onRefreshComplete();
                     tvnull.setVisibility(View.GONE);
                     myListView.setVisibility(View.VISIBLE);
+                    dia_wait.dismiss();
                     break;
                 case 2:
+
                     Log.i("qqqqqq", "queryResult" + queryResult);
+                 //   Toast.makeText(myContext,queryResult,Toast.LENGTH_SHORT).show();
                     pull_ScrollView.onRefreshComplete();
-                    tvnull.setVisibility(View.VISIBLE);
-                    tvnull.setText(queryResult);
-                    myListView.setVisibility(View.GONE);
+                    //tvnull.setVisibility(View.VISIBLE);
+                    //tvnull.setText(queryResult);
+                 //   myListView.setVisibility(View.GONE);
+                    dia_wait.dismiss();
+                    break;
+                //删除成功
+                case 11:
+
+                    initData();
+
+                    break;
+                //删除失败
+                case 12:
+                    Toast.makeText(myContext,deleteResult,Toast.LENGTH_SHORT).show();
                     break;
             }
         }
     }
+
 
     private void initView(){
         pull_ScrollView = (PullToRefreshScrollView) myView.findViewById(R.id.vp_compile_page2_scrollview);
@@ -198,7 +344,7 @@ public class Fragment_vp_compile_2 extends Fragment{
             }
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ScrollView> refreshView) {
-                initData();
+                initData_2();
 
             }
         });
@@ -207,7 +353,6 @@ private String auid;
     class FVC_Adapter extends BaseAdapter {
         FVC_ViewHolder fvc_viewHolder;
         List<RecommendArticle> reArticles;
-        AsynImageLoader asynImageLoader = new AsynImageLoader();
         public FVC_Adapter(List<RecommendArticle> reArticles){
             this.reArticles = reArticles;
         }
@@ -247,10 +392,11 @@ private String auid;
                 @Override
                 public void onClick(View v) {
                     Intent myIntent = new Intent(myContext, Article_info.class);
-                    myIntent.putExtra("url",myUrl+"?writing_id="+reArticles.get(position).getaId()+"&uid="+auid);
-                    myIntent.putExtra("uid", reArticles.get(position).getaId());
-                    myIntent.putExtra("title", reArticles.get(position).getTitle());
-                    myIntent.putExtra("img",reArticles.get(position).getIconUrl());
+                    myIntent.putExtra("url",myUrl+"?writing_id="+reArticles.get(position).getId()+"&uid="+auid);
+                    myIntent.putExtra("uid", reArticles.get(position).getId());
+                    myIntent.putExtra("title", reArticles.get(position).getWriting_title());
+                    myIntent.putExtra("img",reArticles.get(position).getWriting_img());
+                    myIntent.putExtra("content",reArticles.get(position).getWriting_brief());
                     startActivity(myIntent);
                 }
             });
@@ -259,32 +405,23 @@ private String auid;
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent myIntent = new Intent(myContext, Article_info.class);
-                    myIntent.putExtra("url",myUrl+"?writing_id="+reArticles.get(position).getaId()+"&uid="+auid);
-                    myIntent.putExtra("uid",reArticles.get(position).getaId());
-                    myIntent.putExtra("title", reArticles.get(position).getTitle());
-                    myIntent.putExtra("img",reArticles.get(position).getIconUrl());
-                    startActivity(myIntent);
-                    Log.i("zzzzz", "url=="+myUrl + "?writing_id=" + reArticles.get(position).getaId());
-                    Log.i("qqqqq","uid=="+reArticles.get(position).getaId());
+                    showDeleteDialog(reArticles.get(position).getId(),reArticles.get(position).getId(),reArticles.get(position).getWriting_title(),reArticles.get(position).getWriting_img(),reArticles.get(position).getId(),reArticles.get(position).getWriting_brief());
+//                    Log.i("zzzzz", "url=="+myUrl + "?writing_id=" + reArticles.get(position).getaId());
+//                    Log.i("qqqqq","uid=="+reArticles.get(position).getaId());
                 }
             });
-            fvc_viewHolder.tv_title.setText(reArticles.get(position).getTitle());
-            if(reArticles.get(position).getTryNum().equals("null")){
+            fvc_viewHolder.tv_title.setText(reArticles.get(position).getWriting_title());
+            if(reArticles.get(position).getWriting_use().equals("null")){
                 fvc_viewHolder.tv_num.setText("使用次数：\t0");
             }else {
-                fvc_viewHolder.tv_num.setText("使用次数：\t" + reArticles.get(position).getTryNum());
+                fvc_viewHolder.tv_num.setText("使用次数：\t" + reArticles.get(position).getWriting_use());
             }
 
-            ImageLoader.getInstance().displayImage(reArticles.get(position).getIconUrl() == null ? "" : reArticles.get(position).getIconUrl(), fvc_viewHolder.iv_icon,
+            ImageLoader.getInstance().displayImage(reArticles.get(position).getWriting_img() == null ? "" : reArticles.get(position).getWriting_img(), fvc_viewHolder.iv_icon,
                     ExampleApplication.getInstance().getOptions(R.drawable.moren)
-
             );
 
-
         //    asynImageLoader.showImageAsyn(fvc_viewHolder.iv_icon, reArticles.get(position).getIconUrl(), R.drawable.nopic);
-
-
 
             return convertView;
         }
@@ -295,6 +432,94 @@ private String auid;
         TextView tv_num;
         Button bt_compile;
     }
+
+
+    /**
+     * 展示删除dialog
+     */
+    private Dialog deleteDialog;
+    private View dialog_view;
+    private TextView tv_dialog_delete,tv_dialog_cancle,tv_dialog_look;
+    private void showDeleteDialog(final String writingid, final String uid, final String title, final String img, final String id, final String content_){
+
+        dialog_view = myInflater.inflate(R.layout.dialog_delete_my,null);
+        tv_dialog_delete = (TextView) dialog_view.findViewById(R.id.dialog_delete_my_tv_delete);
+        tv_dialog_look = (TextView) dialog_view.findViewById(R.id.dialog_delete_my_tv_look);
+        tv_dialog_cancle = (TextView) dialog_view.findViewById(R.id.dialog_delete_my_tv_cancle);
+
+        deleteDialog = new Dialog(myContext,R.style.dialog);
+        deleteDialog.setContentView(dialog_view);
+        deleteDialog.show();
+
+        tv_dialog_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteAritice(id);
+                deleteDialog.dismiss();
+            }
+        });
+        tv_dialog_look.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent myIntent = new Intent(myContext, Article_info.class);
+                myIntent.putExtra("url",myUrl+"?writing_id="+writingid+"&uid="+auid);
+                myIntent.putExtra("uid",uid);
+                myIntent.putExtra("title", title);
+                myIntent.putExtra("img",img);
+                myIntent.putExtra("content",content_);
+                startActivity(myIntent);
+
+                deleteDialog.dismiss();
+            }
+        });
+        tv_dialog_cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteDialog.dismiss();
+            }
+        });
+    }
+
+    /**
+     * 删除文章
+     */
+    private String deleteResult = "网络异常";
+    private void deleteAritice(String w_id){
+
+        httpPost = new HttpPost(allurl.getDeleteMyAritice());
+        SharedPreferences sharedPreferences = myContext.getSharedPreferences("user", myContext.MODE_PRIVATE);
+        String mToken = sharedPreferences.getString("user_token", "");
+        params.add(new BasicNameValuePair("user_token", mToken));
+        params.add(new BasicNameValuePair("id", w_id));
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    httpPost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+                    httpResponse = new DefaultHttpClient().execute(httpPost);
+                    if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                        String result = EntityUtils.toString(httpResponse.getEntity());
+                        JSONObject jo = new JSONObject(result);
+                        deleteResult = jo.getString("info");
+                        if(jo.getString("status").equals("1")){
+                            Log.i("qqqqq",deleteResult);
+                            fhandler_2.sendEmptyMessage(11);
+                        }else{
+                            fhandler_2.sendEmptyMessage(12);
+                        }
+                    }
+                } catch (Exception e) {
+                    fhandler_2.sendEmptyMessage(12);
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+    }
+
+
+
     /***
      * 动态设置listview的高度 item 总布局必须是linearLayout
      *

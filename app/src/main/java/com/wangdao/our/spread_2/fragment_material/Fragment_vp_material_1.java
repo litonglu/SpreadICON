@@ -40,7 +40,6 @@ import com.wangdao.our.spread_2.activity_.AddMaterial;
 import com.wangdao.our.spread_2.activity_.LoginActivity;
 import com.wangdao.our.spread_2.bean.Material;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
-import com.wangdao.our.spread_2.slide_widget.widget_image.AsynImageLoader;
 import com.wangdao.our.spread_2.slide_widget.widget_image.RoundedImageView;
 import com.wangdao.our.spread_2.widget_pull.PullToRefreshBase;
 import com.wangdao.our.spread_2.widget_pull.PullToRefreshScrollView;
@@ -153,7 +152,7 @@ public class Fragment_vp_material_1 extends Fragment{
         Material ww = new Material();
         ww.setmInfo("这是广告啊222");
         ww.setmTitle("二维码222");
-        ww.setmName("李旭");
+        ww.setmName("");
         ww.setmPhone("1566254455");
         ww.setmAdress("山东津南");
         ww.setmType(3);
@@ -196,7 +195,6 @@ public class Fragment_vp_material_1 extends Fragment{
     class MaterialAdapter extends BaseAdapter {
         Fm1_ViewHolder FVH ;
         List<Material> my_Material;
-        AsynImageLoader asynImageLoader = new AsynImageLoader();
         public MaterialAdapter(List<Material> my_Material) {
             this.my_Material = my_Material;
         }

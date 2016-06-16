@@ -47,7 +47,6 @@ import com.wangdao.our.spread_2.activity_.Article_info;
 import com.wangdao.our.spread_2.activity_.CaptureActivity;
 import com.wangdao.our.spread_2.bean.MyArticle;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
-import com.wangdao.our.spread_2.slide_widget.widget_image.AsynImageLoader;
 import com.wangdao.our.spread_2.slide_widget.widget_image.RoundedImageView;
 import com.wangdao.our.spread_2.widget_pull.PullToRefreshBase;
 import com.wangdao.our.spread_2.widget_pull.PullToRefreshScrollView;
@@ -96,6 +95,7 @@ public class FragmentStatistics extends Fragment implements View.OnClickListener
     private String lastItemTime;
     private boolean pullFromUser;
     private int currentType = 1;
+
     public enum RefreshType{
         REFRESH,LOAD_MORE
     }
@@ -115,6 +115,7 @@ public class FragmentStatistics extends Fragment implements View.OnClickListener
     private NetBroadcast netBroadcast;
     private IntentFilter intentFilter;
     private LinearLayout ll_nowifi;
+    private String content_;
 
 
 
@@ -146,6 +147,8 @@ public class FragmentStatistics extends Fragment implements View.OnClickListener
                 myIdd = allArticle.get(position).getIid();
                 mImgUrl = allArticle.get(position).getIconUrl();
                 title_cu = allArticle.get(position).getTitle();
+
+
                 showDeleteDialog();
             }
         });
@@ -261,6 +264,9 @@ public class FragmentStatistics extends Fragment implements View.OnClickListener
                 lookIntent.putExtra("uid", myCurrentId);
                 lookIntent.putExtra("img",mImgUrl);
                 lookIntent.putExtra("title",title_cu);
+                lookIntent.putExtra("content","");
+
+
                 startActivity(lookIntent);
                 deleteDialog.dismiss();
                 break;
@@ -480,7 +486,6 @@ new Thread(new Runnable() {
 
     class fs_Adapter extends BaseAdapter  {
         private fs_ViewHolder fs_viewHolder;
-        AsynImageLoader asynImageLoader = new AsynImageLoader();
         List<MyArticle> list_myArticles;
         public fs_Adapter(List<MyArticle> list_myArticles){
             this.list_myArticles = list_myArticles;
@@ -670,6 +675,9 @@ new Thread(new Runnable() {
             scanResult = bundle.getString("result");
             scanResultTemp = scanResult.substring(0,4);
             scanResult_num = scanResult.substring(4,scanResult.length());
+
+            Log.i("qqqqq",scanResult);
+
             if(scanResultTemp.equals("拇指营销")){
                 startDialog();
                 JianLi();

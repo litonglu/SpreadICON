@@ -28,6 +28,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:src="@drawable/saoyisao"
+            android:visibility="invisible"
             />
     </RelativeLayout>
     <View

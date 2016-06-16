@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:background="#00000000"
+    android:padding="5dip" >
+
+    <TextView
+        android:id="@+id/bt_help3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/photo_gallery_selector1"
+        android:paddingBottom="15dip"
+        android:paddingTop="15dip"
+        android:text="系统素材库"
+        android:textSize="@dimen/textsize_x"
+        android:gravity="center"
+        android:textColor="@color/textcolor_hui"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dip"
+        android:background="#DAD9DB" />
+    <TextView
+        android:id="@+id/bt_help_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="@drawable/photo_camera_selector3"
+        android:paddingBottom="15dip"
+        android:paddingTop="15dip"
+        android:text="相册选取"
+        android:textSize="@dimen/textsize_x"
+        android:textColor="@color/textcolor_hui"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/bt_help_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="@drawable/photo_camera_selector1"
+        android:paddingBottom="15dip"
+        android:paddingTop="15dip"
+        android:text="相机拍照"
+        android:textSize="@dimen/textsize_x"
+        android:textColor="@color/textcolor_hui"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/bt_helpcancle_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dip"
+        android:background="@drawable/photo_cancel_selector"
+        android:paddingBottom="12dip"
+        android:paddingTop="12dip"
+        android:text="取消"
+        android:gravity="center"
+        android:textSize="@dimen/textsize_x" />
+
+</LinearLayout>

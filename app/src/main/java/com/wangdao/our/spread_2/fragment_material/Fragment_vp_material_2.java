@@ -37,7 +37,7 @@ import com.wangdao.our.spread_2.R;
 import com.wangdao.our.spread_2.activity_.AddMaterial;
 import com.wangdao.our.spread_2.bean.Material;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
-import com.wangdao.our.spread_2.slide_widget.widget_image.AsynImageLoader;
+
 import com.wangdao.our.spread_2.slide_widget.widget_image.RoundedImageView;
 import com.wangdao.our.spread_2.widget_pull.PullToRefreshBase;
 import com.wangdao.our.spread_2.widget_pull.PullToRefreshScrollView;
@@ -77,9 +77,10 @@ public class Fragment_vp_material_2 extends Fragment{
     private List<NameValuePair> params = new ArrayList<NameValuePair>();
     private AllUrl allUrl = new AllUrl();
     private FvmHandler_2 Fh_2 = new FvmHandler_2();
+
     //适配器
     private MaterialAdapter ma_Adapter;
-private TextView tv_null;
+    private TextView tv_null;
 
     private NetBroadcast netBroadcast;
     private IntentFilter intentFilter;
@@ -105,8 +106,13 @@ private TextView tv_null;
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent cIntent = new Intent(myContext, AddMaterial.class);
-                cIntent.putExtra("type", 1);
+
                 cIntent.putExtra("compile_m", list_my_Material.get(position));
+
+          //      if(list_my_Material.get(position).getPicture_id().equals("null")){
+                    cIntent.putExtra("type", 1);
+                Log.i("qqqqqqq",list_my_Material.get(position).getPicture_id());
+
                 startActivityForResult(cIntent, 1);
             }
         });
@@ -147,7 +153,7 @@ private TextView tv_null;
     class MaterialAdapter extends BaseAdapter {
         Fm1_ViewHolder FVH ;
         List<Material> my_Material;
-        AsynImageLoader asynImageLoader = new AsynImageLoader();
+        //AsynImageLoader asynImageLoader = new AsynImageLoader();
         public MaterialAdapter(List<Material> my_Material) {
             this.my_Material = my_Material;
         }
@@ -166,7 +172,6 @@ private TextView tv_null;
         public long getItemId(int position) {
             return 0;
         }
-
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
@@ -238,6 +243,7 @@ private TextView tv_null;
     }
 
 
+
     private String getDataResult;
     public void initData(){
         list_my_Material.clear();
@@ -272,6 +278,8 @@ private TextView tv_null;
                                         material.setmId(jo_2.getString("id"));
                                         material.setIcon_url(jo_2.getString("ad_img"));
                                         material.setmUrl(jo_2.getString("ad_link"));
+                                        material.setPicture_id(jo_2.getString("ad_banner_id"));
+
                                         material.setmType(0);
                                         if(jo_2.getString("ad_top").equals("1")){
                                             material.setmTop(true);
@@ -288,6 +296,7 @@ private TextView tv_null;
                                         }else{
                                             material.setmTailor(false);
                                         }
+
                                         list_my_Material.add(material);
                                         break;
                                 }

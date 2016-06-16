@@ -1,6 +1,7 @@
 package com.wangdao.our.spread_2.fragment_myteam;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.wangdao.our.spread_2.ExampleApplication;
 import com.wangdao.our.spread_2.R;
+import com.wangdao.our.spread_2.activity_.mine_activity.Team_info;
 import com.wangdao.our.spread_2.bean.Team;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
 import com.wangdao.our.spread_2.slide_widget.CircleImageView;
@@ -62,7 +65,7 @@ public class MyTeam_All extends Fragment{
     private List<Team> list_team = new ArrayList<>();
     private TextView tv_erro;
     private MyTeamAdapter my2Adapter ;
-
+    private TextView tv_num;
 
     @Nullable
     @Override
@@ -76,11 +79,22 @@ public class MyTeam_All extends Fragment{
         my2Adapter = new MyTeamAdapter(list_team);
         lv_myTeam_all.setAdapter(my2Adapter);
         initData();
+        lv_myTeam_all.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+
+                Intent pIntent = new Intent(myContext,Team_info.class);
+                pIntent.putExtra("id",list_team.get(position).getUid());
+                startActivity(pIntent);
+
+            }
+        });
         return myView;
     }
 
     private void initView(){
+        tv_num = (TextView) myView.findViewById(R.id.fragment_myteam_all_tv_num);
         tv_erro = (TextView) myView.findViewById(R.id.fragment_myteam_tv_erro);
         lv_myTeam_all = (ListView) myView.findViewById(R.id.activity_myteam_lv);
     }
@@ -115,12 +129,19 @@ public class MyTeam_All extends Fragment{
                             for(int i = 0;i<ja.length();i++){
                                 JSONObject jo_2 = ja.getJSONObject(i);
                                 Team uTeam = new Team();
+
+                                uTeam.setUid(jo_2.getString("uid"));
+
                                 uTeam.setAddTime(jo_2.getString("create_time"));
+
                                 JSONObject jo_3 = jo_2.getJSONObject("userinfo");
                                 uTeam.setIcon_url(jo_3.getString("avatar256"));
                                 uTeam.setName(jo_3.getString("nickname"));
                                 uTeam.setLoginTime(jo_3.getString("last_login_time"));
+                                uTeam.setIsVip(jo_3.getString("agents_level"));
+
                                 uTeam.setLevel(jo_2.getString("level"));
+
                                 list_team.add(uTeam);
                             }
 
@@ -149,8 +170,11 @@ public class MyTeam_All extends Fragment{
             switch (msg.what){
                 //获取数据成功
                 case 1:
+
+                    tv_num.setText("("+list_team.size()+")");
                     my2Adapter.notifyDataSetChanged();
                     tv_erro.setVisibility(View.GONE);
+
                     break;
                 //获取数据失败
                 case 2:
@@ -195,6 +219,9 @@ public class MyTeam_All extends Fragment{
                 mtHoledr.tTv_time = (TextView) convertView.findViewById(R.id.item_myteam_tv_time);
                 mtHoledr.tTv_time_lately = (TextView) convertView.findViewById(R.id.item_myteam_tv_time_lately);
                 mtHoledr.tTv_member = (TextView) convertView.findViewById(R.id.item_myteam_member);
+
+                mtHoledr.iv_vip = (ImageView) convertView.findViewById(R.id.item_myteam_iv_vip);
+
                 convertView.setTag(mtHoledr);
             }else{
                 mtHoledr = (MyTeamHolder) convertView.getTag();
@@ -206,6 +233,14 @@ public class MyTeam_All extends Fragment{
             mtHoledr.tTv_name.setText(teams.get(position).getName());
             mtHoledr.tTv_time.setText(teams.get(position).getAddTime());
             mtHoledr.tTv_time_lately.setText(teams.get(position).getLoginTime());
+
+
+            if(teams.get(position).getIsVip().equals("3")){
+                mtHoledr.iv_vip.setVisibility(View.VISIBLE);
+            }else{
+                mtHoledr.iv_vip.setVisibility(View.INVISIBLE);
+            }
+
 
             String cuLevel = teams.get(position).getLevel();
             if(cuLevel.equals("1")){
@@ -227,5 +262,6 @@ public class MyTeam_All extends Fragment{
         TextView tTv_time;
         TextView tTv_time_lately;
         TextView tTv_member;
+        ImageView iv_vip;
     }
 }

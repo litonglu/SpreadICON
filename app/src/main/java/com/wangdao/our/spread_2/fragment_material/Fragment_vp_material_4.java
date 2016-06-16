@@ -34,7 +34,6 @@ import com.wangdao.our.spread_2.R;
 import com.wangdao.our.spread_2.activity_.AddMaterial;
 import com.wangdao.our.spread_2.bean.Material;
 import com.wangdao.our.spread_2.slide_widget.AllUrl;
-import com.wangdao.our.spread_2.slide_widget.widget_image.AsynImageLoader;
 import com.wangdao.our.spread_2.slide_widget.widget_image.RoundedImageView;
 import com.wangdao.our.spread_2.widget_pull.PullToRefreshBase;
 import com.wangdao.our.spread_2.widget_pull.PullToRefreshScrollView;
@@ -139,7 +138,6 @@ private TextView tv_null;
     class MaterialAdapter extends BaseAdapter {
         Fm1_ViewHolder FVH ;
         List<Material> my_Material;
-        AsynImageLoader asynImageLoader = new AsynImageLoader();
         public MaterialAdapter(List<Material> my_Material) {
             this.my_Material = my_Material;
         }

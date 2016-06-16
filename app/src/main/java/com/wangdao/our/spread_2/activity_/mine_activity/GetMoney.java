@@ -133,7 +133,10 @@ public class GetMoney extends Activity implements View.OnClickListener{
                 finish();
                 break;
             case R.id.activity_getmoney_bt_get:
-                showGetTypeDialog();
+                Intent txzIntent = new Intent(GetMoney.this,TiXianToSomeHere.class);
+                txzIntent.putExtra("buy_type","支付宝");
+                startActivity(txzIntent);
+                //showGetTypeDialog();
                 break;
             //提现记录
             case R.id.activity_getmoney_iv_history:

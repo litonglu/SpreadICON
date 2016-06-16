@@ -31,7 +31,6 @@
             android:src="@drawable/icon_2"
             app:border_color="@color/transparent"
             app:border_width="0dp"
-
             />
     </RelativeLayout>
 

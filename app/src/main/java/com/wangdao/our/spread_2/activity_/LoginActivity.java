@@ -330,7 +330,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
     private String userIdTag;
     private void autoLogin() {
-       // login_pb.setVisibility(View.VISIBLE);
+
         startDialog();
         SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences("user", MODE_PRIVATE);
         String aMobile = sharedPreferences.getString("mobile", "");

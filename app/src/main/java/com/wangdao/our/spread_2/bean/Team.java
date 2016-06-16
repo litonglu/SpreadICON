@@ -1,9 +1,11 @@
 package com.wangdao.our.spread_2.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2016/5/13 0013.
  */
-public class Team {
+public class Team implements Serializable{
 
     private String icon_url;
     private String name;
@@ -11,6 +13,9 @@ public class Team {
     private String loginTime;
     private String status;
     private String level;
+
+    private String uid;
+    private String isVip;
 
     public Team() {
     }
@@ -61,5 +66,21 @@ public class Team {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getIsVip() {
+        return isVip;
+    }
+
+    public void setIsVip(String isVip) {
+        this.isVip = isVip;
     }
 }
